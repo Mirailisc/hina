@@ -12,6 +12,9 @@ type Props = {
 }
 
 const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
+
+  if (!chapterStates.previous && !chapterStates.next) return <></>
+
   return (
     <div className="fixed inset-x-4 bottom-4 m-auto md:w-[500px]">
       <div className="rounded-lg border border-white/20 bg-black/80 p-4 backdrop-blur-lg">
