@@ -85,7 +85,7 @@ const Manga: React.FC = (): JSX.Element => {
     <div className="m-auto w-full px-4 py-10 md:px-0 xl:w-[1280px]">
       <div className="flex flex-col gap-4 md:flex-row">
         <div>
-          <img src={manga.cover} about="cover" className="w-full rounded-lg border border-white/25 md:w-[300px]" />
+          <img src={manga.cover} about="cover" referrerPolicy="no-referrer" loading="lazy" className="w-full rounded-lg border border-white/25 md:w-[300px]" />
         </div>
         <div className="relative min-h-[400px] w-full rounded-lg border border-white/25 p-4 md:min-h-[300px]">
           <h1 className="flex items-center gap-2 text-2xl font-bold">

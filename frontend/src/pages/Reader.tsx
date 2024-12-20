@@ -54,10 +54,17 @@ const Reader: React.FC = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <Titlebar mangaId={id as string} totalChapters={chapters.length} currentChapter={currentChapterIndex}/>
+      <Titlebar mangaId={id as string} totalChapters={chapters.length} currentChapter={currentChapterIndex} />
       <Controller chapterStates={chapterStates} />
       {images.map((image, index) => (
-        <img key={index} src={image} alt={`page${index}`} className="w-full md:w-1/2" />
+        <img
+          referrerPolicy="no-referrer"
+          loading="lazy"
+          key={index}
+          src={image}
+          alt={`page${index}`}
+          className="w-full md:w-1/2"
+        />
       ))}
     </div>
   )
