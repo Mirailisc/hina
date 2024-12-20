@@ -4,19 +4,25 @@ import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import Controller from '../components/Manga/Controller'
 import Titlebar from '../components/Manga/Titlebar'
+import toast from 'react-hot-toast'
+import { ThreeDot } from 'react-loading-indicators'
 
 const Reader: React.FC = (): JSX.Element => {
   const { id, chapterId } = useParams()
   const [images, setImages] = useState<string[]>([])
   const [chapters, setChapters] = useState<string[]>([])
 
-  const { loading: mangaLoading, data: mangaInfo } = useQuery(GET_CHAPTERS, {
+  const {
+    loading: mangaLoading,
+    data: mangaInfo,
+    error: mangaError,
+  } = useQuery(GET_CHAPTERS, {
     variables: {
       metadataId: { id },
     },
   })
 
-  const { loading, data } = useQuery(READ_MANGA, {
+  const { loading, data, error } = useQuery(READ_MANGA, {
     variables: {
       input: { id: chapterId, quality: 'data' },
     },
@@ -35,15 +41,18 @@ const Reader: React.FC = (): JSX.Element => {
     }
   }, [data])
 
+  if (error) toast.error(error.message)
+  if (mangaError) toast.error(mangaError.message)
+
   if (mangaLoading || loading) {
-    return <h1>Loading...</h1>
+    return (
+      <div className="mt-10 text-center">
+        <ThreeDot color="#0A81AB" size="medium" />
+      </div>
+    )
   }
 
   const currentChapterIndex = chapters.indexOf(chapterId as string)
-
-  if (currentChapterIndex === -1) {
-    return <h1>Chapter not found</h1>
-  }
 
   const chapterStates = {
     mangaId: id as string,

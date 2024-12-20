@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { READER_PATH } from '../../constants/routes'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
@@ -12,6 +12,12 @@ type Props = {
 }
 
 const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
+  const navigate = useNavigate()
+
+  const handleController = async (to: string) => {
+    await navigate(to, { replace: true })
+    await navigate(0)
+  }
 
   if (!chapterStates.previous && !chapterStates.next) return <></>
 
@@ -20,16 +26,31 @@ const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
       <div className="rounded-lg border border-white/20 bg-black/80 p-4 backdrop-blur-lg">
         <div className="flex flex-row items-center justify-between">
           {chapterStates.previous ? (
-            <Link to={READER_PATH.replace(':id', chapterStates.mangaId).replace(':chapterId', chapterStates.previous)}>
+            <div
+              onClick={() =>
+                handleController(
+                  READER_PATH.replace(':id', chapterStates.mangaId).replace(
+                    ':chapterId',
+                    chapterStates.previous as string,
+                  ),
+                )
+              }
+            >
               <FaArrowLeft className="text-2xl text-white/50 transition-colors duration-200 hover:text-white" />
-            </Link>
+            </div>
           ) : (
             <span />
           )}
           {chapterStates.next ? (
-            <Link to={READER_PATH.replace(':id', chapterStates.mangaId).replace(':chapterId', chapterStates.next)}>
+            <div
+              onClick={() =>
+                handleController(
+                  READER_PATH.replace(':id', chapterStates.mangaId).replace(':chapterId', chapterStates.next as string),
+                )
+              }
+            >
               <FaArrowRight className="text-2xl text-white/50 transition-colors duration-200 hover:text-white" />
-            </Link>
+            </div>
           ) : (
             <span />
           )}

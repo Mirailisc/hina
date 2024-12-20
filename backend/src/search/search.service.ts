@@ -89,7 +89,7 @@ export class SearchService {
       if (cover) {
         const fileName = cover.attributes.fileName
         if (fileName) {
-          return `https://uploads.mangadex.org/covers/${id}/${fileName}`
+          return `https://uploads.mangadex.org/covers/${id}/${fileName}.256.jpg`
         }
       } else {
         return null

@@ -4,13 +4,14 @@ import MangaCard, { IMangaSearch } from '../components/Home/MangaCard'
 import { useSearch } from '../context/SearchContext'
 import { SEARCH_MANGA } from '../gql/search'
 import { ThreeDot } from 'react-loading-indicators'
+import toast from 'react-hot-toast'
 
 const Home: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
   const [searchResult, setSearchResult] = useState<IMangaSearch[]>([])
   const [debouncedSearch, setDebouncedSearch] = useState<string>('')
 
-  const { loading, refetch } = useQuery(SEARCH_MANGA)
+  const { loading, refetch, error } = useQuery(SEARCH_MANGA)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -43,6 +44,8 @@ const Home: React.FC = (): JSX.Element => {
     setSearch({ ...search, name: e.target.value })
   }
 
+  if (error) toast.error(error.message)
+
   return (
     <div>
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
@@ -54,6 +57,7 @@ const Home: React.FC = (): JSX.Element => {
             placeholder="Search..."
             className="block w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none sm:hidden"
           />
+          <h1 className="text-2xl font-bold">Explore</h1>
         </div>
         {loading ? (
           <div className="mt-10 text-center">

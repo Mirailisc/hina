@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import Loading from './pages/Loading'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { Toaster } from 'react-hot-toast'
 
 const Home = React.lazy(() => import('./pages/Home'))
 const Manga = React.lazy(() => import('./pages/Manga'))
@@ -51,6 +52,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
+      <Toaster position="bottom-right" />
       <SearchProvider>
         <div className="min-h-screen bg-background text-white">
           <Suspense fallback={<Loading />}>
