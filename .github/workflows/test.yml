@@ -1,0 +1,116 @@
+name: Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  frontend-eslint:
+    name: Run Eslint (frontend)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run ESLint
+        run: pnpm frontend:lint
+
+  backend-eslint:
+    name: Run Eslint (backend)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run ESLint
+        run: pnpm backend:lint
+
+  frontend-build:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    needs: frontend-eslint
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Set SENTRY_AUTH_TOKEN for frontend
+        run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_FRONTEND }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Frontend Build
+        run: pnpm frontend:build
+
+  backend-build:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    needs: backend-eslint
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Set SENTRY_AUTH_TOKEN for backend
+        run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_BACKEND }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Backend Build
+        run: pnpm backend:build

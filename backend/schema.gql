@@ -1,0 +1,57 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MangaSearch {
+  id: String!
+  title: String
+  status: String!
+  cover: String
+}
+
+type Alternative {
+  en: String
+  ja: String
+  romaji: String
+}
+
+type Metadata {
+  id: String!
+  title: String!
+  alternative: Alternative!
+  status: String!
+  author: String!
+  cover: String
+  description: String!
+  chapters: [String!]!
+}
+
+type Query {
+  searchMetadata(input: SearchInput!): [MangaSearch!]!
+  chapterImages(input: ReaderInput!): [String!]!
+  metadata(id: MetadataInput!): Metadata!
+}
+
+"""Search manga from MangaDex API"""
+input SearchInput {
+  """Manga name"""
+  name: String
+
+  """Search limit"""
+  amount: Int = 10
+}
+
+"""View manga chapter images"""
+input ReaderInput {
+  """Chapter Id"""
+  id: String!
+
+  """Image Quality"""
+  quality: String! = "data"
+}
+
+"""Get Metadata from MangaDex API and its chapters"""
+input MetadataInput {
+  """Manga Id"""
+  id: String!
+}
