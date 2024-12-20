@@ -11,6 +11,8 @@ import { MetadataModule } from './metadata/metadata.module'
 import { ReaderModule } from './reader/reader.module'
 import * as redisStore from 'cache-manager-ioredis'
 import { SentryModule } from '@sentry/nestjs/setup'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path'
 
 const REDIS_PORT = 6379
 const TTL = 3600
@@ -30,11 +32,16 @@ const TTL = 3600
       ttl: TTL,
       store: redisStore,
       host: process.env.REDIS_HOST ?? 'localhost',
-      port: process.env.REDIS_PORT ?? REDIS_PORT,
+      port: Number(process.env.REDIS_PORT) ?? REDIS_PORT,
     }),
     SearchModule,
     ReaderModule,
     MetadataModule,
+    process.env.NODE_ENV === 'production' &&
+      ServeStaticModule.forRoot({
+        rootPath: join(__dirname, '..', 'public'),
+        serveRoot: '/',
+      }),
   ].filter(Boolean),
   controllers: [AppController],
   providers: [AppService],

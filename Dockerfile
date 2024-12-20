@@ -44,9 +44,6 @@ WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
-
 COPY package.json pnpm-workspace.yaml ./
 COPY pnpm-lock.yaml ./
 
@@ -58,6 +55,8 @@ COPY --from=frontend-build /app/frontend/dist /app/backend/public
 
 ENV NODE_ENV=production
 ENV URL URL
+ENV REDIS_URL REDIS_URL
+ENV REDIS_PORT REDIS_PORT
 
 EXPOSE 4000
 

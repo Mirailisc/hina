@@ -21,6 +21,7 @@
     "@nestjs/graphql": "^12.2.2",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/serve-static": "^4.0.2",
     "@sentry/cli": "^2.39.1",
     "@sentry/nestjs": "^8.47.0",
     "@sentry/profiling-node": "^8.47.0",
