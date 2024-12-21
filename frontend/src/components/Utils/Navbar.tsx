@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { useSearch } from '../context/SearchContext'
-import { BASE_PATH } from '../constants/routes'
+
+import { BASE_PATH } from '@constants/routes'
+import { useSearch } from '@hooks/useSearch'
 
 const Navbar: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -10,7 +11,7 @@ const Navbar: React.FC = (): JSX.Element => {
   }
 
   return (
-    <div className="sticky inset-x-0 top-0 border-b border-white/20 bg-black/50 backdrop-blur-lg">
+    <div className="sticky inset-x-0 top-0 z-50 border-b border-white/20 bg-black/50 backdrop-blur-lg">
       <div className="flex items-center justify-between px-6 py-2">
         <Link to={BASE_PATH}>
           <div className="text-lg font-bold">Ui Manga</div>

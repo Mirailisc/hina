@@ -1,11 +1,15 @@
-import { useParams } from 'react-router-dom'
-import { GET_CHAPTERS, READ_MANGA } from '../gql/manga'
-import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import Controller from '../components/Manga/Controller'
-import Titlebar from '../components/Manga/Titlebar'
 import toast from 'react-hot-toast'
 import { ThreeDot } from 'react-loading-indicators'
+import { useParams } from 'react-router-dom'
+
+import Controller from '@components/Reader/Controller'
+import Titlebar from '@components/Reader/Titlebar'
+
+import { GET_CHAPTERS } from '@gql/manga'
+import { READ_MANGA } from '@gql/read'
+
+import { useQuery } from '@apollo/client'
 
 const Reader: React.FC = (): JSX.Element => {
   const { id, chapterId } = useParams()
@@ -22,10 +26,17 @@ const Reader: React.FC = (): JSX.Element => {
     },
   })
 
+  const currentChapterIndex = chapters.indexOf(chapterId as string)
+
   const { loading, data, error } = useQuery(READ_MANGA, {
     variables: {
-      input: { id: chapterId, quality: 'data' },
+      input: {
+        id: chapterId,
+        quality: 'dataSaver',
+        nextChapters: chapters.slice(currentChapterIndex + 1, currentChapterIndex + 6),
+      },
     },
+    skip: mangaLoading || !chapters.length,
   })
 
   useEffect(() => {
@@ -33,16 +44,20 @@ const Reader: React.FC = (): JSX.Element => {
       const { metadata } = mangaInfo
       setChapters(metadata.chapters)
     }
-  }, [mangaInfo])
+  }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
     if (!loading && data?.chapterImages) {
       setImages(data.chapterImages)
     }
-  }, [data])
+  }, [loading, data])
 
-  if (error) toast.error(error.message)
-  if (mangaError) toast.error(mangaError.message)
+  if (error) {
+    toast.error(error.message)
+  }
+  if (mangaError) {
+    toast.error(mangaError.message)
+  }
 
   if (mangaLoading || loading) {
     return (
@@ -51,8 +66,6 @@ const Reader: React.FC = (): JSX.Element => {
       </div>
     )
   }
-
-  const currentChapterIndex = chapters.indexOf(chapterId as string)
 
   const chapterStates = {
     mangaId: id as string,

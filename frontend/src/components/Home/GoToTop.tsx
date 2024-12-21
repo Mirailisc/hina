@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowUp } from 'react-icons/fa'
 
 const GoToTop: React.FC = (): JSX.Element => {
@@ -27,7 +27,7 @@ const GoToTop: React.FC = (): JSX.Element => {
 
   return (
     <div
-      className={`fixed bottom-5 right-5 flex size-12 cursor-pointer items-center justify-center rounded-full bg-primary-700 text-white shadow-lg transition-colors duration-200 hover:bg-primary-800 ${isVisible ? 'block' : 'hidden'}`}
+      className={`fixed bottom-5 right-5 flex size-12 cursor-pointer items-center justify-center rounded-full bg-primary-700/50 text-white shadow-lg transition-all duration-200 hover:bg-primary-700 ${isVisible ? 'block' : 'hidden'}`}
       onClick={scrollToTop}
     >
       <FaArrowUp size={20} />

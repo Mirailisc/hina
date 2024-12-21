@@ -5,6 +5,7 @@ import { axiosInstance } from 'src/lib/axios'
 import { Alternative } from './entities/Alternative.entity'
 import { Metadata } from './entities/metadata.entity'
 import { SearchService } from 'src/search/search.service'
+import { isDev } from 'src/lib/constants'
 
 @Injectable()
 export class MetadataService {
@@ -112,7 +113,7 @@ export class MetadataService {
           {
             params: {
               manga: id,
-              contentRating: ['pornographic'],
+              contentRating: [isDev ? 'safe' : 'pornographic'],
               translatedLanguage: ['en'],
               includeFutureUpdates: 1,
               order: {

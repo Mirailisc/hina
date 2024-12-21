@@ -46,6 +46,9 @@ input ReaderInput {
   """Chapter Id"""
   id: String!
 
+  """Next chapters id"""
+  nextChapters: [String!]
+
   """Image Quality"""
   quality: String! = "data"
 }

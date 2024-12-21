@@ -1,6 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { READER_PATH } from '../../constants/routes'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+
+import { READER_PATH } from '@constants/routes'
 
 type Props = {
   chapterStates: {
@@ -22,7 +23,7 @@ const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
   if (!chapterStates.previous && !chapterStates.next) return <></>
 
   return (
-    <div className="fixed inset-x-4 bottom-4 m-auto md:w-[500px]">
+    <div className="fixed inset-x-4 bottom-4 z-50 m-auto md:w-[500px]">
       <div className="rounded-lg border border-white/20 bg-black/80 p-4 backdrop-blur-lg">
         <div className="flex flex-row items-center justify-between">
           {chapterStates.previous ? (

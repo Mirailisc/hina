@@ -1,19 +1,26 @@
-import { ApolloProvider } from '@apollo/client'
 import React, { Suspense, useEffect } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { BASE_PATH, MANGA_PATH, READER_PATH } from './constants/routes'
-import { client } from './lib/apollo'
-import { SearchProvider } from './context/SearchContext'
-import Navbar from './components/Navbar'
-import Loading from './pages/Loading'
+
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Toaster } from 'react-hot-toast'
-import Footer from './components/Footer'
 
-const Home = React.lazy(() => import('./pages/Home'))
-const Manga = React.lazy(() => import('./pages/Manga'))
-const Reader = React.lazy(() => import('./pages/Reader'))
+import Footer from '@components/Utils/Footer'
+import Navbar from '@components/Utils/Navbar'
+
+import Loading from '@pages/Loading'
+
+import { client } from '@lib/apollo'
+
+import { SearchProvider } from '@context/provider/SearchProvider'
+
+import { BASE_PATH, MANGA_PATH, READER_PATH } from '@constants/routes'
+
+import { ApolloProvider } from '@apollo/client'
+
+const Home = React.lazy(() => import('@pages/Home'))
+const Manga = React.lazy(() => import('@pages/Manga'))
+const Reader = React.lazy(() => import('@pages/Reader'))
 
 function App() {
   const location = useLocation()
@@ -41,11 +48,10 @@ function App() {
   }
 
   const footerFilter = () => {
-    switch (location.pathname) {
-      case BASE_PATH:
-        return <Footer />
-      default:
-        return <></>
+    if (modifiedPathname === READER_PATH) {
+      return <></>
+    } else {
+      return <Footer />
     }
   }
 

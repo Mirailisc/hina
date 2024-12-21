@@ -8,6 +8,10 @@ export class ReaderResolver {
 
   @Query(() => [String])
   async chapterImages(@Args('input') input: ReaderInput): Promise<string[]> {
-    return await this.readerService.getChapterImages(input.id, input.quality)
+    return await this.readerService.getChapterImages(
+      input.id,
+      input.nextChapters,
+      input.quality,
+    )
   }
 }

@@ -1,11 +1,15 @@
-import { useQuery } from '@apollo/client'
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
-import MangaCard, { IMangaSearch } from '../components/Home/MangaCard'
-import { useSearch } from '../context/SearchContext'
-import { SEARCH_MANGA } from '../gql/search'
-import { ThreeDot } from 'react-loading-indicators'
 import toast from 'react-hot-toast'
-import GoToTop from '../components/Home/GoToTop'
+
+import GoToTop from '@components/Home/GoToTop'
+import MangaCard, { IMangaSearch } from '@components/Home/MangaCard'
+
+import { useSearch } from 'src/hooks/useSearch'
+
+import { SEARCH_MANGA } from '@gql/search'
+
+import { useQuery } from '@apollo/client'
 
 const Home: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -62,13 +66,19 @@ const Home: React.FC = (): JSX.Element => {
           <h1 className="mt-4 text-2xl font-bold">Explore</h1>
         </div>
         {loading ? (
-          <div className="mt-10 text-center">
-            <ThreeDot color="#0A81AB" size="medium" />
+          <div className="mt-4 flex flex-wrap justify-center gap-4 xl:justify-start">
+            {Array.from({ length: 18 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-[270px] w-[200px] animate-pulse rounded-md rounded-t-lg bg-white/30"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              />
+            ))}
           </div>
         ) : (
           <div className="mt-4 flex flex-wrap justify-center gap-4 xl:justify-start">
             {searchResult.length > 0 ? (
-              searchResult.map((item) => <MangaCard key={item.id} data={item} />)
+              searchResult.map((item, index) => <MangaCard key={index} data={item} />)
             ) : (
               <div>No results found</div>
             )}

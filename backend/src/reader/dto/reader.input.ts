@@ -5,6 +5,9 @@ export class ReaderInput {
   @Field(() => String, { description: 'Chapter Id', nullable: false })
   id: string
 
+  @Field(() => [String], { description: 'Next chapters id', nullable: true })
+  nextChapters: string[]
+
   @Field(() => String, {
     description: 'Image Quality',
     nullable: false,

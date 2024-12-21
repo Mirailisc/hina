@@ -1,10 +1,11 @@
+import { resolve } from 'path'
 import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
+import type { PluginOption } from 'vite'
 import eslint from 'vite-plugin-eslint2'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { resolve } from 'path'
-import type { PluginOption } from 'vite'
+
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
@@ -32,7 +33,15 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     resolve: {
-      alias: [{ find: 'src', replacement: resolve(__dirname, 'src') }],
+      alias: {
+        '@components': resolve(__dirname, 'src/components'),
+        '@constants': resolve(__dirname, 'src/constants'),
+        '@gql': resolve(__dirname, 'src/gql'),
+        '@hooks': resolve(__dirname, 'src/hooks'),
+        '@context': resolve(__dirname, 'src/context'),
+        '@lib': resolve(__dirname, 'src/lib'),
+        '@pages': resolve(__dirname, 'src/pages'),
+      },
     },
     server: {
       port: 3000,

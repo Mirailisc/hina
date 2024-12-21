@@ -2,6 +2,7 @@ import { Injectable, Inject, Logger } from '@nestjs/common'
 import { MangaSearch } from './entities/MangaSearch.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
+import { isDev } from 'src/lib/constants'
 
 interface FetchResult {
   id: string
@@ -39,7 +40,7 @@ export class SearchService {
         title: lowercaseName,
         includedTagsMode: 'AND',
         excludedTagsMode: 'OR',
-        'contentRating[]': ['pornographic'],
+        'contentRating[]': [isDev ? 'safe' : 'pornographic'],
         'order[latestUploadedChapter]': 'desc',
       },
     })

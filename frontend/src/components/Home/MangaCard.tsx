@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { MANGA_PATH } from '../../constants/routes'
+
+import { MANGA_PATH } from '@constants/routes'
 
 export interface IMangaSearch {
   id: string
@@ -14,12 +15,15 @@ type Props = {
 
 const MangaCard: React.FC<Props> = ({ data }: Props): JSX.Element => {
   return (
-    <Link className="w-[150px] rounded-lg border border-white/20 sm:w-[200px]" to={MANGA_PATH.replace(':id', data.id)}>
+    <Link
+      className="w-[180px] rounded-lg border border-white/20 transition-transform hover:scale-105 sm:w-[200px]"
+      to={MANGA_PATH.replace(':id', data.id)}
+    >
       <div>
         <img
           src={data.cover}
           alt="image"
-          className="pointer-events-none h-[200px] w-full select-none rounded-t-lg sm:h-[270px]"
+          className="pointer-events-none h-[230px] w-full select-none rounded-t-lg sm:h-[270px]"
           loading="lazy"
           referrerPolicy="no-referrer"
         />

@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "preview": "vite preview"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
     "@sentry/react": "^8.47.0",
     "@sentry/vite-plugin": "^2.22.7",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.0",
     "@types/react-router-dom": "^5.3.3",
     "graphql": "^16.10.0",
     "nprogress": "^0.2.0",

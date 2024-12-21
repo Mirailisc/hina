@@ -13,6 +13,7 @@ import * as redisStore from 'cache-manager-ioredis'
 import { SentryModule } from '@sentry/nestjs/setup'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
+import { isDev } from './lib/constants'
 
 const REDIS_PORT = 6379
 const TTL = 3600
@@ -37,7 +38,7 @@ const TTL = 3600
     SearchModule,
     ReaderModule,
     MetadataModule,
-    process.env.NODE_ENV === 'production' &&
+    !isDev &&
       ServeStaticModule.forRoot({
         rootPath: join(__dirname, '..', 'public'),
         serveRoot: '/',

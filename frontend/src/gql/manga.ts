@@ -26,9 +26,3 @@ export const GET_CHAPTERS = gql`
     }
   }
 `
-
-export const READ_MANGA = gql`
-  query Query($input: ReaderInput!) {
-    chapterImages(input: $input)
-  }
-`
