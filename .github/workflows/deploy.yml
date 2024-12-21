@@ -6,7 +6,7 @@ on:
 jobs:
   docker-build:
     name: Publish Docker image to registry
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -63,7 +63,7 @@ jobs:
 
   update-manifest:
     name: Update Kubernetes manifest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [docker-build]
 
     permissions:

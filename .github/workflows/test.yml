@@ -9,7 +9,7 @@ on:
 jobs:
   frontend-eslint:
     name: Run Eslint (frontend)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -34,7 +34,7 @@ jobs:
 
   backend-eslint:
     name: Run Eslint (backend)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -59,7 +59,7 @@ jobs:
 
   frontend-build:
     name: Build Frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: frontend-eslint
 
     permissions:
@@ -88,7 +88,7 @@ jobs:
 
   backend-build:
     name: Build Backend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: backend-eslint
 
     permissions:
@@ -117,7 +117,7 @@ jobs:
 
   docker-build:
     name: Build Docker Image (Test)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [frontend-build, backend-build]
 
     permissions:
