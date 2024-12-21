@@ -127,6 +127,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+      
+      - name: Set SENTRY_AUTH_TOKEN for frontend
+        run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_FRONTEND }}" >> $GITHUB_ENV
+
+      - name: Set SENTRY_AUTH_TOKEN for backend
+        run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_BACKEND }}" >> $GITHUB_ENV
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Cache Docker layers
