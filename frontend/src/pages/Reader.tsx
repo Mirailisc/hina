@@ -50,7 +50,7 @@ const Reader: React.FC = (): JSX.Element => {
     if (!loading && data?.chapterImages) {
       setImages(data.chapterImages)
     }
-  }, [loading, data])
+  }, [loading, data, chapterId])
 
   if (error) {
     toast.error(error.message)
@@ -82,7 +82,7 @@ const Reader: React.FC = (): JSX.Element => {
         <img
           referrerPolicy="no-referrer"
           loading="lazy"
-          key={index}
+          key={`${chapterId}-${index}`}
           src={image}
           alt={`page${index}`}
           className="w-full md:w-1/2"

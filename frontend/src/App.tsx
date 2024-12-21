@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import AgeConsent from '@components/Utils/AgeConsent'
 import Footer from '@components/Utils/Footer'
 import Navbar from '@components/Utils/Navbar'
 
@@ -14,13 +15,14 @@ import { client } from '@lib/apollo'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
-import { BASE_PATH, MANGA_PATH, READER_PATH } from '@constants/routes'
+import { BASE_PATH, MANGA_PATH, READER_PATH, SEARCH_PATH } from '@constants/routes'
 
 import { ApolloProvider } from '@apollo/client'
 
 const Home = React.lazy(() => import('@pages/Home'))
 const Manga = React.lazy(() => import('@pages/Manga'))
 const Reader = React.lazy(() => import('@pages/Reader'))
+const Search = React.lazy(() => import('@pages/Search'))
 
 function App() {
   const location = useLocation()
@@ -69,15 +71,19 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Toaster position="bottom-right" />
+      <AgeConsent />
       <SearchProvider>
-        <div className="min-h-screen bg-background text-white">
+        <div className="flex min-h-screen flex-col bg-background text-white">
           <Suspense fallback={<Loading />}>
             {navbarFilter()}
-            <Routes>
-              <Route path={BASE_PATH} element={<Home />} />
-              <Route path={MANGA_PATH} element={<Manga />} />
-              <Route path={READER_PATH} element={<Reader />} />
-            </Routes>
+            <div className="grow">
+              <Routes>
+                <Route path={BASE_PATH} element={<Home />} />
+                <Route path={SEARCH_PATH} element={<Search />} />
+                <Route path={MANGA_PATH} element={<Manga />} />
+                <Route path={READER_PATH} element={<Reader />} />
+              </Routes>
+            </div>
             {footerFilter()}
           </Suspense>
         </div>

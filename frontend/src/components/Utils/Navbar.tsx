@@ -1,21 +1,33 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { useSearch } from '@hooks/useSearch'
 
 import { BASE_PATH } from '@constants/routes'
-import { useSearch } from '@hooks/useSearch'
 
 const Navbar: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
+  const navigate = useNavigate()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch({ ...search, name: e.target.value })
   }
 
+  const handleGoHome = () => {
+    setSearch({ ...search, name: '' })
+    navigate(BASE_PATH, { replace: true })
+  }
+
+  useEffect(() => {
+    setSearch({ ...search, name: '' })
+  }, [navigate, setSearch])
+
   return (
-    <div className="sticky inset-x-0 top-0 z-50 border-b border-white/20 bg-black/50 backdrop-blur-lg">
+    <div className="sticky inset-x-0 top-0 z-40 border-b border-white/20 bg-black/50 backdrop-blur-lg">
       <div className="flex items-center justify-between px-6 py-2">
-        <Link to={BASE_PATH}>
-          <div className="text-lg font-bold">Ui Manga</div>
-        </Link>
+        <div onClick={handleGoHome} className="text-lg font-bold">
+          MangaDiddy
+        </div>
         <div>
           <input
             type="text"

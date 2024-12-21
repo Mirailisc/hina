@@ -1,0 +1,1 @@
+export const AGE_CONSENT = 'age_consent'

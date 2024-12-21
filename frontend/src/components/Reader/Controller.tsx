@@ -17,13 +17,13 @@ const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
 
   const handleController = async (to: string) => {
     await navigate(to, { replace: true })
-    await navigate(0)
+    // await navigate(0)
   }
 
   if (!chapterStates.previous && !chapterStates.next) return <></>
 
   return (
-    <div className="fixed inset-x-4 bottom-4 z-50 m-auto md:w-[500px]">
+    <div className="fixed inset-x-4 bottom-4 z-40 m-auto md:w-[500px]">
       <div className="rounded-lg border border-white/20 bg-black/80 p-4 backdrop-blur-lg">
         <div className="flex flex-row items-center justify-between">
           {chapterStates.previous ? (

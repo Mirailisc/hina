@@ -10,7 +10,7 @@ type Props = {
 
 const Titlebar: React.FC<Props> = ({ totalChapters, mangaId, currentChapter }: Props): JSX.Element => {
   return (
-    <div className="fixed inset-x-4 top-4 z-50 m-auto md:w-[500px]">
+    <div className="fixed inset-x-4 top-4 z-40 m-auto md:w-[500px]">
       <div className="rounded-lg border border-white/20 bg-black/80 p-4 backdrop-blur-lg">
         <div className="flex flex-row items-center justify-between">
           <Link to={BASE_PATH}>

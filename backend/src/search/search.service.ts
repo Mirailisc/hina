@@ -58,7 +58,7 @@ export class SearchService {
 
         const result = {
           id: info.id,
-          title: attributes.title.en,
+          title: attributes.title.en || 'Untitled',
           status: attributes.status,
           cover: coverImageUrl,
         }

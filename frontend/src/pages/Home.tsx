@@ -1,11 +1,13 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+
+import { useSearch } from 'src/hooks/useSearch'
 
 import GoToTop from '@components/Home/GoToTop'
 import MangaCard, { IMangaSearch } from '@components/Home/MangaCard'
 
-import { useSearch } from 'src/hooks/useSearch'
+import { SEARCH_PATH } from '@constants/routes'
 
 import { SEARCH_MANGA } from '@gql/search'
 
@@ -16,34 +18,33 @@ const Home: React.FC = (): JSX.Element => {
   const [searchResult, setSearchResult] = useState<IMangaSearch[]>([])
   const [debouncedSearch, setDebouncedSearch] = useState<string>('')
 
-  const { loading, refetch, error } = useQuery(SEARCH_MANGA)
+  const { loading, error, data } = useQuery(SEARCH_MANGA, {
+    variables: { input: { name: debouncedSearch, amount: search.amount } },
+  })
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (search.name === '') {
-        setSearch({ ...search, amount: 96 })
-      } else {
-        setSearch({ ...search, amount: 10 })
-      }
       setDebouncedSearch(search.name)
     }, 1000)
 
     return () => clearTimeout(timeoutId)
   }, [search.name])
 
-  const searchManga = async () => {
-    const { data } = await refetch({
-      input: { name: debouncedSearch, amount: search.amount },
-    })
+  useEffect(() => {
+    if (debouncedSearch === '') {
+      setSearchResult([])
+    } else {
+      navigate(SEARCH_PATH.replace(':name', debouncedSearch.toLowerCase()))
+    }
+  }, [debouncedSearch, navigate])
 
+  useEffect(() => {
     if (data && data.searchMetadata) {
       setSearchResult(data.searchMetadata)
     }
-  }
-
-  useEffect(() => {
-    searchManga()
-  }, [debouncedSearch])
+  }, [data])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch({ ...search, name: e.target.value })
@@ -65,25 +66,29 @@ const Home: React.FC = (): JSX.Element => {
           />
           <h1 className="mt-4 text-2xl font-bold">Explore</h1>
         </div>
-        {loading ? (
-          <div className="mt-4 flex flex-wrap justify-center gap-4 xl:justify-start">
-            {Array.from({ length: 18 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-[270px] w-[200px] animate-pulse rounded-md rounded-t-lg bg-white/30"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-4 flex flex-wrap justify-center gap-4 xl:justify-start">
-            {searchResult.length > 0 ? (
-              searchResult.map((item, index) => <MangaCard key={index} data={item} />)
-            ) : (
-              <div>No results found</div>
-            )}
-          </div>
-        )}
+        <div className="w-full">
+          {loading ? (
+            <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-[270px] w-[200px] animate-pulse rounded-md rounded-t-lg bg-white/30"
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+              {searchResult.length > 0 ? (
+                searchResult
+                  .filter((search) => search.title !== 'Untitled')
+                  .map((item, index) => <MangaCard key={`manga-${index}`} data={item} />)
+              ) : (
+                <div className="w-full text-center">No results found</div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
