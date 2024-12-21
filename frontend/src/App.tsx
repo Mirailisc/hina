@@ -9,6 +9,7 @@ import Loading from './pages/Loading'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { Toaster } from 'react-hot-toast'
+import Footer from './components/Footer'
 
 const Home = React.lazy(() => import('./pages/Home'))
 const Manga = React.lazy(() => import('./pages/Manga'))
@@ -39,6 +40,15 @@ function App() {
     }
   }
 
+  const footerFilter = () => {
+    switch (location.pathname) {
+      case BASE_PATH:
+        return <Footer />
+      default:
+        return <></>
+    }
+  }
+
   useEffect(() => {
     NProgress.configure({ showSpinner: false })
     NProgress.start()
@@ -62,6 +72,7 @@ function App() {
               <Route path={MANGA_PATH} element={<Manga />} />
               <Route path={READER_PATH} element={<Reader />} />
             </Routes>
+            {footerFilter()}
           </Suspense>
         </div>
       </SearchProvider>

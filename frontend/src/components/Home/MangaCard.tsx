@@ -19,7 +19,7 @@ const MangaCard: React.FC<Props> = ({ data }: Props): JSX.Element => {
         <img
           src={data.cover}
           alt="image"
-          className="pointer-events-none h-[220px] w-full select-none rounded-t-lg sm:h-[270px]"
+          className="pointer-events-none h-[200px] w-full select-none rounded-t-lg sm:h-[270px]"
           loading="lazy"
           referrerPolicy="no-referrer"
         />

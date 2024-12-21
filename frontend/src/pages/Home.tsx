@@ -5,6 +5,7 @@ import { useSearch } from '../context/SearchContext'
 import { SEARCH_MANGA } from '../gql/search'
 import { ThreeDot } from 'react-loading-indicators'
 import toast from 'react-hot-toast'
+import GoToTop from '../components/Home/GoToTop'
 
 const Home: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -48,6 +49,7 @@ const Home: React.FC = (): JSX.Element => {
 
   return (
     <div>
+      <GoToTop />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">
           <input
@@ -57,14 +59,14 @@ const Home: React.FC = (): JSX.Element => {
             placeholder="Search..."
             className="block w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none sm:hidden"
           />
-          <h1 className="text-2xl font-bold">Explore</h1>
+          <h1 className="mt-4 text-2xl font-bold">Explore</h1>
         </div>
         {loading ? (
           <div className="mt-10 text-center">
             <ThreeDot color="#0A81AB" size="medium" />
           </div>
         ) : (
-          <div className="mt-4 flex flex-wrap justify-center gap-4 lg:justify-start">
+          <div className="mt-4 flex flex-wrap justify-center gap-4 xl:justify-start">
             {searchResult.length > 0 ? (
               searchResult.map((item) => <MangaCard key={item.id} data={item} />)
             ) : (
