@@ -60,4 +60,4 @@ ENV REDIS_PORT REDIS_PORT
 
 EXPOSE 4000
 
-CMD ["pnpm", "NODE_ENV=production", "backend:prod"]
+CMD ["pnpm", "backend:prod"]
