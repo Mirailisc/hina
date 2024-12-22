@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ThreeDot } from 'react-loading-indicators'
@@ -16,7 +15,10 @@ const initialValue: IManga = {
   title: '',
   status: '',
   description: '',
-  author: '',
+  author: {
+    id: '',
+    name: '',
+  },
   alternative: {
     en: '',
     ja: '',
@@ -38,7 +40,7 @@ const Manga: React.FC = (): JSX.Element => {
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
 
   useEffect(() => {
-    if (!loading && data.metadata) {
+    if (!loading && data?.metadata) {
       const { metadata } = data
       setManga({
         id: metadata.id,
@@ -51,14 +53,16 @@ const Manga: React.FC = (): JSX.Element => {
         cover: metadata.cover,
       })
     }
-  }, [data])
+  }, [loading, data])
 
   const orderedChapters = () => {
     switch (order) {
       case 'asc':
-        return manga.chapters
+        return [...manga.chapters].sort((a, b) => parseFloat(a.chapter) - parseFloat(b.chapter))
       case 'desc':
-        return [...manga.chapters].reverse()
+        return [...manga.chapters].sort((a, b) => parseFloat(b.chapter) - parseFloat(a.chapter))
+      default:
+        return manga.chapters
     }
   }
 
@@ -124,7 +128,7 @@ const Manga: React.FC = (): JSX.Element => {
       ) : (
         <div>
           {manga.chapters.length > 0 ? (
-            <MangaChapters id={manga.id} chapters={orderedChapters()} order={order} />
+            <MangaChapters id={manga.id} chapters={orderedChapters()} />
           ) : (
             <span>No chapters available</span>
           )}

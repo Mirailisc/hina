@@ -1,11 +1,12 @@
-import { Inject, Injectable, Logger } from '@nestjs/common'
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
-import { Alternative } from './entities/Alternative.entity'
+import { Alternative } from './entities/alternative.entity'
 import { Metadata } from './entities/metadata.entity'
-import { SearchService } from 'src/search/search.service'
-import { isDev } from 'src/lib/constants'
+import { contentRating, MANGADEX_API } from 'src/lib/constants'
+import { Chapter } from './entities/chapter.entity'
+import { AuthorService } from 'src/author/author.service'
 
 @Injectable()
 export class MetadataService {
@@ -13,7 +14,8 @@ export class MetadataService {
 
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private readonly searchService: SearchService,
+    @Inject(forwardRef(() => AuthorService))
+    private readonly authorService: AuthorService,
   ) {}
 
   async getMetadata(id: string) {
@@ -25,17 +27,17 @@ export class MetadataService {
         return cachedData
       }
 
-      const { data } = await axiosInstance.get(
-        `https://api.mangadex.org/manga/${id}`,
-      )
+      const { data } = await axiosInstance.get(`${MANGADEX_API}/manga/${id}`)
 
       const { data: metadata } = data
 
-      const author = await this.getAuthor(
+      const author = await this.authorService.getAuthorName(
         metadata.relationships.find((rel) => rel.type === 'author').id,
       )
 
-      const coverImageUrl = await this.searchService.getCoverImage(id)
+      const coverImageUrl = await this.getCoverImage(id)
+
+      console.log(coverImageUrl)
 
       const result: Metadata = {
         id: metadata.id,
@@ -53,7 +55,10 @@ export class MetadataService {
             ] || '',
         } as Alternative,
         cover: coverImageUrl,
-        author: author,
+        author: {
+          id: author.id,
+          name: author.name,
+        },
         status: metadata.attributes.status,
         description: metadata.attributes.description.en || '',
         chapters: await this.getChapters(id),
@@ -70,69 +75,52 @@ export class MetadataService {
     }
   }
 
-  async getAuthor(id: string) {
-    const cacheKey = `author:${id}`
-    try {
-      const cachedAuthor = await this.cacheManager.get<string>(cacheKey)
-      if (cachedAuthor) {
-        this.logger.log(`Returning cached author for ${id}`)
-        return cachedAuthor
-      }
-
-      const { data } = await axiosInstance.get(
-        `https://api.mangadex.org/author/${id}`,
-      )
-      const { data: author } = data
-
-      await this.cacheManager.set(cacheKey, author.attributes.name)
-
-      return author.attributes.name
-    } catch (error) {
-      this.logger.error(`Error fetching author ${id}: ${error.message}`)
-      return ''
-    }
-  }
-
-  async getChapters(id: string) {
+  async getChapters(id: string): Promise<Chapter[]> {
     const cacheKey = `chapters:${id}`
     try {
-      const cachedChapters = await this.cacheManager.get<string[]>(cacheKey)
+      const cachedChapters = await this.cacheManager.get<Chapter[]>(cacheKey)
       if (cachedChapters) {
         this.logger.log(`Returning cached chapters for ${id}`)
         return cachedChapters
       }
 
-      const allChapterIds: string[] = []
+      const allChapterIds: Chapter[] = []
       let currentPage = 1
       let totalChapters = 0
       const chaptersPerPage = 10
 
       do {
-        const { data } = await axiosInstance.get(
-          'https://api.mangadex.org/chapter',
-          {
-            params: {
-              manga: id,
-              contentRating: [isDev ? 'safe' : 'pornographic'],
-              translatedLanguage: ['en'],
-              includeFutureUpdates: 1,
-              order: {
-                createdAt: 'asc',
-                updatedAt: 'asc',
-                publishAt: 'asc',
-                readableAt: 'asc',
-                volume: 'asc',
-                chapter: 'asc',
-              },
-              limit: chaptersPerPage,
-              offset: (currentPage - 1) * chaptersPerPage,
+        const { data } = await axiosInstance.get(MANGADEX_API + '/chapter', {
+          params: {
+            manga: id,
+            contentRating,
+            translatedLanguage: ['en'],
+            includeFutureUpdates: 1,
+            order: {
+              createdAt: 'asc',
+              updatedAt: 'asc',
+              publishAt: 'asc',
+              readableAt: 'asc',
+              volume: 'asc',
+              chapter: 'asc',
             },
+            limit: chaptersPerPage,
+            offset: (currentPage - 1) * chaptersPerPage,
           },
-        )
+        })
 
-        const chapterIds = data.data.map(
-          (chapter: { id: string }) => chapter.id,
-        )
+        const { data: chapters } = data
+
+        const chapterIds = chapters.map((chapter) => {
+          return {
+            id: chapter.id,
+            chapter: chapter.attributes.chapter,
+            volume: chapter.attributes.volume,
+            title: chapter.attributes.title,
+            publishAt: chapter.attributes.publishAt,
+          }
+        })
+
         allChapterIds.push(...chapterIds)
 
         totalChapters = data.total
@@ -145,6 +133,32 @@ export class MetadataService {
     } catch (error) {
       this.logger.error(`Error fetching chapters for ${id}: ${error.message}`)
       return []
+    }
+  }
+
+  async getCoverImage(id: string): Promise<string | null> {
+    try {
+      const { data } = await axiosInstance.get(MANGADEX_API + '/cover', {
+        params: {
+          manga: [id],
+        },
+      })
+
+      const cover = data.data.find((item) => item.type === 'cover_art')
+
+      if (cover) {
+        const fileName = cover.attributes.fileName
+        if (fileName) {
+          return `https://uploads.mangadex.org/covers/${id}/${fileName}.256.jpg`
+        }
+      } else {
+        return null
+      }
+    } catch (error) {
+      this.logger.error(
+        `Error fetching cover for manga ${id}: ${error.message}`,
+      )
+      return null
     }
   }
 }

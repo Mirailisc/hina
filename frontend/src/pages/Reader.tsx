@@ -14,7 +14,7 @@ import { useQuery } from '@apollo/client'
 const Reader: React.FC = (): JSX.Element => {
   const { id, chapterId } = useParams()
   const [images, setImages] = useState<string[]>([])
-  const [chapters, setChapters] = useState<string[]>([])
+  const [chapters, setChapters] = useState<{ id: string }[]>([])
 
   const {
     loading: mangaLoading,
@@ -26,31 +26,56 @@ const Reader: React.FC = (): JSX.Element => {
     },
   })
 
-  const currentChapterIndex = chapters.indexOf(chapterId as string)
+  const currentChapterIndex = chapters.findIndex((chapter) => chapter.id === chapterId)
+  const nextChapters = chapters.slice(currentChapterIndex + 1, currentChapterIndex + 6).map((chapter) => chapter.id)
 
-  const { loading, data, error } = useQuery(READ_MANGA, {
+  const { loading, data, error, refetch } = useQuery(READ_MANGA, {
     variables: {
       input: {
         id: chapterId,
         quality: 'dataSaver',
-        nextChapters: chapters.slice(currentChapterIndex + 1, currentChapterIndex + 6),
+        nextChapters,
       },
     },
-    skip: mangaLoading || !chapters.length,
+    skip: mangaLoading || chapters.length === 0,
   })
 
   useEffect(() => {
-    if (!mangaLoading && mangaInfo?.metadata) {
-      const { metadata } = mangaInfo
-      setChapters(metadata.chapters)
+    if (!mangaLoading && mangaInfo?.metadata?.chapters) {
+      setChapters((prevChapters) => {
+        const newChapters = mangaInfo.metadata.chapters.map((chapter: { id: string }) => ({
+          id: chapter.id,
+        }))
+        if (JSON.stringify(prevChapters) !== JSON.stringify(newChapters)) {
+          return newChapters
+        }
+        return prevChapters
+      })
     }
   }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
     if (!loading && data?.chapterImages) {
-      setImages(data.chapterImages)
+      setImages((prevImages) => {
+        if (JSON.stringify(prevImages) !== JSON.stringify(data.chapterImages)) {
+          return data.chapterImages
+        }
+        return prevImages
+      })
     }
-  }, [loading, data, chapterId])
+  }, [loading, data])
+
+  useEffect(() => {
+    if (chapterId && !mangaLoading && chapters.length > 0) {
+      refetch({
+        input: {
+          id: chapterId,
+          quality: 'dataSaver',
+          nextChapters,
+        },
+      })
+    }
+  }, [chapterId, mangaLoading, chapters, refetch, nextChapters])
 
   if (error) {
     toast.error(error.message)
@@ -70,8 +95,8 @@ const Reader: React.FC = (): JSX.Element => {
   const chapterStates = {
     mangaId: id as string,
     current: chapterId as string,
-    previous: currentChapterIndex > 0 ? chapters[currentChapterIndex - 1] : null,
-    next: currentChapterIndex < chapters.length - 1 ? chapters[currentChapterIndex + 1] : null,
+    previous: currentChapterIndex > 0 ? chapters[currentChapterIndex - 1]?.id : null,
+    next: currentChapterIndex < chapters.length - 1 ? chapters[currentChapterIndex + 1]?.id : null,
   }
 
   return (

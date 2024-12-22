@@ -7,13 +7,22 @@ export const GET_METADATA = gql`
       title
       status
       description
-      author
+      author {
+        id
+        name
+      }
       alternative {
         en
         ja
         romaji
       }
-      chapters
+      chapters {
+        id
+        title
+        chapter
+        volume
+        publishAt
+      }
       cover
     }
   }
@@ -22,7 +31,9 @@ export const GET_METADATA = gql`
 export const GET_CHAPTERS = gql`
   query Metadata($metadataId: MetadataInput!) {
     metadata(id: $metadataId) {
-      chapters
+      chapters {
+        id
+      }
     }
   }
 `

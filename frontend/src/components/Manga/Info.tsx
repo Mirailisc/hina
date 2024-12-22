@@ -1,22 +1,34 @@
 import ReactMarkdown from 'react-markdown'
+import { Link } from 'react-router-dom'
+
+import remarkGfm from 'remark-gfm'
 
 import Status from './Status'
-import remarkGfm from 'remark-gfm'
-import { Link } from 'react-router-dom'
+
+export interface IChapter {
+  id: string
+  chapter: string
+  volume?: string
+  title?: string
+  publishAt: string
+}
 
 export interface IManga {
   id: string
   title: string
   status: string
   description: string
-  author: string
+  author: {
+    id: string
+    name: string
+  }
   alternative: {
     en: string
     ja: string
     romaji: string
   }
   cover: string
-  chapters: string[]
+  chapters: IChapter[]
 }
 
 type Props = {
@@ -31,7 +43,9 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
       <div className="mt-2 text-xs">
         {manga.alternative.en} {manga.alternative.ja} {manga.alternative.romaji}
       </div>
-      <p className="my-2">Author: {manga.author}</p>
+      <Link to={`/read/${manga.id}`}>
+        <div className="my-2">Author: {manga.author.name}</div>
+      </Link>
       <div className="text-white/50">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{manga.description}</ReactMarkdown>
       </div>

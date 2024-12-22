@@ -1,3 +1,4 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import {
   Injectable,
   InternalServerErrorException,
@@ -6,10 +7,11 @@ import {
 import { Inject } from '@nestjs/common'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
+import { MANGADEX_API } from 'src/lib/constants'
 
 @Injectable()
 export class ReaderService {
-  constructor(@Inject('CACHE_MANAGER') private cacheManager: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async getChapterImages(
     chapterId: string,
@@ -78,10 +80,10 @@ export class ReaderService {
     chapterId: string,
     quality: string,
   ): Promise<string[]> {
-    const url = `https://api.mangadex.org/at-home/server/${chapterId}`
-
     try {
-      const response = await axiosInstance.get(url)
+      const response = await axiosInstance.get(
+        MANGADEX_API + `/at-home/server/${chapterId}`,
+      )
       const { baseUrl, chapter } = response.data
 
       if (!baseUrl || !chapter || !chapter.hash || !chapter[quality]) {

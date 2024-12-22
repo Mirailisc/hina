@@ -14,6 +14,7 @@ import { SentryModule } from '@sentry/nestjs/setup'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
 import { isDev } from './lib/constants'
+import { AuthorModule } from './author/author.module'
 
 const REDIS_PORT = 6379
 const TTL = 3600
@@ -25,7 +26,6 @@ const TTL = 3600
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
-      plugins: [],
       autoSchemaFile: 'schema.gql',
     }),
     CacheModule.register({
@@ -37,6 +37,7 @@ const TTL = 3600
     }),
     SearchModule,
     ReaderModule,
+    AuthorModule,
     MetadataModule,
     !isDev &&
       ServeStaticModule.forRoot({

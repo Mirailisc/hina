@@ -15,21 +15,36 @@ type Alternative {
   romaji: String
 }
 
+type Chapter {
+  id: String!
+  chapter: String!
+  volume: String
+  title: String
+  publishAt: String!
+}
+
+type Author {
+  id: String!
+  name: String!
+}
+
 type Metadata {
   id: String!
   title: String!
   alternative: Alternative!
   status: String!
-  author: String!
+  author: Author!
   cover: String
   description: String!
-  chapters: [String!]!
+  chapters: [Chapter!]!
 }
 
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
-  chapterImages(input: ReaderInput!): [String!]!
+  searchByTags(input: SearchTagsInput!): [MangaSearch!]!
   metadata(id: MetadataInput!): Metadata!
+  getAuthors(input: AuthorsInput!): [Author!]!
+  chapterImages(input: ReaderInput!): [String!]!
 }
 
 """Search manga from MangaDex API"""
@@ -39,6 +54,33 @@ input SearchInput {
 
   """Search limit"""
   amount: Int = 10
+}
+
+"""Search manga by tags from MangaDex API"""
+input SearchTagsInput {
+  """Search limit"""
+  amount: Int = 10
+
+  """Include manga tags"""
+  includedTags: [String!]
+
+  """Exclude Manga tags"""
+  excludedTags: [String!]
+
+  """Page number"""
+  page: Int! = 1
+}
+
+"""Get Metadata from MangaDex API and its chapters"""
+input MetadataInput {
+  """Manga Id"""
+  id: String!
+}
+
+"""This input is used to get authors through pagination"""
+input AuthorsInput {
+  """Page number"""
+  page: Int! = 1
 }
 
 """View manga chapter images"""
@@ -51,10 +93,4 @@ input ReaderInput {
 
   """Image Quality"""
   quality: String! = "data"
-}
-
-"""Get Metadata from MangaDex API and its chapters"""
-input MetadataInput {
-  """Manga Id"""
-  id: String!
 }

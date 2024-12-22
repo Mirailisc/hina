@@ -3,10 +3,11 @@ import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import MangaCard, { IMangaSearch } from '@components/Home/MangaCard'
+import Skeleton from '@components/Utils/Skeleton'
 
 import { useSearch } from '@hooks/useSearch'
 
-import { SEARCH_PATH } from '@constants/routes'
+import { MANGA_NAME_SEARCH_PATH } from '@constants/routes'
 
 import { SEARCH_MANGA } from '@gql/search'
 
@@ -26,31 +27,27 @@ const Search: React.FC = (): JSX.Element => {
   })
 
   useEffect(() => {
-    if (paramName) {
-      setSearch({ name: paramName, amount: 10 })
-      setDebouncedSearch(paramName)
-    } else {
-      setSearch({ name: '', amount: 10 })
-      setDebouncedSearch('')
-    }
+    setSearch((prev) => ({ ...prev, name: paramName || '', amount: 10 }))
+    setDebouncedSearch(paramName || '')
   }, [paramName, setSearch])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setSearch({ ...search, name: value })
+    setSearch((prev) => ({ ...prev, name: value }))
   }
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setDebouncedSearch(search.name)
+      if (search.name !== debouncedSearch) {
+        setDebouncedSearch(search.name)
+      }
     }, 1000)
-
     return () => clearTimeout(timeoutId)
-  }, [search.name])
+  }, [search.name, debouncedSearch])
 
   useEffect(() => {
     if (debouncedSearch && debouncedSearch !== paramName) {
-      navigate(SEARCH_PATH.replace(':name', debouncedSearch.toLowerCase()))
+      navigate(MANGA_NAME_SEARCH_PATH.replace(':name', debouncedSearch.toLowerCase()))
     }
   }, [debouncedSearch, paramName, navigate])
 
@@ -62,7 +59,11 @@ const Search: React.FC = (): JSX.Element => {
     }
   }, [data])
 
-  if (error) toast.error(error.message)
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+    }
+  }, [error])
 
   return (
     <div className="px-4">
@@ -72,21 +73,13 @@ const Search: React.FC = (): JSX.Element => {
           value={search.name}
           onChange={handleInputChange}
           placeholder="Search..."
-          className="block w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none sm:hidden"
+          className="w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
         />
         <h1 className="mt-4 text-2xl font-bold">Search results</h1>
       </div>
       <div className="w-full">
         {loading ? (
-          <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-            {Array.from({ length: 10 }).map((_, index) => (
-              <div
-                key={index}
-                className="h-[270px] w-[200px] animate-pulse rounded-md rounded-t-lg bg-white/30"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              />
-            ))}
-          </div>
+          <Skeleton amount={12} />
         ) : (
           <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
             {searchResult.length > 0 ? (

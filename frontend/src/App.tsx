@@ -15,7 +15,7 @@ import { client } from '@lib/apollo'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
-import { BASE_PATH, MANGA_PATH, READER_PATH, SEARCH_PATH } from '@constants/routes'
+import { BASE_PATH, MANGA_NAME_SEARCH_PATH, MANGA_PATH, READER_PATH } from '@constants/routes'
 
 import { ApolloProvider } from '@apollo/client'
 
@@ -79,7 +79,7 @@ function App() {
             <div className="grow">
               <Routes>
                 <Route path={BASE_PATH} element={<Home />} />
-                <Route path={SEARCH_PATH} element={<Search />} />
+                <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
                 <Route path={MANGA_PATH} element={<Manga />} />
                 <Route path={READER_PATH} element={<Reader />} />
               </Routes>

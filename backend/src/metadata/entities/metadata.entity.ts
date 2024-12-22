@@ -1,5 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Alternative } from './Alternative.entity'
+import { Alternative } from './alternative.entity'
+import { Chapter } from './chapter.entity'
+import { Author } from 'src/author/entities/author.entity'
 
 @ObjectType()
 export class Metadata {
@@ -15,8 +17,8 @@ export class Metadata {
   @Field(() => String)
   status: string
 
-  @Field(() => String)
-  author: string
+  @Field(() => Author)
+  author: Author
 
   @Field(() => String, { nullable: true })
   cover: string
@@ -24,6 +26,6 @@ export class Metadata {
   @Field(() => String)
   description: string
 
-  @Field(() => [String])
-  chapters: string[]
+  @Field(() => [Chapter])
+  chapters: Chapter[]
 }
