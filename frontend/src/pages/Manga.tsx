@@ -9,6 +9,7 @@ import MangaInfo, { IManga } from '@components/Manga/Info'
 import { GET_METADATA } from '@gql/manga'
 
 import { useQuery } from '@apollo/client'
+import { getLanguageName } from '@lib/lang-iso'
 
 const initialValue: IManga = {
   id: '',
@@ -38,6 +39,7 @@ const Manga: React.FC = (): JSX.Element => {
 
   const [manga, setManga] = useState<IManga>(initialValue)
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('All')
 
   useEffect(() => {
     if (!loading && data?.metadata) {
@@ -56,15 +58,16 @@ const Manga: React.FC = (): JSX.Element => {
   }, [loading, data])
 
   const orderedChapters = () => {
-    switch (order) {
-      case 'asc':
-        return [...manga.chapters].sort((a, b) => parseFloat(a.chapter) - parseFloat(b.chapter))
-      case 'desc':
-        return [...manga.chapters].sort((a, b) => parseFloat(b.chapter) - parseFloat(a.chapter))
-      default:
-        return manga.chapters
-    }
+    const filteredChapters =
+      selectedLanguage === 'All'
+        ? manga.chapters
+        : manga.chapters.filter((chapter) => chapter.translatedLanguage === selectedLanguage)
+    return order === 'asc'
+      ? [...filteredChapters].sort((a, b) => parseFloat(a.chapter) - parseFloat(b.chapter))
+      : [...filteredChapters].sort((a, b) => parseFloat(b.chapter) - parseFloat(a.chapter))
   }
+
+  const languages = ['All', ...new Set(manga.chapters.map((chapter) => chapter.translatedLanguage))]
 
   if (error) toast.error(error.message)
 
@@ -85,7 +88,7 @@ const Manga: React.FC = (): JSX.Element => {
           ) : (
             <img
               src={manga.cover}
-              about="cover"
+              alt="cover"
               referrerPolicy="no-referrer"
               loading="lazy"
               className="w-full rounded-lg border border-white/25 md:w-[300px]"
@@ -102,6 +105,21 @@ const Manga: React.FC = (): JSX.Element => {
         ) : (
           <MangaInfo manga={manga} />
         )}
+      </div>
+      <div className="mt-4">
+        <ul className="flex space-x-4">
+          {languages.map((lang) => (
+            <li
+              key={lang}
+              onClick={() => setSelectedLanguage(lang)}
+              className={`cursor-pointer px-4 py-2 ${
+                selectedLanguage === lang ? 'border-b-2 border-white text-white' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              {lang === 'All' ? 'All' : getLanguageName(lang)}
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="mt-4 flex flex-row justify-between">
         <h1 className="text-2xl font-bold">Chapters</h1>
@@ -121,19 +139,13 @@ const Manga: React.FC = (): JSX.Element => {
           </button>
         )}
       </div>
-      {loading ? (
-        <div className="mt-10 text-center">
-          <ThreeDot color="#0A81AB" size="medium" />
-        </div>
-      ) : (
-        <div>
-          {manga.chapters.length > 0 ? (
-            <MangaChapters id={manga.id} chapters={orderedChapters()} />
-          ) : (
-            <span>No chapters available</span>
-          )}
-        </div>
-      )}
+      <div>
+        {manga.chapters.length > 0 ? (
+          <MangaChapters id={manga.id} chapters={orderedChapters()} />
+        ) : (
+          <span>No chapters available</span>
+        )}
+      </div>
     </div>
   )
 }

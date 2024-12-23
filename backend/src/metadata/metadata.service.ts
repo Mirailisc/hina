@@ -99,7 +99,6 @@ export class MetadataService {
           params: {
             manga: id,
             contentRating,
-            translatedLanguage: ['en'],
             includeFutureUpdates: 1,
             order: {
               createdAt: 'asc',
@@ -116,12 +115,13 @@ export class MetadataService {
 
         const { data: chapters } = data
 
-        const chapterIds = chapters.map((chapter) => {
+        const chapterIds = chapters.map((chapter, index) => {
           return {
             id: chapter.id,
-            chapter: chapter.attributes.chapter,
+            chapter: chapter.attributes.chapter ?? (index + 1).toString(),
             volume: chapter.attributes.volume,
             title: chapter.attributes.title,
+            translatedLanguage: chapter.attributes.translatedLanguage,
             publishAt: chapter.attributes.publishAt,
           }
         })

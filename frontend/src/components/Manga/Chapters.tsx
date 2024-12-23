@@ -1,11 +1,13 @@
+import { FaRegClock } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 import moment from 'moment'
 
+import { isoCodeToFlagEmoji } from '@lib/lang-iso'
+
 import { READER_PATH } from '@constants/routes'
 
 import { IChapter } from './Info'
-import { FaRegClock } from 'react-icons/fa'
 
 type Props = {
   id: string
@@ -21,17 +23,21 @@ const MangaChapters: React.FC<Props> = ({ id, chapters }: Props): JSX.Element =>
             to={{
               pathname: READER_PATH.replace(':id', id).replace(':chapterId', chapter.id),
             }}
-            key={`chapter-${chapter.chapter}-${index}`}
+            key={`chapter-${chapter.chapter}-${index}-${chapter.translatedLanguage}`}
           >
             <div className="mt-4 rounded-lg bg-white/10 px-4 py-2 transition-colors duration-200 hover:bg-white/20">
               <div className="flex flex-col justify-between gap-2 md:flex-row md:items-start md:gap-0">
                 <div>
                   <div className="text-white">
-                    {chapter.volume ? `Vol. ${chapter.volume} ` : ''} Ch. {chapter.chapter}
+                    {isoCodeToFlagEmoji(chapter.translatedLanguage)} {chapter.volume ? `Vol. ${chapter.volume} ` : ''}{' '}
+                    Ch. {chapter.chapter}
                   </div>
                   {chapter.title && <div className="text-white">{chapter.title}</div>}
                 </div>
-                <div className='flex flex-row items-center justify-end gap-2'><FaRegClock />{moment(chapter.publishAt).fromNow()}</div>
+                <div className="flex flex-row items-center justify-end gap-2">
+                  <FaRegClock />
+                  {moment(chapter.publishAt).fromNow()}
+                </div>
               </div>
             </div>
           </Link>

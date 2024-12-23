@@ -10,6 +10,7 @@ export interface IChapter {
   chapter: string
   volume?: string
   title?: string
+  translatedLanguage: string
   publishAt: string
 }
 

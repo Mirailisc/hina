@@ -21,6 +21,7 @@ export const GET_METADATA = gql`
         title
         chapter
         volume
+        translatedLanguage
         publishAt
       }
       cover

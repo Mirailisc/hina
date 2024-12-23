@@ -15,6 +15,7 @@ type Chapter {
   chapter: String!
   volume: String
   title: String
+  translatedLanguage: String!
   publishAt: String!
 }
 
@@ -46,11 +47,32 @@ type Author {
   totalPage: Int!
 }
 
+type Social {
+  twitter: String
+  pixiv: String
+  melonBook: String
+  fanBox: String
+  nicoVideo: String
+  fantia: String
+  tumblr: String
+  youtube: String
+  weibo: String
+  website: String
+}
+
+type AuthorInfo {
+  id: String!
+  name: String!
+  social: Social
+  mangas: [MangaSearch!]
+}
+
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
   searchByTags(input: SearchTagsInput!): [MangaSearch!]!
   metadata(id: MetadataInput!): Metadata!
   getAuthors(input: AuthorsInput!): [Author!]!
+  getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
 }
 
@@ -94,6 +116,15 @@ input AuthorsInput {
 
   """Author name"""
   name: String! = ""
+}
+
+"""This input is used to get author information and related mangas"""
+input AuthorInput {
+  """Author Id"""
+  id: String!
+
+  """Manga page number"""
+  mangaPage: Int! = 1
 }
 
 """View manga chapter images"""

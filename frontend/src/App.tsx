@@ -17,6 +17,7 @@ import { SearchProvider } from '@context/provider/SearchProvider'
 
 import {
   AUTHORS_PATH,
+  AUTHOR_PATH,
   BASE_PATH,
   BASE_PATH_WITH_PAGE,
   MANGA_NAME_SEARCH_PATH,
@@ -31,6 +32,7 @@ const Manga = React.lazy(() => import('@pages/Manga'))
 const Reader = React.lazy(() => import('@pages/Reader'))
 const Search = React.lazy(() => import('@pages/Search'))
 const Authors = React.lazy(() => import('@pages/Author'))
+const Author = React.lazy(() => import('@pages/Author/_id'))
 
 function App() {
   const location = useLocation()
@@ -90,6 +92,7 @@ function App() {
                 <Route path={BASE_PATH_WITH_PAGE} element={<Home />} />
 
                 <Route path={AUTHORS_PATH} element={<Authors />} />
+                <Route path={AUTHOR_PATH} element={<Author />} />
 
                 <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
                 <Route path={MANGA_PATH} element={<Manga />} />

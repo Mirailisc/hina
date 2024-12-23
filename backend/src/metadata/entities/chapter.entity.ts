@@ -15,5 +15,8 @@ export class Chapter {
   title: string
 
   @Field(() => String)
+  translatedLanguage: string
+
+  @Field(() => String)
   publishAt: string
 }

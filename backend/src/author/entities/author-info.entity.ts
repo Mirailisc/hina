@@ -5,9 +5,6 @@ import { AuthorNoTotal } from './author-no-total.entity'
 
 @ObjectType()
 export class AuthorInfo extends AuthorNoTotal {
-  @Field(() => String, { nullable: true })
-  imageUrl: string
-
   @Field(() => Social, { nullable: true })
   social: Social
 

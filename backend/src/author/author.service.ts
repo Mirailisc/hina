@@ -80,14 +80,13 @@ export class AuthorService {
       const authorInfo: AuthorInfo = {
         id: author.id,
         name: author.attributes.name,
-        imageUrl: author.attributes.imageUrl,
         mangas: relatedManga,
         social: {
           twitter: author.attributes.twitter,
           pixiv: author.attributes.pixiv,
-          melonBook: author.attributes.melonbook,
-          fanBox: author.attributes.fanbox,
-          nicoVideo: author.attributes.nicovideo,
+          melonBook: author.attributes.melonBook,
+          fanBox: author.attributes.fanBox,
+          nicoVideo: author.attributes.nicoVideo,
           fantia: author.attributes.fantia,
           tumblr: author.attributes.tumblr,
           youtube: author.attributes.youtube,
