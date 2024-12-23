@@ -46,7 +46,7 @@ const Authors: React.FC = (): JSX.Element => {
   }, [error])
 
   return (
-    <div className="flex flex-col p-4 lg:min-h-[80vh]">
+    <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
       <div className="mt-4">
         <input
           type="text"

@@ -107,8 +107,9 @@ export class AuthorService {
   }
 
   async getAuthors(page: number, name: string): Promise<AuthorSearch[]> {
-    const cacheKey = name
-      ? `authors:${name}-page:${page}`
+    const searchName = name.toLowerCase()
+    const cacheKey = searchName
+      ? `authors:${searchName}-page:${page}`
       : `authors-page:${page}`
     this.logger.log(`Fetching authors for page ${page}`)
 
@@ -122,7 +123,7 @@ export class AuthorService {
       const { data } = await axiosInstance.get(MANGADEX_API + '/author', {
         params: {
           limit: LIMIT,
-          name: name ? name : null,
+          name: searchName ? searchName : null,
           offset: (page - 1) * LIMIT,
           order: {
             name: 'asc',

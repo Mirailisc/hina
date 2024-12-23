@@ -56,6 +56,10 @@ const Reader: React.FC = (): JSX.Element => {
   }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
+    document.title = `Chapter ${currentChapterIndex} | MangaDiddy`
+  }, [currentChapterIndex])
+
+  useEffect(() => {
     fetchImages()
   }, [fetchImages])
 

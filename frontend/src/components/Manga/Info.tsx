@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 
 import remarkGfm from 'remark-gfm'
 
+import { AUTHOR_PATH } from '@constants/routes'
+
 import Status from './Status'
 
 export interface IChapter {
@@ -44,7 +46,7 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
       <div className="mt-2 text-xs">
         {manga.alternative.en} {manga.alternative.ja} {manga.alternative.romaji}
       </div>
-      <Link to={`/read/${manga.id}`}>
+      <Link to={AUTHOR_PATH.replace(':id', manga.author.id)}>
         <div className="my-2">Author: {manga.author.name}</div>
       </Link>
       <div className="text-white/50">

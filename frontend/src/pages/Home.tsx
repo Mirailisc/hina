@@ -81,7 +81,7 @@ const Home: React.FC = (): JSX.Element => {
             placeholder="Search..."
             className="w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
           />
-          <h1 className="mt-4 text-2xl font-bold">Explore</h1>
+          <h1 className="mt-4 text-2xl font-bold">Recent Updates</h1>
         </div>
         <div className="w-full">
           {loading ? (

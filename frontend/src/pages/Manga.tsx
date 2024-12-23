@@ -72,13 +72,9 @@ const Manga: React.FC = (): JSX.Element => {
 
   if (error) toast.error(error.message)
 
-  if (loading) {
-    return (
-      <div className="mt-4 text-center">
-        <ThreeDot color="#0A81AB" size="medium" />
-      </div>
-    )
-  }
+  useEffect(() => {
+    document.title = `${manga.title} | MangaDiddy`
+  }, [manga.title])
 
   return (
     <div className="m-auto w-full px-4 py-10 md:px-0 xl:w-[1280px]">
@@ -141,13 +137,19 @@ const Manga: React.FC = (): JSX.Element => {
           </button>
         )}
       </div>
-      <div>
-        {manga.chapters.length > 0 ? (
-          <MangaChapters id={manga.id} chapters={orderedChapters()} />
-        ) : (
-          <span>No chapters available</span>
-        )}
-      </div>
+      {loading ? (
+        <div className="mt-4 text-center">
+          <ThreeDot color="#0A81AB" size="medium" />
+        </div>
+      ) : (
+        <div>
+          {manga.chapters.length > 0 ? (
+            <MangaChapters id={manga.id} chapters={orderedChapters()} />
+          ) : (
+            <span>No chapters available</span>
+          )}
+        </div>
+      )}
     </div>
   )
 }
