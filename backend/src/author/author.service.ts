@@ -5,13 +5,13 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
-import { Author } from './entities/author.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
 import { MANGADEX_API } from 'src/lib/constants'
 import { SearchService } from 'src/search/search.service'
-import { AuthorInfo } from './entities/author-info.entity'
+import { AuthorInfo } from './entities/AuthorInfo.entity'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
+import { AuthorSearch } from './entities/AuthorSearch.entity'
 
 const LIMIT = 100
 const MANGA_LIMIT = 12
@@ -106,13 +106,13 @@ export class AuthorService {
     }
   }
 
-  async getAuthors(page: number, name: string): Promise<Author[]> {
+  async getAuthors(page: number, name: string): Promise<AuthorSearch[]> {
     const cacheKey = name
       ? `authors:${name}-page:${page}`
       : `authors-page:${page}`
     this.logger.log(`Fetching authors for page ${page}`)
 
-    const cachedAuthors = await this.cacheManager.get<Author[]>(cacheKey)
+    const cachedAuthors = await this.cacheManager.get<AuthorSearch[]>(cacheKey)
     if (cachedAuthors) {
       this.logger.log(`Returning cached authors for page ${page}`)
       return cachedAuthors
@@ -132,13 +132,13 @@ export class AuthorService {
 
       const { data: authors } = data
 
-      const searchResults: Author[] = await Promise.all(
+      const searchResults: AuthorSearch[] = await Promise.all(
         authors.map((info) => {
           const { attributes } = info
 
           const totalPage = Math.ceil(data.total / LIMIT)
 
-          const result: Author = {
+          const result: AuthorSearch = {
             id: info.id,
             name: attributes.name,
             totalPage,

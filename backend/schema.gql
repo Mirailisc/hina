@@ -19,15 +19,15 @@ type Chapter {
   publishAt: String!
 }
 
-type AuthorNoTotal {
-  id: String!
-  name: String!
-}
-
 type Alternative {
   en: String
   ja: String
   romaji: String
+}
+
+type Author {
+  id: String!
+  name: String!
 }
 
 type Metadata {
@@ -35,16 +35,10 @@ type Metadata {
   title: String!
   alternative: Alternative!
   status: String!
-  author: AuthorNoTotal!
+  author: Author!
   cover: String
   description: String!
   chapters: [Chapter!]!
-}
-
-type Author {
-  id: String!
-  name: String!
-  totalPage: Int!
 }
 
 type Social {

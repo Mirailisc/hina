@@ -1,10 +1,10 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Social } from './social.entity'
+import { Social } from './Social.entity'
 import { MangaSearch } from 'src/search/entities/MangaSearch.entity'
-import { AuthorNoTotal } from './author-no-total.entity'
+import { Author } from './Author'
 
 @ObjectType()
-export class AuthorInfo extends AuthorNoTotal {
+export class AuthorInfo extends Author {
   @Field(() => Social, { nullable: true })
   social: Social
 
