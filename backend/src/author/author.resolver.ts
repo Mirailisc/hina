@@ -1,10 +1,10 @@
 import { Resolver, Query, Args } from '@nestjs/graphql'
 import { AuthorService } from './author.service'
-import { AuthorSearch } from './entities/authorsearch.entity'
+import { AuthorSearch } from './entities/AuthorSearch.entity'
 import { AuthorsInput } from './dto/authors.input'
-import { AuthorInfo } from './entities/authorinfo.entity'
+import { AuthorInfo } from './entities/AuthorInfo.entity'
 import { AuthorInput } from './dto/author'
-import { Author } from './entities/author.entity'
+import { Author } from './entities/Author.entity'
 
 @Resolver(() => Author)
 export class AuthorResolver {

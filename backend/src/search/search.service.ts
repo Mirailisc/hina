@@ -1,5 +1,5 @@
 import { Injectable, Inject, Logger, forwardRef } from '@nestjs/common'
-import { MangaSearch } from './entities/mangasearch.entity'
+import { MangaSearch } from './entities/MangaSearch.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
 import { MetadataService } from 'src/metadata/metadata.service'
