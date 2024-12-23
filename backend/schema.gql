@@ -41,6 +41,12 @@ type Metadata {
   chapters: [Chapter!]!
 }
 
+type AuthorSearch {
+  id: String!
+  name: String!
+  totalPage: Int!
+}
+
 type Social {
   twitter: String
   pixiv: String
@@ -65,7 +71,7 @@ type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
   searchByTags(input: SearchTagsInput!): [MangaSearch!]!
   metadata(id: MetadataInput!): Metadata!
-  getAuthors(input: AuthorsInput!): [Author!]!
+  getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
 }

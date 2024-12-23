@@ -4,13 +4,12 @@ import { AuthorSearch } from './entities/AuthorSearch.entity'
 import { AuthorsInput } from './dto/authors.input'
 import { AuthorInfo } from './entities/AuthorInfo.entity'
 import { AuthorInput } from './dto/author'
-import { Author } from './entities/Author.entity'
 
-@Resolver(() => Author)
+@Resolver(() => AuthorSearch)
 export class AuthorResolver {
   constructor(private readonly authorService: AuthorService) {}
 
-  @Query(() => [Author])
+  @Query(() => [AuthorSearch])
   async getAuthors(
     @Args('input') input: AuthorsInput,
   ): Promise<AuthorSearch[]> {

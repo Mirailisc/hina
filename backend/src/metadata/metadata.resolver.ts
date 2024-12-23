@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql'
 import { MetadataService } from './metadata.service'
-import { Metadata } from './entities/Metadata.entity'
+import { Metadata } from './entities/metadata.entity'
 import { MetadataInput } from './dto/get-metadata.input'
 
 @Resolver(() => Metadata)
