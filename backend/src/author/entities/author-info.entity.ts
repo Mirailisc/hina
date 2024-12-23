@@ -1,15 +1,10 @@
 import { ObjectType, Field } from '@nestjs/graphql'
 import { Social } from './social.entity'
 import { MangaSearch } from 'src/search/entities/MangaSearch.entity'
+import { AuthorNoTotal } from './author-no-total.entity'
 
 @ObjectType()
-export class AuthorInfo {
-  @Field(() => String)
-  id: string
-
-  @Field(() => String)
-  name: string
-
+export class AuthorInfo extends AuthorNoTotal {
   @Field(() => String, { nullable: true })
   imageUrl: string
 

@@ -13,12 +13,12 @@ export class AppController {
     return this.appService.getHealth()
   }
 
-  @Get('*')
-  serveReactApp(@Res() res: Response) {
-    if (isDev) {
-      throw new NotFoundException('Not found')
-    } else {
-      res.sendFile(join(__dirname, '..', 'public', 'index.html'))
-    }
-  }
+  // @Get('*')
+  // serveReactApp(@Res() res: Response) {
+  //   if (isDev) {
+  //     throw new NotFoundException('Not found')
+  //   } else {
+  //     res.sendFile(join(__dirname, '..', 'public', 'index.html'))
+  //   }
+  // }
 }

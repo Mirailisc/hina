@@ -1,4 +1,5 @@
 export const BASE_PATH = '/'
+export const BASE_PATH_WITH_PAGE = BASE_PATH + ':page/'
 
 export const AUTHORS_PATH = BASE_PATH + 'authors/'
 

@@ -11,4 +11,10 @@ export class SearchInput {
     defaultValue: 10,
   })
   amount: number
+
+  @Field(() => Int, {
+    description: 'Page number',
+    defaultValue: 1,
+  })
+  page: number
 }

@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common'
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import { Author } from './entities/author.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
@@ -7,7 +13,7 @@ import { SearchService } from 'src/search/search.service'
 import { AuthorInfo } from './entities/author-info.entity'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 
-const LIMIT = 60
+const LIMIT = 100
 const MANGA_LIMIT = 12
 
 @Injectable()
@@ -46,11 +52,9 @@ export class AuthorService {
       await this.cacheManager.set(cacheKey, result)
       return result
     } catch (error) {
-      this.logger.error(`Error fetching author ${id}: ${error.message}`)
-      return {
-        id,
-        name: '',
-      }
+      throw new InternalServerErrorException(
+        `Error fetching author ${id}: ${error.message}`,
+      )
     }
   }
 
@@ -97,15 +101,16 @@ export class AuthorService {
 
       return authorInfo
     } catch (error) {
-      this.logger.error(
+      throw new InternalServerErrorException(
         `Error fetching author info for ${id}: ${error.message}`,
       )
-      return null
     }
   }
 
-  async getAuthors(page: number): Promise<Author[]> {
-    const cacheKey = `authors:page:${page}`
+  async getAuthors(page: number, name: string): Promise<Author[]> {
+    const cacheKey = name
+      ? `authors:${name}-page:${page}`
+      : `authors-page:${page}`
     this.logger.log(`Fetching authors for page ${page}`)
 
     const cachedAuthors = await this.cacheManager.get<Author[]>(cacheKey)
@@ -118,6 +123,7 @@ export class AuthorService {
       const { data } = await axiosInstance.get(MANGADEX_API + '/author', {
         params: {
           limit: LIMIT,
+          name: name ? name : null,
           offset: (page - 1) * LIMIT,
           order: {
             name: 'asc',
@@ -126,17 +132,17 @@ export class AuthorService {
       })
 
       const { data: authors } = data
-      this.logger.log(
-        `Received ${authors.length} authors from API for page ${page}`,
-      )
 
       const searchResults: Author[] = await Promise.all(
         authors.map((info) => {
           const { attributes } = info
 
+          const totalPage = Math.ceil(data.total / LIMIT)
+
           const result: Author = {
             id: info.id,
             name: attributes.name,
+            totalPage,
           }
 
           return result
@@ -148,10 +154,9 @@ export class AuthorService {
 
       return searchResults
     } catch (error) {
-      this.logger.error(
+      throw new InternalServerErrorException(
         `Error fetching authors for page ${page}: ${error.message}`,
       )
-      return []
     }
   }
 }

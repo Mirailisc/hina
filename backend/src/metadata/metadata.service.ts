@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common'
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
@@ -37,8 +43,6 @@ export class MetadataService {
 
       const coverImageUrl = await this.getCoverImage(id)
 
-      console.log(coverImageUrl)
-
       const result: Metadata = {
         id: metadata.id,
         title: metadata.attributes.title.en,
@@ -70,8 +74,9 @@ export class MetadataService {
 
       return result
     } catch (error) {
-      this.logger.error(`Error fetching metadata for ${id}: ${error.message}`)
-      throw new Error(`Unable to fetch metadata for manga ID: ${id}`)
+      throw new InternalServerErrorException(
+        `Error fetching metadata for ${id}: ${error.message}`,
+      )
     }
   }
 
@@ -131,8 +136,9 @@ export class MetadataService {
 
       return allChapterIds
     } catch (error) {
-      this.logger.error(`Error fetching chapters for ${id}: ${error.message}`)
-      return []
+      throw new InternalServerErrorException(
+        `Error fetching chapters for manga ${id}: ${error.message}`,
+      )
     }
   }
 
@@ -155,10 +161,9 @@ export class MetadataService {
         return null
       }
     } catch (error) {
-      this.logger.error(
+      throw new InternalServerErrorException(
         `Error fetching cover for manga ${id}: ${error.message}`,
       )
-      return null
     }
   }
 }

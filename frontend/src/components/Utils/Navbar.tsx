@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { useSearch } from '@hooks/useSearch'
 
-import { BASE_PATH } from '@constants/routes'
+import { AUTHORS_PATH, BASE_PATH } from '@constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -20,7 +21,9 @@ const Navbar: React.FC = (): JSX.Element => {
           MangaDiddy
         </div>
         <div className="hidden flex-row items-center gap-2 md:flex">
-          <div>Authors</div>
+          <Link className="transition-colors duration-200 hover:text-primary-500" to={AUTHORS_PATH}>
+            Authors
+          </Link>
           <div>Tags</div>
         </div>
       </div>

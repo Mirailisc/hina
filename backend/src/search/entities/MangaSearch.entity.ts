@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql'
+import { ObjectType, Field, Int } from '@nestjs/graphql'
 
 @ObjectType()
 export class MangaSearch {
@@ -13,4 +13,7 @@ export class MangaSearch {
 
   @Field(() => String, { nullable: true })
   cover: string
+
+  @Field(() => Int)
+  totalPage: number
 }

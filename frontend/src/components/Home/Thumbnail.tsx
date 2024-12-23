@@ -7,13 +7,14 @@ export interface IMangaSearch {
   title: string
   status: string
   cover: string
+  totalPage: number
 }
 
 type Props = {
   data: IMangaSearch
 }
 
-const MangaCard: React.FC<Props> = ({ data }: Props): JSX.Element => {
+const Thumbnail: React.FC<Props> = ({ data }: Props): JSX.Element => {
   return (
     <Link
       className="w-[180px] rounded-lg border border-white/20 transition-transform hover:scale-105 sm:w-[200px]"
@@ -35,4 +36,4 @@ const MangaCard: React.FC<Props> = ({ data }: Props): JSX.Element => {
   )
 }
 
-export default MangaCard
+export default Thumbnail

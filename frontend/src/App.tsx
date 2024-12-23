@@ -15,7 +15,14 @@ import { client } from '@lib/apollo'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
-import { BASE_PATH, MANGA_NAME_SEARCH_PATH, MANGA_PATH, READER_PATH } from '@constants/routes'
+import {
+  AUTHORS_PATH,
+  BASE_PATH,
+  BASE_PATH_WITH_PAGE,
+  MANGA_NAME_SEARCH_PATH,
+  MANGA_PATH,
+  READER_PATH,
+} from '@constants/routes'
 
 import { ApolloProvider } from '@apollo/client'
 
@@ -23,6 +30,7 @@ const Home = React.lazy(() => import('@pages/Home'))
 const Manga = React.lazy(() => import('@pages/Manga'))
 const Reader = React.lazy(() => import('@pages/Reader'))
 const Search = React.lazy(() => import('@pages/Search'))
+const Authors = React.lazy(() => import('@pages/Author'))
 
 function App() {
   const location = useLocation()
@@ -79,8 +87,13 @@ function App() {
             <div className="grow">
               <Routes>
                 <Route path={BASE_PATH} element={<Home />} />
+                <Route path={BASE_PATH_WITH_PAGE} element={<Home />} />
+
+                <Route path={AUTHORS_PATH} element={<Authors />} />
+
                 <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
                 <Route path={MANGA_PATH} element={<Manga />} />
+
                 <Route path={READER_PATH} element={<Reader />} />
               </Routes>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ThreeDot } from 'react-loading-indicators'
 import { useParams } from 'react-router-dom'
@@ -40,30 +40,24 @@ const Reader: React.FC = (): JSX.Element => {
     skip: mangaLoading || chapters.length === 0,
   })
 
+  const fetchImages = useCallback(() => {
+    if (!loading && data?.chapterImages) {
+      setImages(data.chapterImages)
+    }
+  }, [loading, data])
+
   useEffect(() => {
     if (!mangaLoading && mangaInfo?.metadata?.chapters) {
-      setChapters((prevChapters) => {
-        const newChapters = mangaInfo.metadata.chapters.map((chapter: { id: string }) => ({
-          id: chapter.id,
-        }))
-        if (JSON.stringify(prevChapters) !== JSON.stringify(newChapters)) {
-          return newChapters
-        }
-        return prevChapters
-      })
+      const newChapters = mangaInfo.metadata.chapters.map((chapter: { id: string }) => ({
+        id: chapter.id,
+      }))
+      setChapters(newChapters)
     }
   }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
-    if (!loading && data?.chapterImages) {
-      setImages((prevImages) => {
-        if (JSON.stringify(prevImages) !== JSON.stringify(data.chapterImages)) {
-          return data.chapterImages
-        }
-        return prevImages
-      })
-    }
-  }, [loading, data])
+    fetchImages()
+  }, [fetchImages])
 
   useEffect(() => {
     if (chapterId && !mangaLoading && chapters.length > 0) {
@@ -75,7 +69,7 @@ const Reader: React.FC = (): JSX.Element => {
         },
       })
     }
-  }, [chapterId, mangaLoading, chapters, refetch, nextChapters])
+  }, [chapterId, mangaLoading, chapters, refetch, nextChapters, fetchImages])
 
   if (error) {
     toast.error(error.message)
@@ -103,16 +97,10 @@ const Reader: React.FC = (): JSX.Element => {
     <div className="flex flex-col items-center justify-center">
       <Titlebar mangaId={id as string} totalChapters={chapters.length} currentChapter={currentChapterIndex} />
       <Controller chapterStates={chapterStates} />
-      {images.map((image, index) => (
-        <img
-          referrerPolicy="no-referrer"
-          loading="lazy"
-          key={`${chapterId}-${index}`}
-          src={image}
-          alt={`page${index}`}
-          className="w-full md:w-1/2"
-        />
-      ))}
+      {images.length > 0 &&
+        images.map((image, index) => (
+          <img key={image} src={image} alt={`page-${index}`} className="w-full md:w-1/2" referrerPolicy="no-referrer" />
+        ))}
     </div>
   )
 }

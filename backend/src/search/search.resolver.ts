@@ -12,7 +12,7 @@ export class SearchResolver {
   async searchMetadata(
     @Args('input') input: SearchInput,
   ): Promise<MangaSearch[]> {
-    return await this.searchService.search(input.name, input.amount)
+    return await this.searchService.search(input.name, input.amount, input.page)
   }
 
   @Query(() => [MangaSearch])

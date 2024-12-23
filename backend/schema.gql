@@ -7,6 +7,7 @@ type MangaSearch {
   title: String
   status: String!
   cover: String
+  totalPage: Int!
 }
 
 type Alternative {
@@ -23,7 +24,7 @@ type Chapter {
   publishAt: String!
 }
 
-type Author {
+type AuthorNoTotal {
   id: String!
   name: String!
 }
@@ -33,10 +34,16 @@ type Metadata {
   title: String!
   alternative: Alternative!
   status: String!
-  author: Author!
+  author: AuthorNoTotal!
   cover: String
   description: String!
   chapters: [Chapter!]!
+}
+
+type Author {
+  id: String!
+  name: String!
+  totalPage: Int!
 }
 
 type Query {
@@ -54,6 +61,9 @@ input SearchInput {
 
   """Search limit"""
   amount: Int = 10
+
+  """Page number"""
+  page: Int! = 1
 }
 
 """Search manga by tags from MangaDex API"""
@@ -81,6 +91,9 @@ input MetadataInput {
 input AuthorsInput {
   """Page number"""
   page: Int! = 1
+
+  """Author name"""
+  name: String! = ""
 }
 
 """View manga chapter images"""

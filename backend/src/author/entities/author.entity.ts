@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql'
+import { ObjectType, Field, Int } from '@nestjs/graphql'
 
 @ObjectType()
 export class Author {
@@ -7,4 +7,7 @@ export class Author {
 
   @Field(() => String)
   name: string
+
+  @Field(() => Int)
+  totalPage: number
 }

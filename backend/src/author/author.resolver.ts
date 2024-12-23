@@ -9,6 +9,6 @@ export class AuthorResolver {
 
   @Query(() => [Author])
   async getAuthors(@Args('input') input: AuthorsInput): Promise<Author[]> {
-    return await this.authorService.getAuthors(input.page)
+    return await this.authorService.getAuthors(input.page, input.name)
   }
 }

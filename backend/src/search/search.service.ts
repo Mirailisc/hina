@@ -5,6 +5,8 @@ import { Cache } from 'cache-manager'
 import { MetadataService } from 'src/metadata/metadata.service'
 import { contentRating, MANGADEX_API } from 'src/lib/constants'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
+import { InternalServerErrorException } from '@nestjs/common'
+
 @Injectable()
 export class SearchService {
   private readonly logger = new Logger(SearchService.name)
@@ -15,45 +17,62 @@ export class SearchService {
     private readonly metadataService: MetadataService,
   ) {}
 
-  async search(name: string, limit: number): Promise<MangaSearch[]> {
+  async search(
+    name: string,
+    limit: number,
+    page: number,
+  ): Promise<MangaSearch[]> {
+    const cacheKey = `search:${name}:limit:${limit}:page:${page}`
     const lowercaseName = name.toLowerCase()
 
-    const cachedResults = await this.cacheManager.get(lowercaseName)
-    if (cachedResults) {
-      return cachedResults as MangaSearch[]
+    try {
+      const cachedResults = await this.cacheManager.get(cacheKey)
+      if (cachedResults) {
+        return cachedResults as MangaSearch[]
+      }
+
+      const { data } = await this.fetch({
+        limit,
+        title: lowercaseName,
+        offset: (page - 1) * limit,
+        contentRating,
+        'order[latestUploadedChapter]': 'desc',
+      })
+
+      const { data: searchResult } = data
+
+      const searchResults: MangaSearch[] = await Promise.all(
+        searchResult.map(async (info) => {
+          const { attributes } = info
+
+          const coverImageUrl = await this.metadataService.getCoverImage(
+            info.id,
+          )
+
+          const totalPage = Math.ceil(data.total / limit)
+
+          const result = {
+            id: info.id,
+            title: attributes.title.en || 'Untitled',
+            status: attributes.status,
+            cover: coverImageUrl,
+            totalPage,
+          }
+
+          return result
+        }),
+      )
+
+      await this.cacheManager.set(cacheKey, searchResults)
+
+      this.logger.log(`Search for ${name} got ${searchResults.length} results`)
+
+      return searchResults
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching search results for ${name}: ${error.message}`,
+      )
     }
-
-    const { data } = await this.fetch({
-      limit,
-      title: lowercaseName,
-      contentRating,
-      'order[latestUploadedChapter]': 'desc',
-    })
-
-    const { data: searchResult } = data
-
-    const searchResults: MangaSearch[] = await Promise.all(
-      searchResult.map(async (info) => {
-        const { attributes } = info
-
-        const coverImageUrl = await this.metadataService.getCoverImage(info.id)
-
-        const result = {
-          id: info.id,
-          title: attributes.title.en || 'Untitled',
-          status: attributes.status,
-          cover: coverImageUrl,
-        }
-
-        return result
-      }),
-    )
-
-    await this.cacheManager.set(lowercaseName, searchResults)
-
-    this.logger.log(`Search for ${name} got ${searchResults.length} results`)
-
-    return searchResults
   }
 
   async searchByTag(
@@ -62,39 +81,50 @@ export class SearchService {
     limit: number,
     page: number,
   ): Promise<MangaSearch[]> {
-    const { data } = await this.fetch({
-      limit,
-      offset: (page - 1) * limit,
-      includedTags,
-      excludedTags,
-      includedTagsMode: 'AND',
-      excludedTagsMode: 'OR',
-      contentRating,
-      'order[latestUploadedChapter]': 'desc',
-    })
+    try {
+      const { data } = await this.fetch({
+        limit,
+        offset: (page - 1) * limit,
+        includedTags,
+        excludedTags,
+        includedTagsMode: 'AND',
+        excludedTagsMode: 'OR',
+        contentRating,
+        'order[latestUploadedChapter]': 'desc',
+      })
 
-    const { data: searchResult } = data
+      const { data: searchResult } = data
 
-    const searchResults: MangaSearch[] = await Promise.all(
-      searchResult.map(async (info) => {
-        const { attributes } = info
+      const searchResults: MangaSearch[] = await Promise.all(
+        searchResult.map(async (info) => {
+          const { attributes } = info
 
-        const coverImageUrl = await this.metadataService.getCoverImage(info.id)
+          const coverImageUrl = await this.metadataService.getCoverImage(
+            info.id,
+          )
 
-        const result = {
-          id: info.id,
-          title: attributes.title.en || 'Untitled',
-          status: attributes.status,
-          cover: coverImageUrl,
-        }
+          const totalPage = Math.ceil(data.total / limit)
 
-        return result
-      }),
-    )
+          const result = {
+            id: info.id,
+            title: attributes.title.en || 'Untitled',
+            status: attributes.status,
+            cover: coverImageUrl,
+            totalPage,
+          }
 
-    this.logger.log(`Search for tags got ${searchResults.length} results`)
+          return result
+        }),
+      )
 
-    return searchResults
+      this.logger.log(`Search for tags got ${searchResults.length} results`)
+
+      return searchResults
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching search results by tag: ${error.message}`,
+      )
+    }
   }
 
   async searchByAuthor(
@@ -104,45 +134,56 @@ export class SearchService {
   ): Promise<MangaSearch[]> {
     const cacheKey = `searchByAuthor:${authorId}:limit:${limit}:page:${page}`
 
-    const cachedResults = await this.cacheManager.get<MangaSearch[]>(cacheKey)
-    if (cachedResults) {
-      return cachedResults
+    try {
+      const cachedResults = await this.cacheManager.get<MangaSearch[]>(cacheKey)
+      if (cachedResults) {
+        return cachedResults
+      }
+
+      const { data } = await this.fetch({
+        limit,
+        offset: (page - 1) * limit,
+        authorOrArtist: authorId,
+        contentRating,
+        'order[latestUploadedChapter]': 'desc',
+      })
+
+      const { data: searchResult } = data
+
+      const searchResults: MangaSearch[] = await Promise.all(
+        searchResult.map(async (info) => {
+          const { attributes } = info
+
+          const coverImageUrl = await this.metadataService.getCoverImage(
+            info.id,
+          )
+
+          const totalPage = Math.ceil(data.total / limit)
+
+          const result = {
+            id: info.id,
+            title: attributes.title.en || 'Untitled',
+            status: attributes.status,
+            cover: coverImageUrl,
+            totalPage,
+          }
+
+          return result
+        }),
+      )
+
+      await this.cacheManager.set(cacheKey, searchResults)
+
+      this.logger.log(
+        `Search by author ${authorId} got ${searchResults.length} results`,
+      )
+
+      return searchResults
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching search results by author ${authorId}: ${error.message}`,
+      )
     }
-
-    const { data } = await this.fetch({
-      limit,
-      offset: (page - 1) * limit,
-      authorOrArtist: authorId,
-      contentRating,
-      'order[latestUploadedChapter]': 'desc',
-    })
-
-    const { data: searchResult } = data
-
-    const searchResults: MangaSearch[] = await Promise.all(
-      searchResult.map(async (info) => {
-        const { attributes } = info
-
-        const coverImageUrl = await this.metadataService.getCoverImage(info.id)
-
-        const result = {
-          id: info.id,
-          title: attributes.title.en || 'Untitled',
-          status: attributes.status,
-          cover: coverImageUrl,
-        }
-
-        return result
-      }),
-    )
-
-    await this.cacheManager.set(cacheKey, searchResults)
-
-    this.logger.log(
-      `Search by author ${authorId} got ${searchResults.length} results`,
-    )
-
-    return searchResults
   }
 
   private async fetch(params: any) {

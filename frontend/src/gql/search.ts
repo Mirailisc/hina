@@ -7,6 +7,7 @@ export const SEARCH_MANGA = gql`
       title
       status
       cover
+      totalPage
     }
   }
 `
