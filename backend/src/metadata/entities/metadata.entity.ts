@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql'
 import { Chapter } from './chapter.entity'
-import { Alternative } from './alternative.entity'
+import { Alternative } from './Alternative.entity'
 import { Author } from 'src/author/entities/author.entity'
 
 @ObjectType()

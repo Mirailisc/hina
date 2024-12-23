@@ -12,7 +12,7 @@ import { Metadata } from './entities/metadata.entity'
 import { contentRating, MANGADEX_API } from 'src/lib/constants'
 import { Chapter } from './entities/chapter.entity'
 import { AuthorService } from 'src/author/author.service'
-import { Alternative } from './entities/alternative.entity'
+import { Alternative } from './entities/Alternative.entity'
 
 @Injectable()
 export class MetadataService {
