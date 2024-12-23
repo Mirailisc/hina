@@ -1,7 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Social } from './Social.entity'
-import { MangaSearch } from 'src/search/entities/MangaSearch.entity'
-import { Author } from './Author'
+import { Social } from './social.entity'
+import { MangaSearch } from 'src/search/entities/mangasearch.entity'
+import { Author } from './author.entity'
 
 @ObjectType()
 export class AuthorInfo extends Author {

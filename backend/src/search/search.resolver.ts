@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql'
 import { SearchService } from './search.service'
-import { MangaSearch } from './entities/MangaSearch.entity'
+import { MangaSearch } from './entities/mangasearch.entity'
 import { SearchInput } from './dto/search.input'
 import { SearchTagsInput } from './dto/search-tags.input'
 
