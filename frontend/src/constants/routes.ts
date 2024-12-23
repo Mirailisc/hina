@@ -4,6 +4,9 @@ export const BASE_PATH_WITH_PAGE = BASE_PATH + 'pages/:page/'
 export const AUTHORS_PATH = BASE_PATH + 'authors/'
 export const AUTHOR_PATH = AUTHORS_PATH + ':id/'
 
+export const TAGS_PATH = BASE_PATH + 'tags/'
+export const TAG_PATH = TAGS_PATH + ':id/'
+
 export const SEARCH_PATH = BASE_PATH + 'search/'
 export const MANGA_NAME_SEARCH_PATH = SEARCH_PATH + ':name/'
 

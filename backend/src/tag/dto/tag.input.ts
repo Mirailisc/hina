@@ -1,11 +1,10 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
 
 @InputType({
-  description:
-    'This input is used to get author information and related mangas',
+  description: 'This input is used to get tag information and related mangas',
 })
-export class AuthorInput {
-  @Field(() => String, { description: 'Author Id', nullable: false })
+export class TagInput {
+  @Field(() => String, { description: 'Tag id', nullable: false })
   id: string
 
   @Field(() => Int, {

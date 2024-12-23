@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ThreeDot } from 'react-loading-indicators'
 
-import Thumbnail, { IAuthorThumbnail } from '@components/Author/Thumbnail'
+import NameTag, { IAuthorThumbnail } from '@components/Author/NameTag'
 
 import { GET_ALL_AUTHORS } from '@gql/author'
 
@@ -66,7 +66,7 @@ const Authors: React.FC = (): JSX.Element => {
           <div className="flex-1 p-4">
             <div className="flex flex-wrap gap-4">
               {authors.map((author: IAuthorThumbnail) => (
-                <Thumbnail key={author.id} author={author} />
+                <NameTag key={author.id} author={author} />
               ))}
             </div>
           </div>

@@ -11,7 +11,7 @@ type Props = {
   author: IAuthorThumbnail
 }
 
-const Thumbnail: React.FC<Props> = ({ author }: Props): JSX.Element => {
+const NameTag: React.FC<Props> = ({ author }: Props): JSX.Element => {
   return (
     <Link to={AUTHOR_PATH.replace(':id', author.id)}>
       <div className="rounded-md bg-white/30 px-4 py-2">{author.name}</div>
@@ -19,4 +19,4 @@ const Thumbnail: React.FC<Props> = ({ author }: Props): JSX.Element => {
   )
 }
 
-export default Thumbnail
+export default NameTag

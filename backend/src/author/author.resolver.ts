@@ -3,7 +3,7 @@ import { AuthorService } from './author.service'
 import { AuthorSearch } from './entities/AuthorSearch.entity'
 import { AuthorsInput } from './dto/authors.input'
 import { AuthorInfo } from './entities/AuthorInfo.entity'
-import { AuthorInput } from './dto/author'
+import { AuthorInput } from './dto/author.input'
 
 @Resolver(() => AuthorSearch)
 export class AuthorResolver {

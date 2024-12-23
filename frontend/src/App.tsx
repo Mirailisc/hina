@@ -23,6 +23,7 @@ import {
   MANGA_NAME_SEARCH_PATH,
   MANGA_PATH,
   READER_PATH,
+  TAGS_PATH,
 } from '@constants/routes'
 
 import { ApolloProvider } from '@apollo/client'
@@ -33,6 +34,7 @@ const Reader = React.lazy(() => import('@pages/Reader'))
 const Search = React.lazy(() => import('@pages/Search'))
 const Authors = React.lazy(() => import('@pages/Author'))
 const Author = React.lazy(() => import('@pages/Author/_id'))
+const Tags = React.lazy(() => import('@pages/Tag'))
 
 function App() {
   const location = useLocation()
@@ -97,6 +99,8 @@ function App() {
 
                 <Route path={AUTHORS_PATH} element={<Authors />} />
                 <Route path={AUTHOR_PATH} element={<Author />} />
+
+                <Route path={TAGS_PATH} element={<Tags />} />
 
                 <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
                 <Route path={MANGA_PATH} element={<Manga />} />

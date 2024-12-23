@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { useSearch } from '@hooks/useSearch'
 
-import { AUTHORS_PATH, BASE_PATH } from '@constants/routes'
+import { AUTHORS_PATH, BASE_PATH, TAGS_PATH } from '@constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -34,7 +34,9 @@ const Navbar: React.FC = (): JSX.Element => {
             <Link className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100" to={AUTHORS_PATH}>
               Authors
             </Link>
-            <div className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100">Tags</div>
+            <Link to={TAGS_PATH} className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100">
+              Tags
+            </Link>
           </div>
           <button
             onClick={() => setHamburgerOpen(!hamburgerOpen)}
@@ -66,7 +68,12 @@ const Navbar: React.FC = (): JSX.Element => {
               >
                 Authors
               </Link>
-              <div className="w-full p-2 text-sm font-thin transition-colors duration-200 hover:bg-black/50">Tags</div>
+              <Link
+                to={TAGS_PATH}
+                className="w-full p-2 text-sm font-thin transition-colors duration-200 hover:bg-black/50"
+              >
+                Tags
+              </Link>
             </div>
           </motion.div>
         )}

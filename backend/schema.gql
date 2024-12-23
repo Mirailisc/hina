@@ -67,6 +67,11 @@ type AuthorInfo {
   mangas: [MangaSearch!]
 }
 
+type Tags {
+  id: String!
+  name: String!
+}
+
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
   searchByTags(input: SearchTagsInput!): [MangaSearch!]!
@@ -74,6 +79,7 @@ type Query {
   getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
+  getTags: [Tags!]!
 }
 
 """Search manga from MangaDex API"""
@@ -120,7 +126,7 @@ input AuthorsInput {
 
 """This input is used to get author information and related mangas"""
 input AuthorInput {
-  """Author Id"""
+  """Author id"""
   id: String!
 
   """Manga page number"""
