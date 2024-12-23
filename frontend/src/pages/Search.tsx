@@ -106,7 +106,7 @@ const Search: React.FC = (): JSX.Element => {
                 <span className="flex items-center px-4 py-2 text-lg font-medium">{page}</span>
                 <button
                   onClick={() => setPage((prev) => prev + 1)}
-                  disabled={searchResult[0].remaining < 100}
+                  disabled={searchResult[0].totalPage === page}
                   className="rounded-md bg-gray-200 px-4 py-2 text-black"
                 >
                   Next
