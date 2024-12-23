@@ -6,10 +6,11 @@ import { useParams } from 'react-router-dom'
 import MangaChapters from '@components/Manga/Chapters'
 import MangaInfo, { IManga } from '@components/Manga/Info'
 
+import { getLanguageName } from '@lib/lang-iso'
+
 import { GET_METADATA } from '@gql/manga'
 
 import { useQuery } from '@apollo/client'
-import { getLanguageName } from '@lib/lang-iso'
 
 const initialValue: IManga = {
   id: '',
@@ -106,7 +107,7 @@ const Manga: React.FC = (): JSX.Element => {
           <MangaInfo manga={manga} />
         )}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 overflow-x-auto">
         <ul className="flex space-x-4">
           {languages.map((lang) => (
             <li
@@ -121,6 +122,7 @@ const Manga: React.FC = (): JSX.Element => {
           ))}
         </ul>
       </div>
+
       <div className="mt-4 flex flex-row justify-between">
         <h1 className="text-2xl font-bold">Chapters</h1>
         {order === 'asc' ? (
