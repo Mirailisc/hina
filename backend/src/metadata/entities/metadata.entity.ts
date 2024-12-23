@@ -1,7 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Alternative } from './alternative.entity'
 import { Chapter } from './chapter.entity'
 import { AuthorNoTotal } from 'src/author/entities/author-no-total.entity'
+import { Alternative } from './alternative.entity'
 
 @ObjectType()
 export class Metadata {

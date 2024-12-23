@@ -10,12 +10,6 @@ type MangaSearch {
   totalPage: Int!
 }
 
-type Alternative {
-  en: String
-  ja: String
-  romaji: String
-}
-
 type Chapter {
   id: String!
   chapter: String!
@@ -27,6 +21,12 @@ type Chapter {
 type AuthorNoTotal {
   id: String!
   name: String!
+}
+
+type Alternative {
+  en: String
+  ja: String
+  romaji: String
 }
 
 type Metadata {
