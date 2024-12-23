@@ -113,7 +113,7 @@ jobs:
         run: pnpm install
 
       - name: Run Backend Build
-        run: pnpm backend:build
+        run: pnpm backend:build --verbose
 
   docker-build:
     name: Build Docker Image (Test)
