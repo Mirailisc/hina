@@ -56,7 +56,7 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
         <div className="my-4 flex flex-row items-center gap-4">
           <Link
             to={READER_PATH.replace(':id', manga.id).replace(':chapterId', manga.chapters[0].id)}
-            className="rounded bg-primary-500 px-4 py-2 text-white transition hover:bg-primary-600"
+            className="rounded-md bg-primary-500 px-4 py-2 text-white transition hover:bg-primary-600"
           >
             Read First
           </Link>
@@ -65,7 +65,7 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
               ':chapterId',
               manga.chapters[manga.chapters.length - 1].id,
             )}
-            className="rounded bg-green-500 px-4 py-2 text-white transition hover:bg-green-600"
+            className="rounded-md border border-white/20 px-4 py-2 text-white transition hover:bg-secondary-900"
           >
             Read Last
           </Link>

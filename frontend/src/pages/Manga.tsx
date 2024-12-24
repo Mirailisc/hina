@@ -73,7 +73,9 @@ const Manga: React.FC = (): JSX.Element => {
   if (error) toast.error(error.message)
 
   useEffect(() => {
-    document.title = `${manga.title} | MangaDiddy`
+    if (manga.title) {
+      document.title = `${manga.title} | MangaDiddy`
+    }
   }, [manga.title])
 
   return (

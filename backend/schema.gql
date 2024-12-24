@@ -80,6 +80,7 @@ type Query {
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
   getTags: [Tags!]!
+  getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
 }
 
 """Search manga from MangaDex API"""
@@ -143,4 +144,13 @@ input ReaderInput {
 
   """Image Quality"""
   quality: String! = "data"
+}
+
+"""This input is used to search related mangas by included tags"""
+input TagSearchInput {
+  """Include manga tags"""
+  includedTags: [String!]! = []
+
+  """Manga page number"""
+  page: Int! = 1
 }

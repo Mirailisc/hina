@@ -80,10 +80,6 @@ function App() {
     }
   }, [location.pathname])
 
-  useEffect(() => {
-    document.title = 'MangaDiddy'
-  }, [])
-
   return (
     <ApolloProvider client={client}>
       <Toaster position="bottom-right" />

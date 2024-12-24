@@ -1,8 +1,5 @@
-import { Controller, Get, NotFoundException, Res } from '@nestjs/common'
+import { Controller, Get } from '@nestjs/common'
 import { AppService } from './app.service'
-import { Response } from 'express'
-import { join } from 'path'
-import { isDev } from './lib/constants'
 
 @Controller()
 export class AppController {
@@ -12,13 +9,4 @@ export class AppController {
   getHealth(): { status: string } {
     return this.appService.getHealth()
   }
-
-  // @Get('*')
-  // serveReactApp(@Res() res: Response) {
-  //   if (isDev) {
-  //     throw new NotFoundException('Not found')
-  //   } else {
-  //     res.sendFile(join(__dirname, '..', 'public', 'index.html'))
-  //   }
-  // }
 }

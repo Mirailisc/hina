@@ -76,17 +76,25 @@ export class SearchService {
   }
 
   async searchByTag(
-    includedTags: string[],
-    excludedTags: string[],
+    includedTags: string[] = [],
     limit: number,
     page: number,
   ): Promise<MangaSearch[]> {
+    const cacheKey = `searchByTag:${includedTags.join(',')}:limit:${limit}:page:${page}`
+
     try {
+      const cachedResults = await this.cacheManager.get<MangaSearch[]>(cacheKey)
+      if (cachedResults) {
+        this.logger.log(
+          `Cache hit for search by tag with tags: ${includedTags.join(', ')}`,
+        )
+        return cachedResults
+      }
+
       const { data } = await this.fetch({
         limit,
         offset: (page - 1) * limit,
         includedTags,
-        excludedTags,
         includedTagsMode: 'AND',
         excludedTagsMode: 'OR',
         contentRating,
@@ -116,6 +124,8 @@ export class SearchService {
           return result
         }),
       )
+
+      await this.cacheManager.set(cacheKey, searchResults)
 
       this.logger.log(`Search for tags got ${searchResults.length} results`)
 

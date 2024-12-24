@@ -59,6 +59,10 @@ const Home: React.FC = (): JSX.Element => {
     }
   }, [data])
 
+  useEffect(() => {
+    document.title = 'MangaDiddy'
+  }, [])
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch({ ...search, name: e.target.value })
   }

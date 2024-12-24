@@ -11,3 +11,15 @@ export const SEARCH_MANGA = gql`
     }
   }
 `
+
+export const SEARCH_MANGA_BY_TAGS = gql`
+  query GetTags($input: SearchTagsInput!) {
+    searchByTags(input: $input) {
+      id
+      title
+      status
+      cover
+      totalPage
+    }
+  }
+`
