@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import remarkGfm from 'remark-gfm'
 
-import { AUTHOR_PATH } from '@constants/routes'
+import { AUTHOR_PATH, READER_PATH } from '@constants/routes'
 
 import Status from './Status'
 
@@ -55,13 +55,16 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
       {manga.chapters.length > 0 && (
         <div className="my-4 flex flex-row items-center gap-4">
           <Link
-            to={`/read/${manga.id}/chapter/${manga.chapters[0]}`}
+            to={READER_PATH.replace(':id', manga.id).replace(':chapterId', manga.chapters[0].id)}
             className="rounded bg-primary-500 px-4 py-2 text-white transition hover:bg-primary-600"
           >
             Read First
           </Link>
           <Link
-            to={`/read/${manga.id}/chapter/${manga.chapters[manga.chapters.length - 1]}`}
+            to={READER_PATH.replace(':id', manga.id).replace(
+              ':chapterId',
+              manga.chapters[manga.chapters.length - 1].id,
+            )}
             className="rounded bg-green-500 px-4 py-2 text-white transition hover:bg-green-600"
           >
             Read Last
