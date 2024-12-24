@@ -74,7 +74,6 @@ type Tags {
 
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
-  searchByTags(input: SearchTagsInput!): [MangaSearch!]!
   metadata(id: MetadataInput!): Metadata!
   getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
@@ -90,21 +89,6 @@ input SearchInput {
 
   """Search limit"""
   amount: Int = 10
-
-  """Page number"""
-  page: Int! = 1
-}
-
-"""Search manga by tags from MangaDex API"""
-input SearchTagsInput {
-  """Search limit"""
-  amount: Int = 10
-
-  """Include manga tags"""
-  includedTags: [String!]
-
-  """Exclude Manga tags"""
-  excludedTags: [String!]
 
   """Page number"""
   page: Int! = 1
