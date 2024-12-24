@@ -13,8 +13,8 @@ export const SEARCH_MANGA = gql`
 `
 
 export const SEARCH_MANGA_BY_TAGS = gql`
-  query GetTags($input: SearchTagsInput!) {
-    searchByTags(input: $input) {
+  query GetMangaByTags($input: TagSearchInput!) {
+    getMangaByTags(input: $input) {
       id
       title
       status

@@ -43,8 +43,8 @@ const Tags = () => {
   }, [error, mangaError])
 
   useEffect(() => {
-    if (mangaData?.searchByTags) {
-      setSearchResult(mangaData.searchByTags)
+    if (mangaData?.getMangaByTags) {
+      setSearchResult(mangaData.getMangaByTags)
     }
   }, [mangaData])
 
