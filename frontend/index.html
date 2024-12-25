@@ -7,27 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>MangaDiddy</title>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const detectDevTools = () => {
-        const threshold = 160;
-        const checkDevTools = () => {
-          const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-          const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-
-          if (widthThreshold || heightThreshold) {
-            window.location.href = '/sussy_baka';
-          }
-        };
-
-        setInterval(checkDevTools, 500);
-        window.addEventListener('resize', checkDevTools);
-      };
-
-      detectDevTools();
-    });
-  </script>
 </head>
 
 <body>
