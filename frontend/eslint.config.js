@@ -1,16 +1,18 @@
-import globals from 'globals'
-import pluginJs from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import pluginReact from 'eslint-plugin-react'
 import eslintConfigPrettier from 'eslint-config-prettier'
-import tailwindcss from 'eslint-plugin-tailwindcss'
-import js from '@eslint/js'
+import pluginReact from 'eslint-plugin-react'
 import reactPlugin from 'eslint-plugin-react'
 import hooksPlugin from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import tailwindcss from 'eslint-plugin-tailwindcss'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+
+import pluginJs from '@eslint/js'
+import js from '@eslint/js'
 
 export default tseslint.config(
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+  { ignores: ['public/whatever.js'] },
   { languageOptions: { globals: globals.browser, ecmaVersion: 'latest' } },
   js.configs.recommended,
   pluginJs.configs.recommended,
