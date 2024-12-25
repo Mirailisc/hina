@@ -7,6 +7,8 @@ import { contentRating, MANGADEX_API } from 'src/lib/constants'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { InternalServerErrorException } from '@nestjs/common'
 
+const DOUJINSHI_UUID = 'b13b2a48-c720-44a9-9c77-39c9979373fb'
+
 @Injectable()
 export class SearchService {
   private readonly logger = new Logger(SearchService.name)
@@ -36,6 +38,7 @@ export class SearchService {
         title: lowercaseName,
         offset: (page - 1) * limit,
         contentRating,
+        excludedTags: [DOUJINSHI_UUID],
         'order[latestUploadedChapter]': 'desc',
       })
 
@@ -95,6 +98,9 @@ export class SearchService {
         limit,
         offset: (page - 1) * limit,
         includedTags,
+        excludedTags: includedTags.find((tag: string) => tag === DOUJINSHI_UUID)
+          ? []
+          : [DOUJINSHI_UUID],
         includedTagsMode: 'AND',
         excludedTagsMode: 'OR',
         contentRating,
