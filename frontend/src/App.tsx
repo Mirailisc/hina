@@ -70,12 +70,25 @@ function App() {
   }
 
   useEffect(() => {
+    const devToolsDetector = () => {
+      const threshold = 160
+      const devToolsOpen =
+        window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold
+
+      if (devToolsOpen && import.meta.env.PROD) {
+        window.location.replace('about;blank')
+      }
+    }
+
+    const intervalId = setInterval(devToolsDetector, 1000)
+
     NProgress.configure({ showSpinner: false })
     NProgress.start()
     scrollTo(0, 0)
     NProgress.done()
 
     return () => {
+      clearInterval(intervalId)
       NProgress.remove()
     }
   }, [location.pathname])
