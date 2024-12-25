@@ -5,19 +5,16 @@ import { Link } from 'react-router-dom'
 
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { useSearch } from '@hooks/useSearch'
-
 import { AUTHORS_PATH, BASE_PATH, TAGS_PATH } from '@constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
-  const { search, setSearch } = useSearch()
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
   const handleGoHome = () => {
-    setSearch({ ...search, name: '' })
     navigate(BASE_PATH, { replace: true })
+    navigate(0)
   }
 
   return (
