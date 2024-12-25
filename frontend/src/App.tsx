@@ -9,6 +9,7 @@ import AgeConsent from '@components/Utils/AgeConsent'
 import Navbar from '@components/Utils/Navbar'
 
 import Loading from '@pages/Loading'
+import NotFound from '@pages/NotFound'
 
 import { client } from '@lib/apollo'
 
@@ -74,19 +75,24 @@ function App() {
       const threshold = 160
       const devToolsOpen =
         window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold
-      if (devToolsOpen && import.meta.env.PROD) {
+      if (devToolsOpen) {
         window.location.href = '/sussy_baka'
       }
     }
-    const intervalId = setInterval(devToolsDetector, 500)
+    const intervalId = setInterval(devToolsDetector, 1000)
 
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
+  useEffect(() => {
     NProgress.configure({ showSpinner: false })
     NProgress.start()
     scrollTo(0, 0)
     NProgress.done()
 
     return () => {
-      clearInterval(intervalId)
       NProgress.remove()
     }
   }, [location.pathname])
@@ -113,6 +119,8 @@ function App() {
                 <Route path={MANGA_PATH} element={<Manga />} />
 
                 <Route path={READER_PATH} element={<Reader />} />
+
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
             {footerFilter()}
