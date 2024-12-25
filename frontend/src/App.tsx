@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
-import isDevToolsOpen from 'devtools-detect'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -13,6 +12,7 @@ import Loading from '@pages/Loading'
 import NotFound from '@pages/NotFound'
 
 import { client } from '@lib/apollo'
+import { useDevToolsStatus } from '@lib/devtools'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
@@ -39,6 +39,7 @@ const Tags = React.lazy(() => import('@pages/Tag'))
 
 function App() {
   const location = useLocation()
+  const isDevToolsOpen = useDevToolsStatus()
 
   const uuidRegex = /([a-f0-9-]{36})/g
 
@@ -73,7 +74,7 @@ function App() {
 
   useEffect(() => {
     const checkDevTools = () => {
-      if (isDevToolsOpen) {
+      if (isDevToolsOpen && import.meta.env.PROD) {
         window.location.href = '/sussy_baka'
       }
     }
@@ -83,7 +84,7 @@ function App() {
     return () => {
       clearInterval(intervalId)
     }
-  }, [])
+  }, [isDevToolsOpen])
 
   useEffect(() => {
     NProgress.configure({ showSpinner: false })

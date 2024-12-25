@@ -1,9 +1,10 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
+
 import * as Sentry from '@sentry/react'
+
+import App from './App.tsx'
+import './index.css'
 
 Sentry.init({
   dsn: 'https://30d77b5a17db730c06d9c37a39b9b6af@o4508484759453696.ingest.us.sentry.io/4508501816770560',
@@ -18,9 +19,7 @@ Sentry.init({
 })
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
 )
