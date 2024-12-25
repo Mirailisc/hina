@@ -4,6 +4,7 @@ import { ThreeDot } from 'react-loading-indicators'
 import { useParams } from 'react-router-dom'
 
 import Controller from '@components/Reader/Controller'
+import ReaderImage from '@components/Reader/Image'
 import Titlebar from '@components/Reader/Titlebar'
 
 import { GET_CHAPTERS } from '@gql/manga'
@@ -101,10 +102,7 @@ const Reader: React.FC = (): JSX.Element => {
     <div className="flex flex-col items-center justify-center">
       <Titlebar mangaId={id as string} totalChapters={chapters.length} currentChapter={currentChapterIndex} />
       <Controller chapterStates={chapterStates} />
-      {images.length > 0 &&
-        images.map((image, index) => (
-          <img key={image} src={image} alt={`page-${index}`} className="w-full md:w-1/2" referrerPolicy="no-referrer" />
-        ))}
+      {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
     </div>
   )
 }
