@@ -12,7 +12,7 @@ import Loading from '@pages/Loading'
 import NotFound from '@pages/NotFound'
 
 import { client } from '@lib/apollo'
-import { useDevToolsStatus } from '@lib/devtools'
+import { useDevToolsStatus } from '@hooks/useDevToolsStatus'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
