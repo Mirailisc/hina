@@ -17,7 +17,6 @@ import { isDev } from './lib/constants'
 import { AuthorModule } from './author/author.module'
 import { TagModule } from './tag/tag.module'
 
-const REDIS_PORT = 6379
 const TTL = 3600
 
 @Module({
@@ -34,8 +33,7 @@ const TTL = 3600
       isGlobal: true,
       ttl: TTL,
       store: redisStore,
-      host: process.env.REDIS_HOST ?? 'localhost',
-      port: Number(process.env.REDIS_PORT) ?? REDIS_PORT,
+      url: process.env.REDIS_HOST ?? 'redis://default@localhost:6379',
     }),
     SearchModule,
     ReaderModule,
