@@ -5,3 +5,9 @@ export const READ_MANGA = gql`
     chapterImages(input: $input)
   }
 `
+
+export const FETCH_IMAGE = gql`
+  query FetchImage($input: ImageInput!) {
+    fetchImage(input: $input)
+  }
+`

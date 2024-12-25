@@ -1,10 +1,12 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import {
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common'
 import { Inject } from '@nestjs/common'
+import axios from 'axios'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
 import { MANGADEX_API } from 'src/lib/constants'
@@ -12,6 +14,44 @@ import { MANGADEX_API } from 'src/lib/constants'
 @Injectable()
 export class ReaderService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+
+  async fetchImageWithHeaders(imageUrl: string): Promise<string> {
+    const imageCacheKey = `image-${imageUrl}`
+
+    const cachedImage = await this.cacheManager.get<string>(imageCacheKey)
+    if (cachedImage) {
+      return cachedImage
+    }
+
+    try {
+      const response = await axios.get(imageUrl, {
+        headers: {
+          referer: 'https://mangadex.org/',
+          origin: 'https://mangadex.org/',
+          'user-agent':
+            'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+          accept: '*/*',
+        },
+        responseType: 'arraybuffer',
+      })
+
+      if (response.status === HttpStatus.OK) {
+        const imageBuffer = Buffer.from(response.data, 'binary')
+        const imageUrlData = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`
+
+        await this.cacheManager.set(imageCacheKey, imageUrlData)
+        return imageUrlData
+      } else {
+        throw new NotFoundException(
+          'Failed to fetch image: ' + response.statusText,
+        )
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to fetch image: ${error.message}`,
+      )
+    }
+  }
 
   async getChapterImages(
     chapterId: string,

@@ -78,6 +78,7 @@ type Query {
   getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
+  fetchImage(input: ImageInput!): String!
   getTags: [Tags!]!
   getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
 }
@@ -128,6 +129,11 @@ input ReaderInput {
 
   """Image Quality"""
   quality: String! = "data"
+}
+
+"""Fetch image blob"""
+input ImageInput {
+  imageUrl: String!
 }
 
 """This input is used to search related mangas by included tags"""

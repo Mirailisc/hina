@@ -1,6 +1,7 @@
 import { Resolver, Query, Args } from '@nestjs/graphql'
 import { ReaderService } from './reader.service'
 import { ReaderInput } from './dto/reader.input'
+import { ImageInput } from './dto/image.input'
 
 @Resolver(() => [String])
 export class ReaderResolver {
@@ -13,5 +14,10 @@ export class ReaderResolver {
       input.nextChapters,
       input.quality,
     )
+  }
+
+  @Query(() => String)
+  async fetchImage(@Args('input') input: ImageInput): Promise<string> {
+    return this.readerService.fetchImageWithHeaders(input.imageUrl)
   }
 }
