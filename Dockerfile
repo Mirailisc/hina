@@ -54,8 +54,12 @@ COPY --from=backend-build /app/backend /app/backend
 COPY --from=frontend-build /app/frontend/dist /app/backend/public
 
 ENV NODE_ENV=production
+
 ENV URL URL
-ENV REDIS_URL REDIS_URL
+
+ENV REDIS_HOST REDIS_HOST
+ENV REDIS_USERNAME REDIS_USERNAME
+ENV REDIS_PASSWORD REDIS_PASSWORD
 ENV REDIS_PORT REDIS_PORT
 
 EXPOSE 4000
