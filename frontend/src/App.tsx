@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
+import isDevToolsOpen from 'devtools-detect'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -71,15 +72,13 @@ function App() {
   }
 
   useEffect(() => {
-    const devToolsDetector = () => {
-      const threshold = 160
-      const devToolsOpen =
-        window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold
-      if (devToolsOpen) {
+    const checkDevTools = () => {
+      if (isDevToolsOpen) {
         window.location.href = '/sussy_baka'
       }
     }
-    const intervalId = setInterval(devToolsDetector, 1000)
+
+    const intervalId = setInterval(checkDevTools, 1000)
 
     return () => {
       clearInterval(intervalId)

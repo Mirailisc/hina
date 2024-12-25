@@ -156,6 +156,9 @@ importers:
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
+      devtools-detect:
+        specifier: ^4.0.2
+        version: 4.0.2
       framer-motion:
         specifier: ^11.15.0
         version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2273,6 +2276,10 @@ packages:
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
+
+  devtools-detect@4.0.2:
+    resolution: {integrity: sha512-LfvHOc/a72gt4OvHOGFK51VmOeTM9Q5uuEeKX+k5oVWZM3qDoLBFVbdhjk7zXX54FuQ370L7OpmxQbNStT+7Gw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   dezalgo@1.0.4:
     resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
@@ -6975,6 +6982,8 @@ snapshots:
   devlop@1.1.0:
     dependencies:
       dequal: 2.0.3
+
+  devtools-detect@4.0.2: {}
 
   dezalgo@1.0.4:
     dependencies:
