@@ -63,18 +63,9 @@ function App() {
     }
   }
 
-  const footerFilter = () => {
-    if (modifiedPathname === READER_PATH) {
-      return <></>
-    } else {
-      // return <Footer />
-      return <></>
-    }
-  }
-
   useEffect(() => {
     const checkDevTools = () => {
-      if (isDevToolsOpen && import.meta.env.PROD) {
+      if (isDevToolsOpen) {
         window.location.href = '/sussy_baka'
       }
     }
@@ -123,7 +114,6 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
-            {footerFilter()}
           </Suspense>
         </div>
       </SearchProvider>
