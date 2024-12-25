@@ -99,10 +99,10 @@ const Reader: React.FC = (): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Titlebar mangaId={id as string} totalChapters={chapters.length} currentChapter={currentChapterIndex} />
+    <div className="flex flex-col items-center justify-center py-[100px]">
+      <Titlebar mangaId={id as string} />
       <Controller chapterStates={chapterStates} />
-      {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
+        {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
     </div>
   )
 }
