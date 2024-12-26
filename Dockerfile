@@ -7,6 +7,10 @@ COPY frontend /app/frontend
 
 RUN bun install --frozen-lockfile --cwd /app/frontend
 WORKDIR /app/frontend
+
+ARG SENTRY_AUTH_FRONTEND
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_FRONTEND}
+
 RUN bun run build
 
 FROM node:22-alpine AS backend-build
@@ -19,6 +23,10 @@ COPY backend /app/backend
 COPY --from=frontend-build /app/frontend/dist /app/backend/public
 
 WORKDIR /app/backend
+
+ARG SENTRY_AUTH_BACKEND
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_BACKEND}
+
 RUN pnpm install
 RUN pnpm run build
 
