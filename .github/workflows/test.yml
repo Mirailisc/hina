@@ -18,17 +18,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install Bun
-        run: curl -fsSL https://bun.sh/install | bash
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22.x"
+          bun-version: latest
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile --cwd /app/frontend
+        run: bun install --frozen-lockfile --cwd /frontend
 
       - name: Run ESLint
-        run: bun run frontend:lint
+        run: cd frontend && bun run lint
 
   backend-eslint:
     name: Run Eslint (backend)
@@ -41,19 +39,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 8
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22.x"
-          cache: "pnpm"
+          bun-version: latest
 
       - name: Install dependencies
-        run: cd backend && pnpm install
+        run: bun install --frozen-lockfile --cwd /backend
 
       - name: Run ESLint
-        run: cd backend && pnpm lint
+        run: cd backend && bun run lint
 
   frontend-build:
     name: Build Frontend
@@ -67,20 +61,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install Bun
-        run: curl -fsSL https://bun.sh/install | bash
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22.x"
+          bun-version: latest
 
       - name: Set SENTRY_AUTH_TOKEN for frontend
         run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_FRONTEND }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile --cwd /app/frontend
+        run: bun install --frozen-lockfile --cwd /frontend
 
       - name: Run Frontend Build
-        run: bun run frontend:build
+        run: cd frontend && bun run build
 
   backend-build:
     name: Build Backend
@@ -94,22 +86,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 8
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22.x"
-          cache: "pnpm"
+          bun-version: latest
 
       - name: Set SENTRY_AUTH_TOKEN for backend
         run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_BACKEND }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: cd backend && pnpm install
+        run: bun install --frozen-lockfile --cwd /backend
 
       - name: Run Backend Build
-        run: cd backend && pnpm build
+        run: cd backend && bun run build
 
   docker-build:
     name: Build Docker Image (Test)
