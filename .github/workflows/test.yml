@@ -18,19 +18,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 8
+      - name: Install Bun
+        run: curl -fsSL https://bun.sh/install | bash
       - uses: actions/setup-node@v4
         with:
           node-version: "22.x"
-          cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install --frozen-lockfile --cwd /app/frontend
 
       - name: Run ESLint
-        run: pnpm frontend:lint
+        run: bun run frontend:lint
 
   backend-eslint:
     name: Run Eslint (backend)
@@ -52,10 +50,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: cd backend && pnpm install
 
       - name: Run ESLint
-        run: pnpm backend:lint
+        run: cd backend && pnpm lint
 
   frontend-build:
     name: Build Frontend
@@ -69,22 +67,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 8
+      - name: Install Bun
+        run: curl -fsSL https://bun.sh/install | bash
       - uses: actions/setup-node@v4
         with:
           node-version: "22.x"
-          cache: "pnpm"
 
       - name: Set SENTRY_AUTH_TOKEN for frontend
         run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_FRONTEND }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install --frozen-lockfile --cwd /app/frontend
 
       - name: Run Frontend Build
-        run: pnpm frontend:build
+        run: bun run frontend:build
 
   backend-build:
     name: Build Backend
@@ -110,10 +106,10 @@ jobs:
         run: echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_BACKEND }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: pnpm install
+        run: cd backend && pnpm install
 
       - name: Run Backend Build
-        run: pnpm backend:build
+        run: cd backend && pnpm build
 
   docker-build:
     name: Build Docker Image (Test)
@@ -127,16 +123,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 8
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22.x"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

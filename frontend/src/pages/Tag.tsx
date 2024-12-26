@@ -4,17 +4,13 @@ import { FaTimes } from 'react-icons/fa'
 import { ThreeDot } from 'react-loading-indicators'
 
 import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
+import TagFilter, { ITag } from '@components/Tag/Filter'
 import Skeleton from '@components/Utils/Skeleton'
 
 import { SEARCH_MANGA_BY_TAGS } from '@gql/search'
 import { GET_ALL_TAGS } from '@gql/tag'
 
 import { useLazyQuery, useQuery } from '@apollo/client'
-
-interface ITag {
-  id: string
-  name: string
-}
 
 const Tags = () => {
   const [tags, setTags] = useState<ITag[]>([])
@@ -112,19 +108,7 @@ const Tags = () => {
           </div>
         )}
       </div>
-      <div className="my-4 flex flex-wrap gap-4">
-        {tags.map((tag) => (
-          <div
-            className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 ${
-              includedTags.includes(tag.id) ? 'bg-primary-700 text-white' : 'bg-white/30'
-            }`}
-            key={tag.id}
-            onClick={() => toggleTag(tag.id)}
-          >
-            {tag.name}
-          </div>
-        ))}
-      </div>
+      <TagFilter tags={tags} includedTags={includedTags} toggleTag={toggleTag} />
       <div className="w-full">
         {tagLoading ? (
           <Skeleton amount={12} />

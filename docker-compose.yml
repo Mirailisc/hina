@@ -14,9 +14,9 @@ services:
         SENTRY_AUTH_FRONTEND: ${SENTRY_AUTH_FRONTEND}
         SENTRY_AUTH_BACKEND: ${SENTRY_AUTH_BACKEND}
     ports:
-      - "8080:4000"
+      - "8000:4000"
     environment:
-      - URL=http://localhost:8080
+      - URL=http://localhost:8000
       - REDIS_HOST=redis
       - REDIS_USERNAME=default
       - REDIS_PORT=6379

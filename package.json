@@ -2,20 +2,10 @@
   "name": "ui",
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-    "frontend:dev": "pnpm --filter frontend dev",
-    "frontend:build": "pnpm --filter frontend build",
-    "frontend:prod": "pnpm --filter frontend serve",
-    "frontend:lint": "pnpm --filter frontend lint",
-    "backend:dev": "pnpm --filter backend start:dev",
-    "backend:build": "pnpm --filter backend build",
-    "backend:prod": "pnpm --filter backend start:prod",
-    "backend:lint": "pnpm --filter backend lint"
-  },
-  "dependencies": {
-    "frontend": "workspace:frontend",
-    "backend": "workspace:backend"
-  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "keywords": [],
   "author": "Mirailisc",
   "private": true,
