@@ -12,9 +12,10 @@ import { IChapter } from './Info'
 type Props = {
   id: string
   chapters: IChapter[]
+  selectedLanguage: string
 }
 
-const MangaChapters: React.FC<Props> = ({ id, chapters }: Props): JSX.Element => {
+const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Props): JSX.Element => {
   return (
     <div>
       {chapters.map((chapter, index) => {
@@ -22,6 +23,7 @@ const MangaChapters: React.FC<Props> = ({ id, chapters }: Props): JSX.Element =>
           <Link
             to={{
               pathname: READER_PATH.replace(':id', id).replace(':chapterId', chapter.id),
+              search: selectedLanguage === 'All' ? '' : `?lang=${selectedLanguage}`,
             }}
             key={`chapter-${chapter.chapter}-${index}-${chapter.translatedLanguage}`}
           >

@@ -74,7 +74,7 @@ type Tags {
 
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
-  metadata(id: MetadataInput!): Metadata!
+  metadata(input: MetadataInput!): Metadata!
   getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
@@ -99,6 +99,7 @@ input SearchInput {
 input MetadataInput {
   """Manga Id"""
   id: String!
+  language: String
 }
 
 """This input is used to get authors through pagination"""

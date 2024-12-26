@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const GET_METADATA = gql`
   query Metadata($metadataId: MetadataInput!) {
-    metadata(id: $metadataId) {
+    metadata(input: $metadataId) {
       id
       title
       status
@@ -31,9 +31,11 @@ export const GET_METADATA = gql`
 
 export const GET_CHAPTERS = gql`
   query Metadata($metadataId: MetadataInput!) {
-    metadata(id: $metadataId) {
+    metadata(input: $metadataId) {
       chapters {
         id
+        chapter
+        volume
       }
     }
   }

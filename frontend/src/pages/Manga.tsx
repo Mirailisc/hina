@@ -146,7 +146,7 @@ const Manga: React.FC = (): JSX.Element => {
       ) : (
         <div>
           {manga.chapters.length > 0 ? (
-            <MangaChapters id={manga.id} chapters={orderedChapters()} />
+            <MangaChapters id={manga.id} chapters={orderedChapters()} selectedLanguage={selectedLanguage} />
           ) : (
             <span>No chapters available</span>
           )}

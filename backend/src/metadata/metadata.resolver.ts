@@ -8,7 +8,7 @@ export class MetadataResolver {
   constructor(private readonly metadataService: MetadataService) {}
 
   @Query(() => Metadata)
-  async metadata(@Args('id') input: MetadataInput): Promise<Metadata> {
-    return await this.metadataService.getMetadata(input.id)
+  async metadata(@Args('input') input: MetadataInput): Promise<Metadata> {
+    return await this.metadataService.getMetadata(input.id, input.language)
   }
 }

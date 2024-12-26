@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ThreeDot } from 'react-loading-indicators'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import Controller from '@components/Reader/Controller'
 import ReaderImage from '@components/Reader/Image'
@@ -15,7 +15,9 @@ import { useQuery } from '@apollo/client'
 const Reader: React.FC = (): JSX.Element => {
   const { id, chapterId } = useParams()
   const [images, setImages] = useState<string[]>([])
-  const [chapters, setChapters] = useState<{ id: string }[]>([])
+  const [chapters, setChapters] = useState<{ id: string; chapter: string }[]>([])
+
+  const [searchParams] = useSearchParams()
 
   const {
     loading: mangaLoading,
@@ -23,7 +25,7 @@ const Reader: React.FC = (): JSX.Element => {
     error: mangaError,
   } = useQuery(GET_CHAPTERS, {
     variables: {
-      metadataId: { id },
+      metadataId: { id, language: searchParams.get('lang') },
     },
   })
 
@@ -49,16 +51,17 @@ const Reader: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!mangaLoading && mangaInfo?.metadata?.chapters) {
-      const newChapters = mangaInfo.metadata.chapters.map((chapter: { id: string }) => ({
+      const newChapters = mangaInfo.metadata.chapters.map((chapter: { id: string; chapter: string }) => ({
         id: chapter.id,
+        chapter: chapter.chapter,
       }))
       setChapters(newChapters)
     }
   }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
-    document.title = `Chapter ${currentChapterIndex} | MangaDiddy`
-  }, [currentChapterIndex])
+    document.title = `Ch. ${chapters[currentChapterIndex] ? chapters[currentChapterIndex].chapter : currentChapterIndex} | MangaDiddy`
+  }, [currentChapterIndex, chapters])
 
   useEffect(() => {
     fetchImages()
@@ -101,8 +104,8 @@ const Reader: React.FC = (): JSX.Element => {
   return (
     <div className="flex flex-col items-center justify-center py-[100px]">
       <Titlebar mangaId={id as string} />
-      <Controller chapterStates={chapterStates} />
-        {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
+      <Controller chapterStates={chapterStates} language={searchParams.get('lang')}  />
+      {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
     </div>
   )
 }

@@ -10,14 +10,14 @@ type Props = {
     previous: string | null
     next: string | null
   }
+  language: string | null
 }
 
-const Controller: React.FC<Props> = ({ chapterStates }: Props): JSX.Element => {
+const Controller: React.FC<Props> = ({ chapterStates, language }: Props): JSX.Element => {
   const navigate = useNavigate()
 
   const handleController = async (to: string) => {
-    await navigate(to, { replace: true })
-    // await navigate(0)
+    await navigate({ pathname: to, search: language ? `?lang=${language}` : '' }, { replace: true })
   }
 
   if (!chapterStates.previous && !chapterStates.next) return <></>

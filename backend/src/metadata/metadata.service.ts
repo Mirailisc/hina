@@ -24,7 +24,7 @@ export class MetadataService {
     private readonly authorService: AuthorService,
   ) {}
 
-  async getMetadata(id: string) {
+  async getMetadata(id: string, language: string | null) {
     const cacheKey = `metadata:${id}`
     try {
       const cachedData = await this.cacheManager.get<Metadata>(cacheKey)
@@ -65,7 +65,7 @@ export class MetadataService {
         },
         status: metadata.attributes.status,
         description: metadata.attributes.description.en || '',
-        chapters: await this.getChapters(id),
+        chapters: await this.getChapters(id, language),
       }
 
       await this.cacheManager.set(cacheKey, result)
@@ -80,7 +80,7 @@ export class MetadataService {
     }
   }
 
-  async getChapters(id: string): Promise<Chapter[]> {
+  async getChapters(id: string, language: string): Promise<Chapter[]> {
     const cacheKey = `chapters:${id}`
     try {
       const cachedChapters = await this.cacheManager.get<Chapter[]>(cacheKey)
@@ -100,6 +100,7 @@ export class MetadataService {
             manga: id,
             contentRating,
             includeFutureUpdates: 1,
+            translatedLanguage: language ? [language] : undefined,
             order: {
               createdAt: 'asc',
               updatedAt: 'asc',

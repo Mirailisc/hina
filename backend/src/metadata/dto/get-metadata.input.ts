@@ -4,4 +4,7 @@ import { InputType, Field } from '@nestjs/graphql'
 export class MetadataInput {
   @Field(() => String, { description: 'Manga Id' })
   id: string
+
+  @Field(() => String, { nullable: true })
+  language: string
 }
