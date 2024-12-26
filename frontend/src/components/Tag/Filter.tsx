@@ -11,7 +11,7 @@ type Props = {
 
 const TagFilter: React.FC<Props> = ({ tags, includedTags, toggleTag }: Props): JSX.Element => {
   return (
-    <div className="my-4 flex flex-wrap gap-4">
+    <div className="my-4 flex flex-wrap gap-4 rounded-lg border border-white/20 p-4">
       {tags.map((tag) => (
         <div
           className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 ${

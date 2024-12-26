@@ -48,14 +48,14 @@ const Authors: React.FC = (): JSX.Element => {
   return (
     <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
       <div className="mt-4">
+        <h1 className="my-4 text-2xl font-bold">Authors</h1>
         <input
           type="text"
           placeholder="Search..."
           value={searchName}
           onChange={handleSearchInputChange}
-          className="w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
+          className="mb-4 w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
         />
-        <h1 className="mt-4 text-2xl font-bold">Authors</h1>
       </div>
       {loading ? (
         <div className="mt-4 text-center">
@@ -63,7 +63,7 @@ const Authors: React.FC = (): JSX.Element => {
         </div>
       ) : (
         <div>
-          <div className="flex-1 p-4">
+          <div className="flex-1 rounded-lg border border-white/20 p-4">
             <div className="flex flex-wrap gap-4">
               {authors.map((author: IAuthorThumbnail) => (
                 <NameTag key={author.id} author={author} />

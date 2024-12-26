@@ -6,8 +6,14 @@ export const READ_MANGA = gql`
   }
 `
 
-export const FETCH_IMAGE = gql`
+export const FETCH_IMAGE_WITHOUT_CACHE = gql`
   query FetchImage($input: ImageInput!) {
-    fetchImage(input: $input)
+    fetchImageWithoutCache(input: $input)
+  }
+`
+
+export const FETCH_IMAGE_WITH_CACHE = gql`
+  query FetchImage($input: ImageInput!) {
+    fetchImageWithCache(input: $input)
   }
 `

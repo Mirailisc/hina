@@ -11,4 +11,4 @@ This website is a manga / manhwa reader metadata by MandaDex
 
 ## To-Do:
 - Implement Sign In/Up functionality to allow users to save their reading progress in a database
-- Temporarily store fetched images in the database to reduce the frequency of API requests to MangaDex
+- Settings

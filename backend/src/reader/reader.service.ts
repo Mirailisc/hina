@@ -19,7 +19,61 @@ export class ReaderService {
     private readonly prisma: PrismaService,
   ) {}
 
-  async fetchImage(imageUrl: string): Promise<string> {
+  async fetchImageWithCache(imageUrl: string): Promise<string> {
+    const imageCacheKey = `image-${imageUrl}`
+
+    const cachedImage = await this.cacheManager.get<string>(imageCacheKey)
+    if (cachedImage) {
+      return cachedImage
+    }
+
+    const image = await this.prisma.images.findUnique({
+      where: { key: imageCacheKey },
+    })
+
+    if (image) {
+      await this.cacheManager.set(imageCacheKey, image.data)
+      return image.data
+    }
+
+    try {
+      const response = await axios.get(imageUrl, {
+        headers: {
+          referer: 'https://mangadex.org/',
+          origin: 'https://mangadex.org/',
+          'user-agent':
+            'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+          accept: '*/*',
+        },
+        responseType: 'arraybuffer',
+      })
+
+      if (response.status === HttpStatus.OK) {
+        const imageBuffer = Buffer.from(response.data, 'binary')
+        const imageUrlData = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`
+
+        await this.prisma.images.create({
+          data: {
+            key: imageCacheKey,
+            data: imageUrlData,
+          },
+        })
+
+        await this.cacheManager.set(imageCacheKey, imageUrlData)
+        return imageUrlData
+      } else {
+        throw new NotFoundException(
+          'Failed to fetch image: ' + response.statusText,
+        )
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to fetch image: ${error.message}`,
+      )
+    }
+  }
+
+  async fetchImageWithoutCache(imageUrl: string): Promise<string> {
     const imageCacheKey = `image-${imageUrl}`
 
     const image = await this.prisma.images.findUnique({

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -12,6 +11,11 @@ const Navbar: React.FC = (): JSX.Element => {
 
   const navigate = useNavigate()
 
+  const handleNavigate = (to: string) => {
+    setHamburgerOpen(false)
+    navigate(to)
+  }
+
   const handleGoHome = () => {
     navigate(BASE_PATH, { replace: true })
     navigate(0)
@@ -19,21 +23,30 @@ const Navbar: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <div className="sticky inset-x-0 top-0 z-40 border-b border-white/20 bg-black/90 backdrop-blur-lg">
+      <div className="sticky inset-x-0 top-0 z-40 border-b border-white/20 bg-black/80 backdrop-blur-lg xl:top-2 xl:mx-2 xl:rounded-lg xl:border">
         <div className="flex items-center justify-between gap-4 px-4 py-2 md:justify-start xl:px-[200px]">
           <div onClick={handleGoHome} className="cursor-pointer text-lg font-bold">
             MangaDiddy
           </div>
           <div className="hidden flex-row items-center gap-4 md:flex">
-            <Link to={BASE_PATH} className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100">
+            <div
+              onClick={() => handleNavigate(BASE_PATH)}
+              className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+            >
               Home
-            </Link>
-            <Link className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100" to={AUTHORS_PATH}>
+            </div>
+            <div
+              onClick={() => handleNavigate(AUTHORS_PATH)}
+              className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+            >
               Authors
-            </Link>
-            <Link to={TAGS_PATH} className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100">
+            </div>
+            <div
+              onClick={() => handleNavigate(TAGS_PATH)}
+              className="text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+            >
               Tags
-            </Link>
+            </div>
           </div>
           <button
             onClick={() => setHamburgerOpen(!hamburgerOpen)}
@@ -53,24 +66,24 @@ const Navbar: React.FC = (): JSX.Element => {
             transition={{ duration: 0.2 }}
           >
             <div className="flex flex-col items-start p-2">
-              <Link
-                to={BASE_PATH}
+              <div
+                onClick={() => handleNavigate(BASE_PATH)}
                 className="w-full p-2 text-sm font-thin transition-colors duration-200 hover:bg-black/50"
               >
                 Home
-              </Link>
-              <Link
+              </div>
+              <div
+                onClick={() => handleNavigate(AUTHORS_PATH)}
                 className="w-full p-2 text-sm font-thin transition-colors duration-200 hover:bg-black/50"
-                to={AUTHORS_PATH}
               >
                 Authors
-              </Link>
-              <Link
-                to={TAGS_PATH}
+              </div>
+              <div
+                onClick={() => handleNavigate(TAGS_PATH)}
                 className="w-full p-2 text-sm font-thin transition-colors duration-200 hover:bg-black/50"
               >
                 Tags
-              </Link>
+              </div>
             </div>
           </motion.div>
         )}

@@ -78,7 +78,8 @@ type Query {
   getAuthors(input: AuthorsInput!): [AuthorSearch!]!
   getAuthorInfo(input: AuthorInput!): AuthorInfo!
   chapterImages(input: ReaderInput!): [String!]!
-  fetchImage(input: ImageInput!): String!
+  fetchImageWithCache(input: ImageInput!): String!
+  fetchImageWithoutCache(input: ImageInput!): String!
   getTags: [Tags!]!
   getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
 }

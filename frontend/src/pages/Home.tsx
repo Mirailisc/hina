@@ -60,7 +60,7 @@ const Home: React.FC = (): JSX.Element => {
   }, [data])
 
   useEffect(() => {
-    document.title = 'MangaDiddy'
+    document.title = 'Recent Updates | MangaDiddy'
   }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

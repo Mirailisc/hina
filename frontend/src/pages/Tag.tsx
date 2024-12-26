@@ -76,9 +76,21 @@ const Tags = () => {
 
   return (
     <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
-      <div className="my-4 border-b border-white/25">
-        <h1 className="mt-4 text-2xl font-bold">Tags</h1>
-        <div className="my-4 flex flex-wrap gap-2">
+      <div className="my-4">
+        <div className="mt-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Tags</h1>
+          {includedTags.length > 0 && (
+            <div className="text-right">
+              <button
+                className="rounded-md border border-white/20 px-4 py-2 text-white transition-colors duration-200 hover:bg-secondary-900"
+                onClick={clearAllTags}
+              >
+                Clear All
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="my-4 flex flex-wrap gap-2 rounded-lg border border-white/20 p-4">
           {includedTags.length > 0 ? (
             includedTags.map((tagId) => {
               const tag = tags.find((t) => t.id === tagId)
@@ -97,16 +109,6 @@ const Tags = () => {
             <span>None</span>
           )}
         </div>
-        {includedTags.length > 0 && (
-          <div className="my-4 text-right">
-            <button
-              className="rounded-md border border-white/20 px-4 py-2 text-white transition-colors duration-200 hover:bg-secondary-900"
-              onClick={clearAllTags}
-            >
-              Clear All
-            </button>
-          </div>
-        )}
       </div>
       <TagFilter tags={tags} includedTags={includedTags} toggleTag={toggleTag} />
       <div className="w-full">

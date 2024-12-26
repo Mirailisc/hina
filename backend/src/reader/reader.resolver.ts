@@ -17,7 +17,14 @@ export class ReaderResolver {
   }
 
   @Query(() => String)
-  async fetchImage(@Args('input') input: ImageInput): Promise<string> {
-    return this.readerService.fetchImage(input.imageUrl)
+  async fetchImageWithCache(@Args('input') input: ImageInput): Promise<string> {
+    return this.readerService.fetchImageWithCache(input.imageUrl)
+  }
+
+  @Query(() => String)
+  async fetchImageWithoutCache(
+    @Args('input') input: ImageInput,
+  ): Promise<string> {
+    return this.readerService.fetchImageWithoutCache(input.imageUrl)
   }
 }
