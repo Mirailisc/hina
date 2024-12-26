@@ -22,11 +22,6 @@ export class ReaderService {
   async fetchImage(imageUrl: string): Promise<string> {
     const imageCacheKey = `image-${imageUrl}`
 
-    const cachedImage = await this.cacheManager.get<string>(imageCacheKey)
-    if (cachedImage) {
-      return cachedImage
-    }
-
     const image = await this.prisma.images.findUnique({
       where: { key: imageCacheKey },
     })
@@ -57,7 +52,6 @@ export class ReaderService {
             data: imageUrlData,
           },
         })
-        await this.cacheManager.set(imageCacheKey, imageUrlData)
         return imageUrlData
       } else {
         throw new NotFoundException(

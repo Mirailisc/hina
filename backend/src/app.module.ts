@@ -16,6 +16,7 @@ import { join } from 'path'
 import { isDev } from './lib/constants'
 import { AuthorModule } from './author/author.module'
 import { TagModule } from './tag/tag.module'
+import { ScheduleModule } from '@nestjs/schedule'
 
 const TTL = 3600
 
@@ -38,6 +39,7 @@ const TTL = 3600
       username: process.env.REDIS_USERNAME ?? 'default',
       password: process.env.REDIS_PASSWORD ?? '',
     }),
+    ScheduleModule.forRoot(),
     SearchModule,
     ReaderModule,
     AuthorModule,

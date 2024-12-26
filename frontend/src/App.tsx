@@ -12,7 +12,7 @@ import Loading from '@pages/Loading'
 import NotFound from '@pages/NotFound'
 
 import { client } from '@lib/apollo'
-import { useDevToolsStatus } from '@hooks/useDevToolsStatus'
+// import { useDevToolsStatus } from '@hooks/useDevToolsStatus'
 
 import { SearchProvider } from '@context/provider/SearchProvider'
 
@@ -39,7 +39,7 @@ const Tags = React.lazy(() => import('@pages/Tag'))
 
 function App() {
   const location = useLocation()
-  const isDevToolsOpen = useDevToolsStatus()
+  // const isDevToolsOpen = useDevToolsStatus()
 
   const uuidRegex = /([a-f0-9-]{36})/g
 
@@ -63,19 +63,19 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    const checkDevTools = () => {
-      if (isDevToolsOpen) {
-        window.location.href = '/sussy_baka'
-      }
-    }
+  // useEffect(() => {
+  //   const checkDevTools = () => {
+  //     if (isDevToolsOpen) {
+  //       window.location.href = '/sussy_baka'
+  //     }
+  //   }
 
-    const intervalId = setInterval(checkDevTools, 1000)
+  //   const intervalId = setInterval(checkDevTools, 1000)
 
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [isDevToolsOpen])
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [isDevToolsOpen])
 
   useEffect(() => {
     NProgress.configure({ showSpinner: false })
