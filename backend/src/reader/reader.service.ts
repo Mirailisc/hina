@@ -10,17 +10,29 @@ import axios from 'axios'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
 import { MANGADEX_API } from 'src/lib/constants'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class ReaderService {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+  constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
-  async fetchImageWithHeaders(imageUrl: string): Promise<string> {
+  async fetchImage(imageUrl: string): Promise<string> {
     const imageCacheKey = `image-${imageUrl}`
 
     const cachedImage = await this.cacheManager.get<string>(imageCacheKey)
     if (cachedImage) {
       return cachedImage
+    }
+
+    const image = await this.prisma.images.findUnique({
+      where: { key: imageCacheKey },
+    })
+
+    if (image) {
+      return image.data
     }
 
     try {
@@ -39,6 +51,12 @@ export class ReaderService {
         const imageBuffer = Buffer.from(response.data, 'binary')
         const imageUrlData = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`
 
+        await this.prisma.images.create({
+          data: {
+            key: imageCacheKey,
+            data: imageUrlData,
+          },
+        })
         await this.cacheManager.set(imageCacheKey, imageUrlData)
         return imageUrlData
       } else {

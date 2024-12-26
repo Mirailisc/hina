@@ -18,6 +18,6 @@ export class ReaderResolver {
 
   @Query(() => String)
   async fetchImage(@Args('input') input: ImageInput): Promise<string> {
-    return this.readerService.fetchImageWithHeaders(input.imageUrl)
+    return this.readerService.fetchImage(input.imageUrl)
   }
 }

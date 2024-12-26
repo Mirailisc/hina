@@ -1,32 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
 import { FETCH_IMAGE } from '@gql/read'
 
 import { useQuery } from '@apollo/client'
 
 type Props = {
   image: string
-  index: number
 }
 
-const ReaderImage: React.FC<Props> = ({ image, index }: Props) => {
+const ThumbnailImage: React.FC<Props> = ({ image }: Props) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null)
 
   const { loading, data, error } = useQuery(FETCH_IMAGE, {
     variables: { input: { imageUrl: image } },
   })
-
-  useEffect(() => {
-    if (loading) {
-      NProgress.start()
-    } else {
-      NProgress.done()
-    }
-  }, [loading])
 
   useEffect(() => {
     if (data?.fetchImage) {
@@ -40,19 +28,17 @@ const ReaderImage: React.FC<Props> = ({ image, index }: Props) => {
     }
   }, [error])
 
-  if (loading || imageSrc === null) {
-    return <></>
-  }
-
-  return (
+  return loading || imageSrc === null ? (
+    <div className="h-[230px] w-full animate-pulse select-none rounded-t-lg bg-white/30 sm:h-[270px]" />
+  ) : (
     <img
-      key={image}
       src={imageSrc || ''}
-      alt={`page-${index}`}
-      className="w-full md:w-1/2"
+      alt="thumbnail"
+      className="pointer-events-none h-[230px] w-full select-none rounded-t-lg sm:h-[270px]"
+      loading="lazy"
       referrerPolicy="no-referrer"
     />
   )
 }
 
-export default ReaderImage
+export default ThumbnailImage

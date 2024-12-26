@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 
 import { MANGA_PATH } from '@constants/routes'
 
+import ThumbnailImage from './Image'
+
 export interface IMangaSearch {
   id: string
   title: string
@@ -21,13 +23,7 @@ const Thumbnail: React.FC<Props> = ({ data }: Props): JSX.Element => {
       to={MANGA_PATH.replace(':id', data.id)}
     >
       <div>
-        <img
-          src={data.cover}
-          alt="image"
-          className="pointer-events-none h-[230px] w-full select-none rounded-t-lg sm:h-[270px]"
-          loading="lazy"
-          referrerPolicy="no-referrer"
-        />
+        <ThumbnailImage image={data.cover} />
         <div className="p-2">
           <div className="sm:text-md text-sm font-bold text-white">{data.title}</div>
         </div>

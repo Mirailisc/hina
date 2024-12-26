@@ -44,13 +44,19 @@ RUN rm -rf /app/frontend/node_modules /app/backend/node_modules /root/.cache
 RUN bun install --frozen-lockfile --cwd /app/frontend
 RUN bun install --frozen-lockfile --cwd /app/backend
 
+WORKDIR /app/backend
+
+ENV DATABASE_URL=${DATABASE_URL}
+
+RUN bun run prisma:generate
+
 ENV NODE_ENV=production
-ENV URL URL
-ENV REDIS_HOST REDIS_HOST
-ENV REDIS_USERNAME REDIS_USERNAME
-ENV REDIS_PASSWORD REDIS_PASSWORD
-ENV REDIS_PORT REDIS_PORT
+ENV URL=${URL}
+ENV REDIS_HOST=${REDIS_HOST}
+ENV REDIS_USERNAME=${REDIS_USERNAME}
+ENV REDIS_PASSWORD=${REDIS_PASSWORD}
+ENV REDIS_PORT=${REDIS_PORT}
 
 EXPOSE 4000
 
-CMD cd backend && bun run start:prod
+CMD cd /app/backend && bun run start:prod
