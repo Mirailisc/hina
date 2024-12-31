@@ -31,7 +31,7 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
               <div className="flex flex-col justify-between gap-2 md:flex-row md:items-start md:gap-0">
                 <div>
                   <div className="text-white">
-                    {isoCodeToFlagEmoji(chapter.translatedLanguage)} {chapter.volume ? `Vol. ${chapter.volume} ` : ''}{' '}
+                    <span dangerouslySetInnerHTML={{ __html: isoCodeToFlagEmoji(chapter.translatedLanguage) }}/> {chapter.volume ? `Vol. ${chapter.volume} ` : ''}{' '}
                     Ch. {chapter.chapter}
                   </div>
                   {chapter.title && <div className="text-white">{chapter.title}</div>}
