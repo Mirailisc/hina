@@ -8,7 +8,7 @@ This website is a manga / manhwa reader metadata by MandaDex
 ## Features:
 - Search manga by title, tags, or author
 - Quick and efficient media queries
+- Authentication system for save and track your favorite manga
 
-## To-Do:
-- Implement Sign In/Up functionality to allow users to save their reading progress in a database
+## To-Do
 - Settings
