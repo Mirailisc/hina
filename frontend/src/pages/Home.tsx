@@ -7,6 +7,7 @@ import { useSearch } from 'src/hooks/useSearch'
 
 import GoToTop from '@components/Home/GoToTop'
 import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
+import PageTitle from '@components/Utils/PageTitle'
 import Skeleton from '@components/Utils/Skeleton'
 
 import { BASE_PATH_WITH_PAGE, MANGA_NAME_SEARCH_PATH } from '@constants/routes'
@@ -59,10 +60,6 @@ const Home: React.FC = (): JSX.Element => {
     }
   }, [data])
 
-  useEffect(() => {
-    document.title = 'Recent Updates | MangaDiddy'
-  }, [])
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch({ ...search, name: e.target.value })
   }
@@ -75,6 +72,7 @@ const Home: React.FC = (): JSX.Element => {
 
   return (
     <div>
+      <PageTitle title={`Recent Updates | MangaDiddy`} />
       <GoToTop />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">

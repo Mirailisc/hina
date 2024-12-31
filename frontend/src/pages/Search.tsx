@@ -12,6 +12,7 @@ import { MANGA_NAME_SEARCH_PATH } from '@constants/routes'
 import { SEARCH_MANGA } from '@gql/search'
 
 import { useQuery } from '@apollo/client'
+import PageTitle from '@components/Utils/PageTitle'
 
 const Search: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -70,6 +71,7 @@ const Search: React.FC = (): JSX.Element => {
 
   return (
     <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
+      <PageTitle title={`Search ${debouncedSearch} | MangaDiddy`}/>
       <div className="mt-4">
         <input
           type="text"

@@ -14,7 +14,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { AuthorSearch } from './entities/AuthorSearch.entity'
 
 const LIMIT = 100
-const MANGA_LIMIT = 12
+const MANGA_LIMIT = 60
 
 @Injectable()
 export class AuthorService {

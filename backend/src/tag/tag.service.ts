@@ -12,7 +12,7 @@ import { Tags } from './entities/tags.entity'
 import { SearchService } from 'src/search/search.service'
 import { MangaSearch } from 'src/search/entities/MangaSearch.entity'
 
-const MANGA_LIMIT = 12
+const MANGA_LIMIT = 60
 
 @Injectable()
 export class TagService {

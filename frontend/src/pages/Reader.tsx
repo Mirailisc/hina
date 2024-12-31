@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import Controller from '@components/Reader/Controller'
 import ReaderImage from '@components/Reader/Image'
 import Titlebar from '@components/Reader/Titlebar'
+import PageTitle from '@components/Utils/PageTitle'
 
 import { GET_CHAPTERS } from '@gql/manga'
 import { READ_MANGA } from '@gql/read'
@@ -60,10 +61,6 @@ const Reader: React.FC = (): JSX.Element => {
   }, [mangaInfo, mangaLoading])
 
   useEffect(() => {
-    document.title = `Ch. ${chapters[currentChapterIndex] ? chapters[currentChapterIndex].chapter : currentChapterIndex} | MangaDiddy`
-  }, [currentChapterIndex, chapters])
-
-  useEffect(() => {
     fetchImages()
   }, [fetchImages])
 
@@ -103,8 +100,15 @@ const Reader: React.FC = (): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center justify-center py-[100px]">
+      <PageTitle
+        title={
+          loading || mangaLoading
+            ? '[LOADING] | MangaDiddy'
+            : `Ch. ${chapters[currentChapterIndex] ? chapters[currentChapterIndex].chapter : currentChapterIndex} | MangaDiddy`
+        }
+      />
       <Titlebar mangaId={id as string} />
-      <Controller chapterStates={chapterStates} language={searchParams.get('lang')}  />
+      <Controller chapterStates={chapterStates} language={searchParams.get('lang')} />
       {images.length > 0 && images.map((image, index) => <ReaderImage key={image} image={image} index={index} />)}
     </div>
   )
