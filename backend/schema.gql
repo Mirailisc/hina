@@ -72,6 +72,12 @@ type Tags {
   name: String!
 }
 
+type User {
+  id: String!
+  username: String!
+  createdAt: String!
+}
+
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
   metadata(input: MetadataInput!): Metadata!
@@ -82,6 +88,7 @@ type Query {
   fetchImageWithoutCache(input: ImageInput!): String!
   getTags: [Tags!]!
   getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
+  profile: User!
 }
 
 """Search manga from MangaDex API"""
@@ -145,4 +152,15 @@ input TagSearchInput {
 
   """Manga page number"""
   page: Int! = 1
+}
+
+type Mutation {
+  register(input: RegisterInput!): User!
+  login(username: String!, password: String!): String!
+}
+
+input RegisterInput {
+  username: String!
+  password: String!
+  confirmPassword: String!
 }

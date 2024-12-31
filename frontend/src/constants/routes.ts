@@ -11,3 +11,6 @@ export const MANGA_NAME_SEARCH_PATH = SEARCH_PATH + ':name'
 
 export const MANGA_PATH = BASE_PATH + 'read/:id/'
 export const READER_PATH = MANGA_PATH + 'chapter/:chapterId'
+
+export const SIGN_UP_PATH = BASE_PATH + 'register'
+export const SIGN_IN_PATH = BASE_PATH + 'login'

@@ -1,15 +1,23 @@
 import { useState } from 'react'
+import { useCookies } from 'react-cookie'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { AUTHORS_PATH, BASE_PATH, TAGS_PATH } from '@constants/routes'
+import { useUserProfile } from '@context/profileContext'
+
+import { ACCESS_TOKEN } from '@constants/cookie'
+import { AUTHORS_PATH, BASE_PATH, SIGN_IN_PATH, TAGS_PATH } from '@constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
+  const [, , removeCookies] = useCookies([ACCESS_TOKEN])
+  const { userProfile } = useUserProfile()
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
+  const isAuthenticated = userProfile !== null
 
   const handleNavigate = (to: string) => {
     setHamburgerOpen(false)
@@ -21,39 +29,63 @@ const Navbar: React.FC = (): JSX.Element => {
     navigate(0)
   }
 
+  const handleSignOut = () => {
+    removeCookies(ACCESS_TOKEN)
+    navigate(BASE_PATH, { replace: true })
+    navigate(0)
+  }
+
   return (
     <>
       <div className="sticky inset-x-0 top-0 z-40 border-b border-white/20 bg-black/80 backdrop-blur-lg xl:top-2 xl:mx-2 xl:rounded-lg xl:border">
-        <div className="flex items-center justify-between gap-4 px-4 py-2 md:justify-start xl:px-[200px]">
-          <div onClick={handleGoHome} className="cursor-pointer text-lg font-bold">
-            MangaDiddy
+        <div className="flex items-center justify-between px-4 py-2 xl:px-[200px]">
+          <div className="flex items-center justify-between gap-4 md:justify-start">
+            <div onClick={handleGoHome} className="cursor-pointer text-lg font-bold">
+              MangaDiddy
+            </div>
+            <div className="hidden flex-row items-center gap-4 md:flex">
+              <div
+                onClick={() => handleNavigate(BASE_PATH)}
+                className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+              >
+                Home
+              </div>
+              <div
+                onClick={() => handleNavigate(AUTHORS_PATH)}
+                className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+              >
+                Authors
+              </div>
+              <div
+                onClick={() => handleNavigate(TAGS_PATH)}
+                className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+              >
+                Tags
+              </div>
+            </div>
           </div>
-          <div className="hidden flex-row items-center gap-4 md:flex">
-            <div
-              onClick={() => handleNavigate(BASE_PATH)}
-              className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setHamburgerOpen(!hamburgerOpen)}
+              className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900 md:hidden"
             >
-              Home
-            </div>
-            <div
-              onClick={() => handleNavigate(AUTHORS_PATH)}
-              className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
-            >
-              Authors
-            </div>
-            <div
-              onClick={() => handleNavigate(TAGS_PATH)}
-              className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
-            >
-              Tags
-            </div>
+              <GiHamburgerMenu />
+            </button>
+            {isAuthenticated ? (
+              <button
+                onClick={handleSignOut}
+                className="rounded-md border border-white/20 px-4 py-1 transition-colors duration-200 hover:bg-secondary-900"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link to={SIGN_IN_PATH}>
+                <button className="rounded-md border border-white/20 px-4 py-1 transition-colors duration-200 hover:bg-secondary-900">
+                  Sign In
+                </button>
+              </Link>
+            )}
           </div>
-          <button
-            onClick={() => setHamburgerOpen(!hamburgerOpen)}
-            className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900 md:hidden"
-          >
-            <GiHamburgerMenu />
-          </button>
         </div>
       </div>
       <AnimatePresence>

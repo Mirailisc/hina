@@ -1,8 +1,8 @@
 import { Controller, Get, NotFoundException, Res } from '@nestjs/common'
 import { AppService } from './app.service'
-import { isDev } from './lib/constants'
 import { join } from 'path'
 import { Response } from 'express'
+import { isDev } from './constants/constants'
 
 @Controller()
 export class AppController {

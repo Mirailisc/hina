@@ -9,10 +9,10 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
 import { Metadata } from './entities/metadata.entity'
-import { contentRating, MANGADEX_API } from 'src/lib/constants'
 import { Chapter } from './entities/chapter.entity'
 import { AuthorService } from 'src/author/author.service'
 import { Alternative } from './entities/Alternative.entity'
+import { contentRating, MANGADEX_API } from 'src/constants/constants'
 
 @Injectable()
 export class MetadataService {

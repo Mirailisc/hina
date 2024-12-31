@@ -9,7 +9,7 @@ import { Inject } from '@nestjs/common'
 import axios from 'axios'
 import { Cache } from 'cache-manager'
 import { axiosInstance } from 'src/lib/axios'
-import { MANGADEX_API } from 'src/lib/constants'
+import { MANGADEX_API } from 'src/constants/constants'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()

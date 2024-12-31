@@ -8,8 +8,25 @@ datasource db {
 }
 
 model Images {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  key String @unique
-  data String
-  createdAt   DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  key       String   @unique
+  data      String
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  username  String     @unique
+  password  String
+  bookmarks Bookmark[]
+  createdAt DateTime   @default(now())
+}
+
+model Bookmark {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  mangaId        String
+  username       String
+  currentChapter String
+  createdAt      DateTime @default(now())
+  User           User     @relation(fields: [username], references: [username])
 }

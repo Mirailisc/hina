@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
@@ -6,16 +7,16 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import AgeConsent from '@components/Utils/AgeConsent'
+import ApolloWrapper from '@components/Utils/ApolloWrapper'
 import Navbar from '@components/Utils/Navbar'
 
 import Loading from '@pages/Loading'
 import NotFound from '@pages/NotFound'
 
-import { client } from '@lib/apollo'
-// import { useDevToolsStatus } from '@hooks/useDevToolsStatus'
-
+import { UserProfileProvider } from '@context/provider/ProfileProvider'
 import { SearchProvider } from '@context/provider/SearchProvider'
 
+import { ACCESS_TOKEN } from '@constants/cookie'
 import {
   AUTHORS_PATH,
   AUTHOR_PATH,
@@ -24,10 +25,10 @@ import {
   MANGA_NAME_SEARCH_PATH,
   MANGA_PATH,
   READER_PATH,
+  SIGN_IN_PATH,
+  SIGN_UP_PATH,
   TAGS_PATH,
 } from '@constants/routes'
-
-import { ApolloProvider } from '@apollo/client'
 
 const Home = React.lazy(() => import('@pages/Home'))
 const Manga = React.lazy(() => import('@pages/Manga'))
@@ -36,12 +37,15 @@ const Search = React.lazy(() => import('@pages/Search'))
 const Authors = React.lazy(() => import('@pages/Author'))
 const Author = React.lazy(() => import('@pages/Author/_id'))
 const Tags = React.lazy(() => import('@pages/Tag'))
+const SignUp = React.lazy(() => import('@pages/Auth/SignUp'))
+const SignIn = React.lazy(() => import('@pages/Auth/SignIn'))
 
 function App() {
+  const [cookies] = useCookies([ACCESS_TOKEN])
   const location = useLocation()
-  // const isDevToolsOpen = useDevToolsStatus()
 
   const uuidRegex = /([a-f0-9-]{36})/g
+  const isAuthenticated = cookies[ACCESS_TOKEN]
 
   let replacementIndex = 0
 
@@ -63,20 +67,6 @@ function App() {
     }
   }
 
-  // useEffect(() => {
-  //   const checkDevTools = () => {
-  //     if (isDevToolsOpen) {
-  //       window.location.href = '/sussy_baka'
-  //     }
-  //   }
-
-  //   const intervalId = setInterval(checkDevTools, 1000)
-
-  //   return () => {
-  //     clearInterval(intervalId)
-  //   }
-  // }, [isDevToolsOpen])
-
   useEffect(() => {
     NProgress.configure({ showSpinner: false })
     NProgress.start()
@@ -89,35 +79,44 @@ function App() {
   }, [location.pathname])
 
   return (
-    <ApolloProvider client={client}>
+    <ApolloWrapper>
       <Toaster position="bottom-right" />
       <AgeConsent />
       <SearchProvider>
-        <div className="flex min-h-screen flex-col bg-background text-white">
-          <Suspense fallback={<Loading />}>
-            {navbarFilter()}
-            <div className="grow">
-              <Routes>
-                <Route path={BASE_PATH} element={<Home />} />
-                <Route path={BASE_PATH_WITH_PAGE} element={<Home />} />
+        <UserProfileProvider>
+          <div className="flex min-h-screen flex-col bg-background text-white">
+            <Suspense fallback={<Loading />}>
+              {navbarFilter()}
+              <div className="grow">
+                <Routes>
+                  <Route path={BASE_PATH} element={<Home />} />
+                  <Route path={BASE_PATH_WITH_PAGE} element={<Home />} />
 
-                <Route path={AUTHORS_PATH} element={<Authors />} />
-                <Route path={AUTHOR_PATH} element={<Author />} />
+                  <Route path={AUTHORS_PATH} element={<Authors />} />
+                  <Route path={AUTHOR_PATH} element={<Author />} />
 
-                <Route path={TAGS_PATH} element={<Tags />} />
+                  <Route path={TAGS_PATH} element={<Tags />} />
 
-                <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
-                <Route path={MANGA_PATH} element={<Manga />} />
+                  <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
+                  <Route path={MANGA_PATH} element={<Manga />} />
 
-                <Route path={READER_PATH} element={<Reader />} />
+                  <Route path={READER_PATH} element={<Reader />} />
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
-          </Suspense>
-        </div>
+                  {!isAuthenticated && (
+                    <>
+                      <Route path={SIGN_UP_PATH} element={<SignUp />} />
+                      <Route path={SIGN_IN_PATH} element={<SignIn />} />
+                    </>
+                  )}
+
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+            </Suspense>
+          </div>
+        </UserProfileProvider>
       </SearchProvider>
-    </ApolloProvider>
+    </ApolloWrapper>
   )
 }
 

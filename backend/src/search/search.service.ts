@@ -3,7 +3,7 @@ import { MangaSearch } from './entities/MangaSearch.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
 import { MetadataService } from 'src/metadata/metadata.service'
-import { contentRating, MANGADEX_API } from 'src/lib/constants'
+import { contentRating, MANGADEX_API } from 'src/constants/constants'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { InternalServerErrorException } from '@nestjs/common'
 

@@ -7,11 +7,11 @@ import {
 } from '@nestjs/common'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
-import { MANGADEX_API } from 'src/lib/constants'
 import { SearchService } from 'src/search/search.service'
 import { AuthorInfo } from './entities/AuthorInfo.entity'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { AuthorSearch } from './entities/AuthorSearch.entity'
+import { MANGADEX_API } from 'src/constants/constants'
 
 const LIMIT = 100
 const MANGA_LIMIT = 60
