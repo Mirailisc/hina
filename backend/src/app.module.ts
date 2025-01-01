@@ -20,6 +20,7 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
 import { BookmarkModule } from './bookmark/bookmark.module'
+import { JwtModule } from '@nestjs/jwt'
 
 const TTL = 3600
 
@@ -27,6 +28,11 @@ const TTL = 3600
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     SentryModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET ?? 'kingTentacle420',
+      signOptions: { expiresIn: '7d' },
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,

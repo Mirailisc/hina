@@ -78,6 +78,19 @@ type User {
   createdAt: String!
 }
 
+type BookmarkedManga {
+  id: String!
+  title: String
+  status: String!
+  cover: String
+}
+
+type Bookmark {
+  id: String!
+  manga: BookmarkedManga!
+  currentChapter: String!
+}
+
 type Query {
   searchMetadata(input: SearchInput!): [MangaSearch!]!
   metadata(input: MetadataInput!): Metadata!
@@ -88,6 +101,7 @@ type Query {
   fetchImageWithoutCache(input: ImageInput!): String!
   getTags: [Tags!]!
   getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
+  getBookmarks: [Bookmark!]!
   profile: User!
 }
 
@@ -155,8 +169,15 @@ input TagSearchInput {
 }
 
 type Mutation {
+  createBookmark(input: CreateBookmarkInput!): String!
+  updateBookmark(bookmarkId: String!, currentChapter: String!): String!
+  deleteBookmark(bookmarkId: String!): String!
   register(input: RegisterInput!): User!
   login(username: String!, password: String!): String!
+}
+
+input CreateBookmarkInput {
+  mangaId: String!
 }
 
 input RegisterInput {
