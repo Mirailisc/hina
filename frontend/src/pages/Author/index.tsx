@@ -57,7 +57,7 @@ const Authors: React.FC = (): JSX.Element => {
             placeholder="Search..."
             value={searchName}
             onChange={handleSearchInputChange}
-            className="mb-4 w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
+            className="mb-4 w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
           />
         </div>
         {loading ? (
@@ -66,7 +66,7 @@ const Authors: React.FC = (): JSX.Element => {
           </div>
         ) : (
           <div>
-            <div className="flex-1 rounded-lg border border-white/20 p-4">
+            <div className="flex-1 rounded-lg bg-secondary-950/30 p-4">
               <div className="flex flex-wrap gap-4">
                 {authors.map((author: IAuthorThumbnail) => (
                   <NameTag key={author.id} author={author} />

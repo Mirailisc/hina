@@ -82,7 +82,7 @@ const Home: React.FC = (): JSX.Element => {
             value={search.name}
             onChange={handleInputChange}
             placeholder="Search..."
-            className="w-full rounded-md border border-white/20 bg-background px-2 py-1 focus:outline-none"
+            className="w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
           />
         </div>
         {location.pathname === BASE_PATH && <Bookmarks />}
