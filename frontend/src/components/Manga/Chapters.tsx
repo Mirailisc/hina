@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { FaRegClock } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import moment from 'moment'
 
@@ -27,10 +27,15 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
   const { userProfile } = useUserProfile()
   const isAuthenticated = userProfile !== null
 
-  const { data, loading, error } = useQuery(GET_BOOKMARK, { variables: { mangaId: id }, skip: !isAuthenticated })
+  const { data, loading, error, refetch } = useQuery(GET_BOOKMARK, {
+    variables: { mangaId: id },
+    skip: !isAuthenticated,
+  })
   const searchParams = `${selectedLanguage === 'All' ? '' : `?lang=${selectedLanguage}`}${
     data?.getBookmark.id ? `&bookmark=${data.getBookmark.id}` : ''
   }`
+
+  const location = useLocation()
 
   useEffect(() => {
     if (error) {
@@ -38,11 +43,25 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
     }
   }, [error])
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      refetch({ mangaId: id })
+    }
+  }, [location.pathname, isAuthenticated, id, refetch])
+
   if (loading) return <></>
+
+  const uniqueChapters = Array.from(
+    new Map(
+      chapters
+        .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown Language')
+        .map((chapter) => [`${chapter.chapter}-${chapter.translatedLanguage}`, chapter]),
+    ).values(),
+  )
 
   return (
     <div className="space-y-4">
-      {chapters
+      {uniqueChapters
         .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown Language')
         .map((chapter, index) => {
           return (
@@ -53,13 +72,19 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
               }}
               key={`chapter-${chapter.chapter}-${index}-${chapter.translatedLanguage}`}
             >
-              <div className="my-4 rounded-lg bg-white/10 p-4 shadow-md transition-all duration-300 ease-in-out hover:bg-white/20">
+              <div
+                className={`my-4 ${
+                  chapter.chapter === data?.getBookmark.currentChapter &&
+                  chapter.translatedLanguage === data?.getBookmark.currentLanguage &&
+                  'border-l-8 border-primary-500'
+                } bg-white/10 p-4 shadow-md transition-all duration-300 ease-in-out hover:bg-white/20`}
+              >
                 <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-white">
                       <span dangerouslySetInnerHTML={{ __html: isoCodeToFlagEmoji(chapter.translatedLanguage) }} />
                       <span className="font-semibold">
-                        {chapter.volume ? `Vol. ${chapter.volume} ` : ''}Ch. {chapter.chapter}
+                        {chapter.volume ? `Vol. ${chapter.volume} ` : ''}Ch. {chapter.chapter}{' '}
                       </span>
                     </div>
                     {chapter.title && <div className="text-sm text-white">{chapter.title}</div>}
