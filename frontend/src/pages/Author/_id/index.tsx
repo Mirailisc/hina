@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { ThreeDot } from 'react-loading-indicators'
 import { useParams } from 'react-router-dom'
 
 import Social, { ISocial } from '@components/Author/Social'
 import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
 import PageTitle from '@components/Utils/PageTitle'
+import LoliLoading from '@components/Utils/LoliLoading'
 
 import { GET_AUTHOR_INFO } from '@gql/author'
 
@@ -79,19 +79,23 @@ const Authors: React.FC = (): JSX.Element => {
         )}
         <div className="w-full">
           {loading ? (
-            <div className="mt-4 text-center">
-              <ThreeDot color="#0A81AB" size="medium" />
+            <div className="mt-4 flex justify-center">
+              <LoliLoading />
             </div>
           ) : (
-            <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+            <>
               {author.mangas.length > 0 ? (
-                author.mangas
-                  .filter((item) => item.title !== 'Untitled')
-                  .map((item, index) => <Thumbnail key={`manga-${index}`} data={item} />)
+                <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+                  {author.mangas
+                    .filter((item) => item.title !== 'Untitled')
+                    .map((item, index) => (
+                      <Thumbnail key={`manga-${index}`} data={item} />
+                    ))}
+                </div>
               ) : (
                 <div className="w-full text-center">No results found</div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>

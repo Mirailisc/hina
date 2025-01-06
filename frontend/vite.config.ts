@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
         '@context': resolve(__dirname, 'src/context'),
         '@lib': resolve(__dirname, 'src/lib'),
         '@pages': resolve(__dirname, 'src/pages'),
+        '@images': resolve(__dirname, 'src/images'),
       },
     },
     server: {

@@ -19,15 +19,17 @@ const Updates: React.FC<Props> = ({ loading, searchResult, paginationPage }: Pro
         <Skeleton amount={18} />
       ) : (
         <div>
-          <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-            {searchResult.length > 0 ? (
-              searchResult
+          {searchResult.length > 0 ? (
+            <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+              {searchResult
                 .filter((item) => item.title !== 'Untitled')
-                .map((item, index) => <Thumbnail key={`manga-${index}`} data={item} />)
-            ) : (
-              <div className="w-full text-center">No results found</div>
-            )}
-          </div>
+                .map((item, index) => (
+                  <Thumbnail key={`manga-${index}`} data={item} />
+                ))}
+            </div>
+          ) : (
+            <div className="w-full text-center">No results found</div>
+          )}
           {searchResult.length > 0 && (
             <div className="mt-4 flex justify-center space-x-2 p-4">
               {paginationPage === 1 ? (

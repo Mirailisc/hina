@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { ThreeDot } from 'react-loading-indicators'
 
 import NameTag, { IAuthorThumbnail } from '@components/Author/NameTag'
 import PageTitle from '@components/Utils/PageTitle'
+import LoliLoading from '@components/Utils/LoliLoading'
 
 import { GET_ALL_AUTHORS } from '@gql/author'
 
@@ -61,8 +61,8 @@ const Authors: React.FC = (): JSX.Element => {
           />
         </div>
         {loading ? (
-          <div className="mt-4 text-center">
-            <ThreeDot color="#0A81AB" size="medium" />
+          <div className="mt-4 flex justify-center">
+            <LoliLoading />
           </div>
         ) : (
           <div>

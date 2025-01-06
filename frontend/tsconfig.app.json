@@ -31,7 +31,8 @@
       "@gql/*": ["src/gql/*"],
       "@hooks/*": ["src/hooks/*"],
       "@lib/*": ["src/lib/*"],
-      "@pages/*": ["src/pages/*"]
+      "@pages/*": ["src/pages/*"],
+      "@images/*": ["src/images/*"]
     }
   },
   "include": ["src"],

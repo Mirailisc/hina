@@ -3,6 +3,7 @@ import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
+import PageTitle from '@components/Utils/PageTitle'
 import Skeleton from '@components/Utils/Skeleton'
 
 import { useSearch } from '@hooks/useSearch'
@@ -12,7 +13,6 @@ import { MANGA_NAME_SEARCH_PATH } from '@constants/routes'
 import { SEARCH_MANGA } from '@gql/search'
 
 import { useQuery } from '@apollo/client'
-import PageTitle from '@components/Utils/PageTitle'
 
 const Search: React.FC = (): JSX.Element => {
   const { search, setSearch } = useSearch()
@@ -71,7 +71,7 @@ const Search: React.FC = (): JSX.Element => {
 
   return (
     <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
-      <PageTitle title={`Search ${debouncedSearch} | MangaDiddy`}/>
+      <PageTitle title={`Search ${debouncedSearch} | MangaDiddy`} />
       <div className="mt-4">
         <input
           type="text"
@@ -87,15 +87,17 @@ const Search: React.FC = (): JSX.Element => {
           <Skeleton amount={18} />
         ) : (
           <div>
-            <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-              {searchResult.length > 0 ? (
-                searchResult
+            {searchResult.length > 0 ? (
+              <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+                {searchResult
                   .filter((item) => item.title !== 'Untitled')
-                  .map((item, index) => <Thumbnail key={`manga-${index}`} data={item} />)
-              ) : (
-                <div className="w-full text-center">No results found</div>
-              )}
-            </div>
+                  .map((item, index) => (
+                    <Thumbnail key={`manga-${index}`} data={item} />
+                  ))}
+              </div>
+            ) : (
+              <div className="w-full text-center">No results found</div>
+            )}
             {searchResult.length > 0 && (
               <div className="mt-4 flex justify-center space-x-2 p-4">
                 <button

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { ThreeDot } from 'react-loading-indicators'
 import { useParams } from 'react-router-dom'
 
 import MangaChapters from '@components/Manga/Chapters'
 import MangaInfo, { IManga } from '@components/Manga/Info'
 import PageTitle from '@components/Utils/PageTitle'
+import LoliLoading from '@components/Utils/LoliLoading'
 
 import { getLanguageName } from '@lib/lang-iso'
 
@@ -140,8 +140,8 @@ const Manga: React.FC = (): JSX.Element => {
           )}
         </div>
         {loading ? (
-          <div className="mt-4 text-center">
-            <ThreeDot color="#0A81AB" size="medium" />
+          <div className="mt-4 flex justify-center">
+            <LoliLoading />
           </div>
         ) : (
           <div>

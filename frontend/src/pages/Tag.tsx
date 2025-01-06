@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaTimes } from 'react-icons/fa'
-import { ThreeDot } from 'react-loading-indicators'
 
 import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
 import TagFilter, { ITag } from '@components/Tag/Filter'
 import PageTitle from '@components/Utils/PageTitle'
 import Skeleton from '@components/Utils/Skeleton'
+import LoliLoading from '@components/Utils/LoliLoading'
 
 import { SEARCH_MANGA_BY_TAGS } from '@gql/search'
 import { GET_ALL_TAGS } from '@gql/tag'
@@ -69,8 +69,8 @@ const Tags = () => {
 
   if (loading) {
     return (
-      <div className="mt-4 text-center">
-        <ThreeDot color="#0A81AB" size="medium" />
+      <div className="mt-4 flex justify-center">
+        <LoliLoading />
       </div>
     )
   }
@@ -122,15 +122,17 @@ const Tags = () => {
             <Skeleton amount={12} />
           ) : (
             <div>
-              <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-                {searchResult.length > 0 ? (
-                  searchResult
+              {searchResult.length > 0 ? (
+                <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+                  {searchResult
                     .filter((item) => item.title !== 'Untitled')
-                    .map((item, index) => <Thumbnail key={`manga-${index}`} data={item} />)
-                ) : (
-                  <div className="w-full text-center">No results found</div>
-                )}
-              </div>
+                    .map((item, index) => (
+                      <Thumbnail key={`manga-${index}`} data={item} />
+                    ))}
+                </div>
+              ) : (
+                <div className="w-full text-center">No results found</div>
+              )}
               {searchResult.length > 0 && (
                 <div className="mt-4 flex justify-center space-x-2 p-4">
                   <button

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { ThreeDot } from 'react-loading-indicators'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import Controller from '@components/Reader/Controller'
 import ReaderImage from '@components/Reader/Image'
 import Titlebar from '@components/Reader/Titlebar'
 import PageTitle from '@components/Utils/PageTitle'
+import LoliLoading from '@components/Utils/LoliLoading'
 
 import { useUserProfile } from '@context/profileContext'
 
@@ -104,8 +104,8 @@ const Reader: React.FC = (): JSX.Element => {
 
   if (mangaLoading || readLoading) {
     return (
-      <div className="mt-10 text-center">
-        <ThreeDot color="#0A81AB" size="medium" />
+      <div className="mt-10 flex justify-center">
+        <LoliLoading />
       </div>
     )
   }
