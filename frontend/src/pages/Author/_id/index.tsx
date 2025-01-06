@@ -63,7 +63,7 @@ const Authors: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      <PageTitle title={`${author.name} | MangaDiddy`} />
+      <PageTitle title={`${author.name} | MangaArius`} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="my-4">
           {loading ? (

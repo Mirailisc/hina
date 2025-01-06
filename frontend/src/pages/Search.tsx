@@ -71,7 +71,7 @@ const Search: React.FC = (): JSX.Element => {
 
   return (
     <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
-      <PageTitle title={`Search ${debouncedSearch} | MangaDiddy`} />
+      <PageTitle title={`Search ${debouncedSearch} | MangaArius`} />
       <div className="mt-4">
         <input
           type="text"

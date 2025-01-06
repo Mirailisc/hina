@@ -41,7 +41,7 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
   if (loading) return <></>
 
   return (
-    <div>
+    <div className="space-y-4">
       {chapters
         .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown Language')
         .map((chapter, index) => {
@@ -53,18 +53,21 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
               }}
               key={`chapter-${chapter.chapter}-${index}-${chapter.translatedLanguage}`}
             >
-              <div className="mt-4 rounded-lg bg-white/10 px-4 py-2 transition-colors duration-200 hover:bg-white/20">
-                <div className="flex flex-col justify-between gap-2 md:flex-row md:items-start md:gap-0">
-                  <div>
-                    <div className="text-white">
-                      <span dangerouslySetInnerHTML={{ __html: isoCodeToFlagEmoji(chapter.translatedLanguage) }} />{' '}
-                      {chapter.volume ? `Vol. ${chapter.volume} ` : ''} Ch. {chapter.chapter}
+              <div className="my-4 rounded-lg bg-white/10 p-4 shadow-md transition-all duration-300 ease-in-out hover:bg-white/20">
+                <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2 text-white">
+                      <span dangerouslySetInnerHTML={{ __html: isoCodeToFlagEmoji(chapter.translatedLanguage) }} />
+                      <span className="font-semibold">
+                        {chapter.volume ? `Vol. ${chapter.volume} ` : ''}Ch. {chapter.chapter}
+                      </span>
                     </div>
-                    {chapter.title && <div className="text-white">{chapter.title}</div>}
+                    {chapter.title && <div className="text-sm text-white">{chapter.title}</div>}
                   </div>
-                  <div className="flex flex-row items-center justify-end gap-2">
+
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
                     <FaRegClock />
-                    {moment(chapter.publishAt).fromNow()}
+                    <span>{moment(chapter.publishAt).fromNow()}</span>
                   </div>
                 </div>
               </div>

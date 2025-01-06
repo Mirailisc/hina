@@ -122,8 +122,8 @@ const Reader: React.FC = (): JSX.Element => {
       <PageTitle
         title={
           mangaLoading || readLoading
-            ? '[LOADING] | MangaDiddy'
-            : `Ch. ${chapters[currentChapterIndex]?.chapter || currentChapterIndex} | MangaDiddy`
+            ? '[LOADING] | MangaArius'
+            : `Ch. ${chapters[currentChapterIndex]?.chapter || currentChapterIndex} | MangaArius`
         }
       />
       <Titlebar mangaId={id as string} />

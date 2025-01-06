@@ -121,7 +121,7 @@ const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
         </div>
       </div>
       {manga.chapters.length > 0 && (
-        <div className="mt-auto flex flex-row items-center gap-4">
+        <div className="mt-10 flex flex-row items-center gap-4">
           <Link
             to={READER_PATH.replace(':id', manga.id).replace(':chapterId', manga.chapters[0].id)}
             className="rounded-md bg-primary-500 px-4 py-2 text-white transition hover:bg-primary-600"

@@ -11,10 +11,10 @@ type Props = {
 
 const TagFilter: React.FC<Props> = ({ tags, includedTags, toggleTag }: Props): JSX.Element => {
   return (
-    <div className="my-4 flex flex-wrap gap-4 rounded-lg border border-white/20 p-4">
+    <div className="my-4 flex flex-wrap gap-4 rounded-lg  bg-secondary-950/30 p-4">
       {tags.map((tag) => (
         <div
-          className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-white transition-colors duration-200 ${
+          className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-sm text-white transition-colors duration-200 ${
             includedTags.includes(tag.id) ? 'bg-primary-700' : 'bg-secondary-950 hover:bg-secondary-800'
           }`}
           key={tag.id}

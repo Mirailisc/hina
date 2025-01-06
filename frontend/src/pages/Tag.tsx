@@ -77,7 +77,7 @@ const Tags = () => {
 
   return (
     <div>
-      <PageTitle title={`Tags | MangaDiddy`} />
+      <PageTitle title={`Tags | MangaArius`} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="my-4">
           <div className="mt-4 flex items-center justify-between">
@@ -93,14 +93,14 @@ const Tags = () => {
               </div>
             )}
           </div>
-          <div className="my-4 flex flex-wrap gap-2 rounded-lg border border-white/20 p-4">
+          <div className="my-4 flex flex-wrap gap-2 rounded-lg ">
             {includedTags.length > 0 ? (
               includedTags.map((tagId) => {
                 const tag = tags.find((t) => t.id === tagId)
                 return (
                   tag && (
                     <div
-                      className="flex items-center gap-2 rounded-md bg-primary-700 px-4 py-2 text-white"
+                      className="flex items-center gap-2 rounded-md bg-primary-700 px-2 py-1 text-sm text-white"
                       key={tag.id}
                     >
                       {tag.name}
@@ -112,7 +112,7 @@ const Tags = () => {
                 )
               })
             ) : (
-              <span>None</span>
+              <span></span>
             )}
           </div>
         </div>

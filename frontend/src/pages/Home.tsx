@@ -73,7 +73,7 @@ const Home: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      <PageTitle title={`Recent Updates | MangaDiddy`} />
+      <PageTitle title={`Recent Updates | MangaArius`} />
       <GoToTop />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">

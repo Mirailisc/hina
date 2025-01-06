@@ -48,7 +48,7 @@ const Authors: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      <PageTitle title={'Authors | MangaDiddy'} />
+      <PageTitle title={'Authors | MangaArius'} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">
           <h1 className="my-4 text-2xl font-bold">Authors</h1>

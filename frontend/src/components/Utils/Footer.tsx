@@ -1,7 +1,7 @@
 const Footer: React.FC = (): JSX.Element => {
   return (
     <div className="mt-10 border-t border-white/20">
-      {/* <div className="py-10 pl-10 text-4xl">MangaDiddy</div> */}
+      {/* <div className="py-10 pl-10 text-4xl">MangaArius</div> */}
       <div className="py-10 text-center text-white/50 md:pr-20 md:text-right">
         © 2024{' '}
         <a
