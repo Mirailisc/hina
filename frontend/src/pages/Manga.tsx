@@ -87,12 +87,12 @@ const Manga: React.FC = (): JSX.Element => {
                 alt="cover"
                 referrerPolicy="no-referrer"
                 loading="lazy"
-                className="w-full rounded-lg border border-white/25 md:w-[300px]"
+                className="w-full rounded-lg md:w-[300px]"
               />
             )}
           </div>
           {loading ? (
-            <div className="w-full rounded-lg border border-white/25 p-4">
+            <div className="w-full rounded-lg px-4">
               <div className="h-[50px] w-full animate-pulse rounded-md bg-white/30" />
               <div className="my-2 h-[20px] w-full animate-pulse rounded-md bg-white/30" />
               <div className="my-2 h-[30px] w-full animate-pulse rounded-md bg-white/30" />
@@ -103,18 +103,21 @@ const Manga: React.FC = (): JSX.Element => {
           )}
         </div>
         <div className="mt-4 overflow-x-auto">
-          <ul className="flex space-x-4">
-            {languages.map((lang) => (
-              <li
-                key={lang}
-                onClick={() => setSelectedLanguage(lang)}
-                className={`cursor-pointer px-4 py-2 ${
-                  selectedLanguage === lang ? 'border-b-2 border-white text-white' : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {lang === 'All' ? 'All' : getLanguageName(lang)}
-              </li>
-            ))}
+          <h1 className="text-2xl font-bold">Languages</h1>
+          <ul className="my-4 flex space-x-4">
+            {languages
+              .filter((lang) => getLanguageName(lang) !== 'Unknown Language' || lang === 'All')
+              .map((lang) => (
+                <li
+                  key={lang}
+                  onClick={() => setSelectedLanguage(lang)}
+                  className={`cursor-pointer px-4 py-2 ${
+                    selectedLanguage === lang ? 'border-b-2 border-white text-white' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {lang === 'All' ? 'All' : getLanguageName(lang)}
+                </li>
+              ))}
           </ul>
         </div>
 

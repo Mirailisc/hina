@@ -17,6 +17,16 @@ export class BookmarkResolver {
   }
 
   @UseGuards(AuthGuard)
+  @Query(() => Bookmark)
+  async getBookmark(
+    @Context() ctx: any,
+    @Args('mangaId') mangaId: string,
+  ): Promise<Bookmark> {
+    const user = ctx.req.user
+    return this.bookmarkService.getBookmark(user.username, mangaId)
+  }
+
+  @UseGuards(AuthGuard)
   @Mutation(() => String)
   async createBookmark(
     @Args('input') input: CreateBookmarkInput,
@@ -34,8 +44,13 @@ export class BookmarkResolver {
   async updateBookmark(
     @Args('bookmarkId') bookmarkId: string,
     @Args('currentChapter') currentChapter: string,
+    @Args('currentLanguage') currentLanguage: string,
   ): Promise<string> {
-    return this.bookmarkService.updateBookmark(bookmarkId, currentChapter)
+    return this.bookmarkService.updateBookmark(
+      bookmarkId,
+      currentChapter,
+      currentLanguage,
+    )
   }
 
   @UseGuards(AuthGuard)

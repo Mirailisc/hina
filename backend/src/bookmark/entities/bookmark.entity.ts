@@ -11,4 +11,7 @@ export class Bookmark {
 
   @Field(() => String)
   currentChapter: string
+
+  @Field(() => String)
+  currentLanguage: string
 }

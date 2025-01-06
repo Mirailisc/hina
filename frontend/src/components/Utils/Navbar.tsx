@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useUserProfile } from '@context/profileContext'
 
 import { ACCESS_TOKEN } from '@constants/cookie'
-import { AUTHORS_PATH, BASE_PATH, SIGN_IN_PATH, TAGS_PATH } from '@constants/routes'
+import { AUTHORS_PATH, BASE_PATH, SIGN_IN_PATH, SIGN_UP_PATH, TAGS_PATH } from '@constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
   const [, , removeCookies] = useCookies([ACCESS_TOKEN])
@@ -37,8 +37,8 @@ const Navbar: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <div className="sticky inset-x-0 top-0 z-40 border-b border-white/20 bg-black/80 backdrop-blur-lg xl:top-2 xl:mx-2 xl:rounded-lg xl:border">
-        <div className="flex items-center justify-between px-4 py-2 xl:px-[200px]">
+      <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-lg">
+        <div className="flex items-center justify-between p-4 xl:justify-around">
           <div className="flex items-center justify-between gap-4 md:justify-start">
             <div onClick={handleGoHome} className="cursor-pointer text-lg font-bold">
               MangaDiddy
@@ -65,12 +65,6 @@ const Navbar: React.FC = (): JSX.Element => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setHamburgerOpen(!hamburgerOpen)}
-              className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900 md:hidden"
-            >
-              <GiHamburgerMenu />
-            </button>
             {isAuthenticated ? (
               <button
                 onClick={handleSignOut}
@@ -79,12 +73,26 @@ const Navbar: React.FC = (): JSX.Element => {
                 Sign Out
               </button>
             ) : (
-              <Link to={SIGN_IN_PATH}>
-                <button className="rounded-md border border-white/20 px-4 py-1 transition-colors duration-200 hover:bg-secondary-900">
-                  Sign In
-                </button>
-              </Link>
+              <div className="flex flex-row items-center gap-4">
+                <Link
+                  to={SIGN_IN_PATH}
+                  className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
+                >
+                  Login
+                </Link>
+                <Link to={SIGN_UP_PATH}>
+                  <button className="rounded-md border border-white/20 px-4 py-1 transition-colors duration-200 hover:bg-secondary-900">
+                    Register
+                  </button>
+                </Link>
+              </div>
             )}
+            <button
+              onClick={() => setHamburgerOpen(!hamburgerOpen)}
+              className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900 md:hidden"
+            >
+              <GiHamburgerMenu />
+            </button>
           </div>
         </div>
       </div>

@@ -25,11 +25,13 @@ export class MetadataService {
   ) {}
 
   async getMetadata(id: string, language: string | null) {
-    const cacheKey = `metadata:${id}`
+    const cacheKey = `metadata:${id}-${language === '' ? 'all' : language}`
     try {
       const cachedData = await this.cacheManager.get<Metadata>(cacheKey)
       if (cachedData) {
-        this.logger.log(`Returning cached metadata for ${id}`)
+        this.logger.log(
+          `Returning cached metadata for ${id} and language ${language === '' ? 'all' : language}`,
+        )
         return cachedData
       }
 
@@ -81,11 +83,13 @@ export class MetadataService {
   }
 
   async getChapters(id: string, language: string): Promise<Chapter[]> {
-    const cacheKey = `chapters:${id}`
+    const cacheKey = `chapters:${id}-${language === '' ? 'all' : language}`
     try {
       const cachedChapters = await this.cacheManager.get<Chapter[]>(cacheKey)
       if (cachedChapters) {
-        this.logger.log(`Returning cached chapters for ${id}`)
+        this.logger.log(
+          `Returning cached chapters for ${id} and language ${language === '' ? 'all' : language}`,
+        )
         return cachedChapters
       }
 

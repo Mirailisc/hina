@@ -11,6 +11,23 @@ export const GET_BOOKMARKS = gql`
         cover
       }
       currentChapter
+      currentLanguage
+    }
+  }
+`
+
+export const GET_BOOKMARK = gql`
+  query GetBookmark($mangaId: String!) {
+    getBookmark(mangaId: $mangaId) {
+      id
+      manga {
+        id
+        title
+        status
+        cover
+      }
+      currentChapter
+      currentLanguage
     }
   }
 `
@@ -28,7 +45,7 @@ export const DELETE_BOOKMARK = gql`
 `
 
 export const UPDATE_BOOKMARK = gql`
-  mutation UpdateBookmark($bookmarkId: String!, $currentChapter: String!) {
-    updateBookmark(bookmarkId: $bookmarkId, currentChapter: $currentChapter)
+  mutation UpdateBookmark($bookmarkId: String!, $currentChapter: String!, $currentLanguage: String!) {
+    updateBookmark(bookmarkId: $bookmarkId, currentChapter: $currentChapter, currentLanguage: $currentLanguage)
   }
 `

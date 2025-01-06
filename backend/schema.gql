@@ -89,6 +89,7 @@ type Bookmark {
   id: String!
   manga: BookmarkedManga!
   currentChapter: String!
+  currentLanguage: String!
 }
 
 type Query {
@@ -102,6 +103,7 @@ type Query {
   getTags: [Tags!]!
   getMangaByTags(input: TagSearchInput!): [MangaSearch!]!
   getBookmarks: [Bookmark!]!
+  getBookmark(mangaId: String!): Bookmark!
   profile: User!
 }
 
@@ -170,7 +172,7 @@ input TagSearchInput {
 
 type Mutation {
   createBookmark(input: CreateBookmarkInput!): String!
-  updateBookmark(bookmarkId: String!, currentChapter: String!): String!
+  updateBookmark(bookmarkId: String!, currentChapter: String!, currentLanguage: String!): String!
   deleteBookmark(bookmarkId: String!): String!
   register(input: RegisterInput!): User!
   login(username: String!, password: String!): String!

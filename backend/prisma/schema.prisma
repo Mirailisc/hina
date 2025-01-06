@@ -23,10 +23,11 @@ model User {
 }
 
 model Bookmark {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  mangaId        String
-  username       String
-  currentChapter String
-  createdAt      DateTime @default(now())
-  User           User     @relation(fields: [username], references: [username])
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  mangaId         String
+  username        String
+  currentChapter  String
+  currentLanguage String
+  createdAt       DateTime @default(now())
+  User            User     @relation(fields: [username], references: [username])
 }

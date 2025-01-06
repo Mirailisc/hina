@@ -26,6 +26,7 @@ export class BookmarkService {
           username,
           mangaId,
           currentChapter: allChapters[0].chapter,
+          currentLanguage: '',
         },
       })
 
@@ -54,6 +55,7 @@ export class BookmarkService {
             id: bookmark.id,
             manga: { id, title, status, cover } as BookmarkedManga,
             currentChapter: bookmark.currentChapter,
+            currentLanguage: bookmark.currentLanguage,
           }
         }),
       )
@@ -64,11 +66,49 @@ export class BookmarkService {
     }
   }
 
-  async updateBookmark(bookmarkId: string, currentChapter: string) {
+  async getBookmark(username: string, mangaId: string) {
+    try {
+      const bookmark = await this.prisma.bookmark.findFirst({
+        where: { username, mangaId },
+      })
+
+      if (!bookmark) {
+        return {
+          id: '',
+          manga: {
+            id: '',
+            title: '',
+            status: '',
+            cover: '',
+          } as BookmarkedManga,
+          currentChapter: '',
+          currentLanguage: '',
+        }
+      }
+
+      const { id, title, status, cover } =
+        await this.metadataService.getMetadata(bookmark.mangaId, '')
+
+      return {
+        id: bookmark.id,
+        manga: { id, title, status, cover } as BookmarkedManga,
+        currentChapter: bookmark.currentChapter,
+        currentLanguage: bookmark.currentLanguage,
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
+  }
+
+  async updateBookmark(
+    bookmarkId: string,
+    currentChapter: string,
+    currentLanguage: string,
+  ) {
     try {
       const result = await this.prisma.bookmark.update({
         where: { id: bookmarkId },
-        data: { currentChapter },
+        data: { currentChapter, currentLanguage },
       })
 
       this.logger.log(

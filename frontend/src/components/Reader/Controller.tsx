@@ -10,14 +10,19 @@ type Props = {
     previous: string | null
     next: string | null
   }
+  bookmarkId: string | null
   language: string | null
 }
 
-const Controller: React.FC<Props> = ({ chapterStates, language }: Props): JSX.Element => {
+const Controller: React.FC<Props> = ({ chapterStates, language, bookmarkId }: Props): JSX.Element => {
   const navigate = useNavigate()
 
   const handleController = async (to: string) => {
-    await navigate({ pathname: to, search: language ? `?lang=${language}` : '' }, { replace: true })
+    const queryParams = new URLSearchParams()
+    if (language) queryParams.set('lang', language)
+    if (bookmarkId) queryParams.set('bookmark', bookmarkId)
+
+    await navigate({ pathname: to, search: queryParams.toString() }, { replace: true })
   }
 
   if (!chapterStates.previous && !chapterStates.next) return <></>
