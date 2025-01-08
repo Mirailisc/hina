@@ -29,12 +29,12 @@ const ThumbnailImage: React.FC<Props> = ({ image }: Props) => {
   }, [error])
 
   return loading || imageSrc === null ? (
-    <div className="h-[230px] w-full animate-pulse select-none rounded-t-lg bg-white/30 sm:h-[270px]" />
+    <div className="aspect-[11/16] w-full animate-pulse select-none rounded-t-lg bg-white/30" />
   ) : (
     <img
       src={imageSrc || ''}
       alt="thumbnail"
-      className="pointer-events-none h-[230px] w-full select-none rounded-t-lg sm:h-[270px]"
+      className="pointer-events-none aspect-[11/16] w-full select-none rounded-lg object-cover"
       loading="lazy"
       referrerPolicy="no-referrer"
     />

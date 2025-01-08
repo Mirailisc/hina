@@ -55,12 +55,12 @@ const Bookmarks: React.FC = (): JSX.Element => {
     <div>
       {bookmarks.length > 0 && (
         <>
-          <h1 className="mt-4 text-2xl font-bold">Continue Reading</h1>
+          <h1 className="my-8 text-2xl font-bold">Continue Reading</h1>
           {loading ? (
             <Skeleton amount={6} />
           ) : (
             <div>
-              <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {bookmarks.map((item, index) => (
                   <BookmarkThumbnail
                     key={`bookmarked-manga-${index}`}

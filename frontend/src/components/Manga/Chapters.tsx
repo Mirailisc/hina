@@ -54,7 +54,7 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
   const uniqueChapters = Array.from(
     new Map(
       chapters
-        .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown Language')
+        .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown')
         .map((chapter) => [`${chapter.chapter}-${chapter.translatedLanguage}`, chapter]),
     ).values(),
   )
@@ -62,7 +62,7 @@ const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Prop
   return (
     <div className="space-y-4">
       {uniqueChapters
-        .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown Language')
+        .filter((chapter) => getLanguageName(chapter.translatedLanguage) !== 'Unknown')
         .map((chapter, index) => {
           return (
             <Link

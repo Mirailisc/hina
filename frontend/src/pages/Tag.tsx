@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaTimes } from 'react-icons/fa'
 
-import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
+import MangaList from '@components/Home/MangaList'
+import { IMangaSearch } from '@components/Home/Thumbnail'
+import Pagination from '@components/Search/Pagination'
 import TagFilter, { ITag } from '@components/Tag/Filter'
+import LoliLoading from '@components/Utils/LoliLoading'
 import PageTitle from '@components/Utils/PageTitle'
 import Skeleton from '@components/Utils/Skeleton'
-import LoliLoading from '@components/Utils/LoliLoading'
 
 import { SEARCH_MANGA_BY_TAGS } from '@gql/search'
 import { GET_ALL_TAGS } from '@gql/tag'
@@ -59,10 +60,6 @@ const Tags = () => {
     setIncludedTags((prev) => (prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId]))
   }
 
-  const removeTag = (tagId: string) => {
-    setIncludedTags((prev) => prev.filter((id) => id !== tagId))
-  }
-
   const clearAllTags = () => {
     setIncludedTags([])
   }
@@ -80,7 +77,7 @@ const Tags = () => {
       <PageTitle title={`Tags | MangaArius`} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="my-4">
-          <div className="mt-4 flex items-center justify-between">
+          <div className="my-8 flex items-center justify-between">
             <h1 className="text-2xl font-bold">Tags</h1>
             {includedTags.length > 0 && (
               <div className="text-right">
@@ -93,28 +90,6 @@ const Tags = () => {
               </div>
             )}
           </div>
-          <div className="my-4 flex flex-wrap gap-2 rounded-lg ">
-            {includedTags.length > 0 ? (
-              includedTags.map((tagId) => {
-                const tag = tags.find((t) => t.id === tagId)
-                return (
-                  tag && (
-                    <div
-                      className="flex items-center gap-2 rounded-md bg-primary-700 px-2 py-1 text-sm text-white"
-                      key={tag.id}
-                    >
-                      {tag.name}
-                      <button className="text-white hover:text-gray-200" onClick={() => removeTag(tag.id)}>
-                        <FaTimes />
-                      </button>
-                    </div>
-                  )
-                )
-              })
-            ) : (
-              <span></span>
-            )}
-          </div>
         </div>
         <TagFilter tags={tags} includedTags={includedTags} toggleTag={toggleTag} />
         <div className="w-full">
@@ -122,36 +97,8 @@ const Tags = () => {
             <Skeleton amount={12} />
           ) : (
             <div>
-              {searchResult.length > 0 ? (
-                <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-                  {searchResult
-                    .filter((item) => item.title !== 'Untitled')
-                    .map((item, index) => (
-                      <Thumbnail key={`manga-${index}`} data={item} />
-                    ))}
-                </div>
-              ) : (
-                <div className="w-full text-center">No results found</div>
-              )}
-              {searchResult.length > 0 && (
-                <div className="mt-4 flex justify-center space-x-2 p-4">
-                  <button
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={page === 1}
-                    className="rounded-md bg-gray-200 px-4 py-2 text-black disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  <span className="flex items-center px-4 py-2 text-lg font-medium">{page}</span>
-                  <button
-                    onClick={() => setPage((prev) => prev + 1)}
-                    disabled={searchResult.length > 0 && page === searchResult[0].totalPage}
-                    className="rounded-md bg-gray-200 px-4 py-2 text-black disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
+              <MangaList searchResult={searchResult} />
+              <Pagination searchResult={searchResult} page={page} setPage={setPage} />
             </div>
           )}
         </div>

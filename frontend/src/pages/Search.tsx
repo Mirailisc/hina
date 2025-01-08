@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
+import MangaList from '@components/Home/MangaList'
+import { IMangaSearch } from '@components/Home/Thumbnail'
+import Pagination from '@components/Search/Pagination'
 import PageTitle from '@components/Utils/PageTitle'
 import Skeleton from '@components/Utils/Skeleton'
 
@@ -87,36 +89,8 @@ const Search: React.FC = (): JSX.Element => {
           <Skeleton amount={18} />
         ) : (
           <div>
-            {searchResult.length > 0 ? (
-              <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-                {searchResult
-                  .filter((item) => item.title !== 'Untitled')
-                  .map((item, index) => (
-                    <Thumbnail key={`manga-${index}`} data={item} />
-                  ))}
-              </div>
-            ) : (
-              <div className="w-full text-center">No results found</div>
-            )}
-            {searchResult.length > 0 && (
-              <div className="mt-4 flex justify-center space-x-2 p-4">
-                <button
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={page === 1}
-                  className="rounded-md bg-gray-200 px-4 py-2 text-black disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <span className="flex items-center px-4 py-2 text-lg font-medium">{page}</span>
-                <button
-                  onClick={() => setPage((prev) => prev + 1)}
-                  disabled={searchResult[0].totalPage === page}
-                  className="rounded-md bg-gray-200 px-4 py-2 text-black"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            <MangaList searchResult={searchResult} />
+            <Pagination searchResult={searchResult} page={page} setPage={setPage} />
           </div>
         )}
       </div>

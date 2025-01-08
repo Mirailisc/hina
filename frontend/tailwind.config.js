@@ -3,7 +3,8 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      serif: ['JetBrains Mono'],
+      sans: ['Noto Sans'],
+      mono: ['JetBrains Mono'],
     },
     extend: {
       colors: {

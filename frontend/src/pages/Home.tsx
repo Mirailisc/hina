@@ -86,7 +86,7 @@ const Home: React.FC = (): JSX.Element => {
           />
         </div>
         {location.pathname === BASE_PATH && <Bookmarks />}
-        <h1 className="mt-4 text-2xl font-bold">Recent Updates</h1>
+        <h1 className="my-8 text-2xl font-bold">Recent Updates</h1>
         <div className="w-full">
           <Updates loading={loading} searchResult={searchResult} paginationPage={paginationPage} />
         </div>

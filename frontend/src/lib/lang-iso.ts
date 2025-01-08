@@ -6,9 +6,9 @@ const iso639Map: { [key: string]: string } = {
   it: 'Italian',
   ja: 'Japanese',
   ko: 'Korean',
-  zh: 'Chinese',
+  zh: 'Chinese', // This is the base for Chinese (zh-CN is for China, zh-TW for Taiwan, zh-HK for Hong Kong, etc.)
   ru: 'Russian',
-  pt: 'Portuguese',
+  pt: 'Portuguese', // Base for Portuguese (pt-BR for Brazil, pt-PT for Portugal)
   ar: 'Arabic',
   hi: 'Hindi',
   bn: 'Bengali',
@@ -47,51 +47,52 @@ export const getLanguageName = (isoCode: string): string => {
   } else if (baseMatch) {
     return baseMatch
   } else {
-    return 'Unknown Language'
+    return 'Unknown'
   }
 }
 
 export const isoCodeToFlagEmoji = (isoCode: string): string => {
-  const baseCode = isoCode.split('-')[0];
+  const baseCode = isoCode.split('-')[0] // Get the base language code (e.g., 'en', 'zh', 'pt')
 
   const countryFlagMapping: { [key: string]: string } = {
-    en: '&#x1F1EC;&#x1F1E7;', // 🇬🇧
-    es: '&#x1F1EA;&#x1F1F8;', // 🇪🇸
-    fr: '&#x1F1EB;&#x1F1F7;', // 🇫🇷
-    de: '&#x1F1E9;&#x1F1EA;', // 🇩🇪
-    it: '&#x1F1EE;&#x1F1F9;', // 🇮🇹
-    ja: '&#x1F1EF;&#x1F1F5;', // 🇯🇵
-    ko: '&#x1F1F0;&#x1F1F7;', // 🇰🇷
-    zh: '&#x1F1E8;&#x1F1F3;', // 🇨🇳
-    ru: '&#x1F1F7;&#x1F1FA;', // 🇷🇺
-    pt: '&#x1F1F5;&#x1F1F9;', // 🇵🇹
-    ar: '&#x1F1F8;&#x1F1E6;', // 🇸🇦
-    hi: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    bn: '&#x1F1E7;&#x1F1E9;', // 🇧🇩
-    pa: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    gu: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    ta: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    tr: '&#x1F1F9;&#x1F1F7;', // 🇹🇷
-    vi: '&#x1F1FB;&#x1F1F3;', // 🇻🇳
-    pl: '&#x1F1F5;&#x1F1F1;', // 🇵🇱
-    uk: '&#x1F1EC;&#x1F1E7;', // 🇬🇧
-    ro: '&#x1F1F7;&#x1F1F4;', // 🇷🇴
-    cs: '&#x1F1E8;&#x1F1FF;', // 🇨🇿
-    sk: '&#x1F1F8;&#x1F1F0;', // 🇸🇰
-    nl: '&#x1F1F3;&#x1F1F1;', // 🇳🇱
-    sv: '&#x1F1F8;&#x1F1EA;', // 🇸🇪
-    no: '&#x1F1F3;&#x1F1F4;', // 🇳🇴
-    da: '&#x1F1E9;&#x1F1F0;', // 🇩🇰
-    fi: '&#x1F1EB;&#x1F1EE;', // 🇫🇮
-    el: '&#x1F1EC;&#x1F1F7;', // 🇬🇷
-    he: '&#x1F1EE;&#x1F1F1;', // 🇮🇱
-    th: '&#x1F1F9;&#x1F1ED;', // 🇹🇭
-    ms: '&#x1F1F2;&#x1F1FE;', // 🇲🇾
-    id: '&#x1F1EE;&#x1F1E9;', // 🇮🇩
-    ml: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    kn: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-    mr: '&#x1F1EE;&#x1F1F3;', // 🇮🇳
-  };
+    en: '🇬🇧', // English (United Kingdom)
+    es: '🇪🇸', // Spanish (Spain)
+    fr: '🇫🇷', // French (France)
+    de: '🇩🇪', // German (Germany)
+    it: '🇮🇹', // Italian (Italy)
+    ja: '🇯🇵', // Japanese (Japan)
+    ko: '🇰🇷', // Korean (South Korea)
+    zh: '🇨🇳', // Chinese (General, for regions like Mainland China, Taiwan, Hong Kong, etc.)
+    ru: '🇷🇺', // Russian (Russia)
+    pt: '🇧🇷', // Portuguese (Brazil by default)
+    ar: '🇸🇦', // Arabic (Saudi Arabia)
+    hi: '🇮🇳', // Hindi (India)
+    bn: '🇧🇩', // Bengali (Bangladesh)
+    pa: '🇮🇳', // Punjabi (India)
+    gu: '🇮🇳', // Gujarati (India)
+    ta: '🇮🇳', // Tamil (India)
+    tr: '🇹🇷', // Turkish (Turkey)
+    vi: '🇻🇳', // Vietnamese (Vietnam)
+    pl: '🇵🇱', // Polish (Poland)
+    uk: '🇺🇦', // Ukrainian (Ukraine)
+    ro: '🇷🇴', // Romanian (Romania)
+    cs: '🇨🇿', // Czech (Czech Republic)
+    sk: '🇸🇰', // Slovak (Slovakia)
+    nl: '🇳🇱', // Dutch (Netherlands)
+    sv: '🇸🇪', // Swedish (Sweden)
+    no: '🇳🇴', // Norwegian (Norway)
+    da: '🇩🇰', // Danish (Denmark)
+    fi: '🇫🇮', // Finnish (Finland)
+    el: '🇬🇷', // Greek (Greece)
+    he: '🇮🇱', // Hebrew (Israel)
+    th: '🇹🇭', // Thai (Thailand)
+    ms: '🇲🇾', // Malay (Malaysia)
+    id: '🇮🇩', // Indonesian (Indonesia)
+    ml: '🇮🇳', // Malayalam (India)
+    kn: '🇮🇳', // Kannada (India)
+    mr: '🇮🇳', // Marathi (India)
+  }
 
-  return countryFlagMapping[baseCode] || '&#x1F3F3;&#xFE0F;&#x200D;&#x1F308;'; // 🏳️‍🌈
-};
+  // Return the corresponding flag for the base code, or a default rainbow flag if none exists
+  return countryFlagMapping[baseCode] || '🏳️‍🌈' // Default to rainbow flag if no match
+}

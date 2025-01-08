@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { FaSignOutAlt } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -45,7 +46,7 @@ const Navbar: React.FC = (): JSX.Element => {
             </div>
             <div className="hidden flex-row items-center gap-4 md:flex">
               <div
-                onClick={() => handleNavigate(BASE_PATH)}
+                onClick={handleGoHome}
                 className="cursor-pointer text-sm opacity-50 transition-opacity duration-200 hover:opacity-100"
               >
                 Home
@@ -68,9 +69,9 @@ const Navbar: React.FC = (): JSX.Element => {
             {isAuthenticated ? (
               <button
                 onClick={handleSignOut}
-                className="rounded-md border border-white/20 px-4 py-1 transition-colors duration-200 hover:bg-secondary-900"
+                className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900"
               >
-                Sign Out
+                <FaSignOutAlt />
               </button>
             ) : (
               <div className="flex flex-row items-center gap-4">

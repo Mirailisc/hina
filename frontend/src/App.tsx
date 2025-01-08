@@ -3,9 +3,6 @@ import { useCookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
 import AgeConsent from '@components/Utils/AgeConsent'
 import ApolloWrapper from '@components/Utils/ApolloWrapper'
 import Navbar from '@components/Utils/Navbar'
@@ -68,14 +65,7 @@ function App() {
   }
 
   useEffect(() => {
-    NProgress.configure({ showSpinner: false })
-    NProgress.start()
     scrollTo(0, 0)
-    NProgress.done()
-
-    return () => {
-      NProgress.remove()
-    }
   }, [location.pathname])
 
   return (

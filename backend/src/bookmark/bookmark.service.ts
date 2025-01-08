@@ -20,12 +20,13 @@ export class BookmarkService {
   async createBookmark(username: string, mangaId: string) {
     try {
       const allChapters = await this.metadataService.getChapters(mangaId, '')
+      const firstChapter = allChapters?.[0]?.chapter || '1'
 
       await this.prisma.bookmark.create({
         data: {
           username,
           mangaId,
-          currentChapter: allChapters[0].chapter,
+          currentChapter: firstChapter,
           currentLanguage: '',
         },
       })
@@ -36,7 +37,10 @@ export class BookmarkService {
 
       return 'Successfully created bookmark'
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      this.logger.error(
+        `Failed to create bookmark for user ${username} and manga ${mangaId}: ${error.message}`,
+      )
+      throw new InternalServerErrorException('Error creating bookmark')
     }
   }
 
@@ -44,32 +48,54 @@ export class BookmarkService {
     try {
       const bookmarks = await this.prisma.bookmark.findMany({
         where: { username },
+        select: {
+          id: true,
+          mangaId: true,
+          currentChapter: true,
+          currentLanguage: true,
+        },
       })
 
-      const result = await Promise.all(
-        bookmarks.map(async (bookmark) => {
-          const { id, title, status, cover } =
-            await this.metadataService.getMetadata(bookmark.mangaId, '')
+      if (bookmarks.length === 0) {
+        return []
+      }
 
-          return {
-            id: bookmark.id,
-            manga: { id, title, status, cover } as BookmarkedManga,
-            currentChapter: bookmark.currentChapter,
-            currentLanguage: bookmark.currentLanguage,
-          }
-        }),
+      const mangaIds = bookmarks.map((b) => b.mangaId)
+      const metadata = await this.metadataService.getBulkMetadata(mangaIds, '')
+
+      const metadataMap = metadata.reduce(
+        (acc, { id, title, status, cover }) => {
+          acc[id] = { id, title, status, cover }
+          return acc
+        },
+        {} as Record<string, BookmarkedManga>,
       )
 
-      return result
+      return bookmarks.map((bookmark) => ({
+        id: bookmark.id,
+        manga: metadataMap[bookmark.mangaId] || {
+          id: bookmark.mangaId,
+          title: 'Unknown',
+          status: 'Unknown',
+          cover: '',
+        },
+        currentChapter: bookmark.currentChapter,
+        currentLanguage: bookmark.currentLanguage,
+      }))
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      this.logger.error(
+        `Failed to fetch bookmarks for user ${username}: ${error.message}`,
+      )
+      throw new InternalServerErrorException('Error fetching bookmarks')
     }
   }
 
   async getBookmark(username: string, mangaId: string) {
     try {
+      // Fetch bookmark
       const bookmark = await this.prisma.bookmark.findFirst({
         where: { username, mangaId },
+        select: { id: true, currentChapter: true, currentLanguage: true },
       })
 
       if (!bookmark) {
@@ -87,7 +113,7 @@ export class BookmarkService {
       }
 
       const { id, title, status, cover } =
-        await this.metadataService.getMetadata(bookmark.mangaId, '')
+        (await this.metadataService.getMetadata(mangaId, '')) || {}
 
       return {
         id: bookmark.id,
@@ -96,7 +122,10 @@ export class BookmarkService {
         currentLanguage: bookmark.currentLanguage,
       }
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      this.logger.error(
+        `Failed to fetch bookmark for user ${username} and manga ${mangaId}: ${error.message}`,
+      )
+      throw new InternalServerErrorException('Error fetching bookmark')
     }
   }
 
@@ -117,7 +146,10 @@ export class BookmarkService {
 
       return 'Successfully updated bookmark'
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      this.logger.error(
+        `Failed to update bookmark ${bookmarkId}: ${error.message}`,
+      )
+      throw new InternalServerErrorException('Error updating bookmark')
     }
   }
 
@@ -133,7 +165,10 @@ export class BookmarkService {
 
       return 'Successfully deleted bookmark'
     } catch (error) {
-      throw new InternalServerErrorException(error.message)
+      this.logger.error(
+        `Failed to delete bookmark ${bookmarkId}: ${error.message}`,
+      )
+      throw new InternalServerErrorException('Error deleting bookmark')
     }
   }
 }

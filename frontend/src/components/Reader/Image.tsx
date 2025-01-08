@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
 import { FETCH_IMAGE_WITHOUT_CACHE } from '@gql/read'
 
 import { useQuery } from '@apollo/client'
@@ -19,14 +16,6 @@ const ReaderImage: React.FC<Props> = ({ image, index }: Props) => {
   const { loading, data, error } = useQuery(FETCH_IMAGE_WITHOUT_CACHE, {
     variables: { input: { imageUrl: image } },
   })
-
-  useEffect(() => {
-    if (loading) {
-      NProgress.start()
-    } else {
-      NProgress.done()
-    }
-  }, [loading])
 
   useEffect(() => {
     if (data?.fetchImageWithoutCache) {

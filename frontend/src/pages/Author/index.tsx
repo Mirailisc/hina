@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import NameTag, { IAuthorThumbnail } from '@components/Author/NameTag'
-import PageTitle from '@components/Utils/PageTitle'
+import Pagination from '@components/Author/Pagination'
 import LoliLoading from '@components/Utils/LoliLoading'
+import PageTitle from '@components/Utils/PageTitle'
 
 import { GET_ALL_AUTHORS } from '@gql/author'
 
@@ -51,7 +52,7 @@ const Authors: React.FC = (): JSX.Element => {
       <PageTitle title={'Authors | MangaArius'} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">
-          <h1 className="my-4 text-2xl font-bold">Authors</h1>
+          <h1 className="my-8 text-2xl font-bold">Authors</h1>
           <input
             type="text"
             placeholder="Search..."
@@ -73,25 +74,7 @@ const Authors: React.FC = (): JSX.Element => {
                 ))}
               </div>
             </div>
-            {authors.length > 0 && (
-              <div className="mt-4 flex justify-center space-x-2 p-4">
-                <button
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={page === 1}
-                  className="rounded-md bg-gray-200 px-4 py-2 text-black disabled:opacity-50"
-                >
-                  Previous
-                </button>
-                <span className="flex items-center px-4 py-2 text-lg font-medium">{page}</span>
-                <button
-                  onClick={() => setPage((prev) => prev + 1)}
-                  disabled={page === authors[0].totalPage}
-                  className="rounded-md bg-gray-200 px-4 py-2 text-black disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            <Pagination authors={authors} page={page} setPage={setPage} />
           </div>
         )}
       </div>

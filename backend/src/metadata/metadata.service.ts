@@ -82,6 +82,36 @@ export class MetadataService {
     }
   }
 
+  async getBulkMetadata(
+    ids: string[],
+    language: string | null,
+  ): Promise<Metadata[]> {
+    const cacheKey = `bulk-metadata:${ids.sort().join(',')}-${language || 'all'}`
+
+    try {
+      const cachedData = await this.cacheManager.get<Metadata[]>(cacheKey)
+      if (cachedData) {
+        this.logger.log(
+          `Returning cached bulk metadata for IDs: ${ids.join(', ')}`,
+        )
+        return cachedData
+      }
+
+      const metadataPromises = ids.map((id) => this.getMetadata(id, language))
+      const metadataResults = await Promise.all(metadataPromises)
+
+      await this.cacheManager.set(cacheKey, metadataResults)
+
+      this.logger.log(`Cached bulk metadata for IDs: ${ids.join(', ')}`)
+
+      return metadataResults
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error fetching bulk metadata for IDs: ${ids.join(', ')} - ${error.message}`,
+      )
+    }
+  }
+
   async getChapters(id: string, language: string): Promise<Chapter[]> {
     const cacheKey = `chapters:${id}-${language === '' ? 'all' : language}`
     try {

@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom'
 
 import MangaChapters from '@components/Manga/Chapters'
 import MangaInfo, { IManga } from '@components/Manga/Info'
-import PageTitle from '@components/Utils/PageTitle'
+import LanguageTab from '@components/Manga/LanguageTab'
+import OrderButton from '@components/Manga/OrderButton'
 import LoliLoading from '@components/Utils/LoliLoading'
-
-import { getLanguageName } from '@lib/lang-iso'
+import PageTitle from '@components/Utils/PageTitle'
 
 import { GET_METADATA } from '@gql/manga'
 
@@ -102,43 +102,12 @@ const Manga: React.FC = (): JSX.Element => {
             <MangaInfo manga={manga} />
           )}
         </div>
-        <div className="mt-4 overflow-x-auto">
-          <h1 className="text-2xl font-bold">Languages</h1>
-          <ul className="my-4 flex space-x-4">
-            {languages
-              .filter((lang) => getLanguageName(lang) !== 'Unknown Language' || lang === 'All')
-              .map((lang) => (
-                <li
-                  key={lang}
-                  onClick={() => setSelectedLanguage(lang)}
-                  className={`cursor-pointer px-4 py-2 ${
-                    selectedLanguage === lang ? 'border-b-2 border-white text-white' : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {lang === 'All' ? 'All' : getLanguageName(lang)}
-                </li>
-              ))}
-          </ul>
-        </div>
-
-        <div className="mt-4 flex flex-row justify-between">
-          <h1 className="text-2xl font-bold">Chapters</h1>
-          {order === 'asc' ? (
-            <button
-              onClick={() => setOrder('desc')}
-              className="rounded-lg bg-white/20 px-3 py-1 text-sm text-white transition-opacity duration-200 hover:opacity-50"
-            >
-              Ascending
-            </button>
-          ) : (
-            <button
-              onClick={() => setOrder('asc')}
-              className="rounded-lg bg-white/20 px-3 py-1 text-sm text-white transition-opacity duration-200 hover:opacity-50"
-            >
-              Descending
-            </button>
-          )}
-        </div>
+        <LanguageTab
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          languages={languages}
+        />
+        <OrderButton order={order} setOrder={setOrder} />
         {loading ? (
           <div className="mt-4 flex justify-center">
             <LoliLoading />

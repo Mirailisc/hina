@@ -3,9 +3,10 @@ import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
 import Social, { ISocial } from '@components/Author/Social'
-import Thumbnail, { IMangaSearch } from '@components/Home/Thumbnail'
-import PageTitle from '@components/Utils/PageTitle'
+import MangaList from '@components/Home/MangaList'
+import { IMangaSearch } from '@components/Home/Thumbnail'
 import LoliLoading from '@components/Utils/LoliLoading'
+import PageTitle from '@components/Utils/PageTitle'
 
 import { GET_AUTHOR_INFO } from '@gql/author'
 
@@ -84,17 +85,7 @@ const Authors: React.FC = (): JSX.Element => {
             </div>
           ) : (
             <>
-              {author.mangas.length > 0 ? (
-                <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
-                  {author.mangas
-                    .filter((item) => item.title !== 'Untitled')
-                    .map((item, index) => (
-                      <Thumbnail key={`manga-${index}`} data={item} />
-                    ))}
-                </div>
-              ) : (
-                <div className="w-full text-center">No results found</div>
-              )}
+              <MangaList searchResult={author.mangas} />
             </>
           )}
         </div>
