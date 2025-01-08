@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 
 import { useFormik } from 'formik'
 
-import SignUpForm from '@components/Auth/SignUpForm'
+import SignUpForm from '@/components/Auth/SignUpForm'
 
-import { SIGN_IN_PATH } from '@constants/routes'
+import { SIGN_IN_PATH } from '@/constants/routes'
 
-import { REGISTER } from '@gql/auth'
+import { REGISTER } from '@/gql/auth'
 
 import { useMutation } from '@apollo/client'
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import { MANGA_PATH } from '@constants/routes'
+import { MANGA_PATH } from '@/constants/routes'
 
 import ThumbnailImage from './Image'
 

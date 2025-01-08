@@ -1,6 +1,6 @@
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6'
 
-import { IMangaSearch } from '@components/Home/Thumbnail'
+import { IMangaSearch } from '@/components/Home/Thumbnail'
 
 type Props = {
   searchResult: IMangaSearch[]

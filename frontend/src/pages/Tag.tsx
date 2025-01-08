@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import MangaList from '@components/Home/MangaList'
-import { IMangaSearch } from '@components/Home/Thumbnail'
-import Pagination from '@components/Search/Pagination'
-import TagFilter, { ITag } from '@components/Tag/Filter'
-import LoliLoading from '@components/Utils/LoliLoading'
-import PageTitle from '@components/Utils/PageTitle'
-import Skeleton from '@components/Utils/Skeleton'
+import MangaList from '@/components/Home/MangaList'
+import { IMangaSearch } from '@/components/Home/Thumbnail'
+import Pagination from '@/components/Search/Pagination'
+import TagFilter, { ITag } from '@/components/Tag/Filter'
+import LoliLoading from '@/components/Utils/LoliLoading'
+import PageTitle from '@/components/Utils/PageTitle'
+import Skeleton from '@/components/Utils/Skeleton'
 
-import { SEARCH_MANGA_BY_TAGS } from '@gql/search'
-import { GET_ALL_TAGS } from '@gql/tag'
+import { SEARCH_MANGA_BY_TAGS } from '@/gql/search'
+import { GET_ALL_TAGS } from '@/gql/tag'
 
 import { useLazyQuery, useQuery } from '@apollo/client'
 

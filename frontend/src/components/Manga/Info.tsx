@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom'
 
 import remarkGfm from 'remark-gfm'
 
-import { useUserProfile } from '@context/profileContext'
+import { useAuth } from '@/context/authContext'
 
-import { AUTHOR_PATH, READER_PATH } from '@constants/routes'
+import { AUTHOR_PATH, READER_PATH } from '@/constants/routes'
 
-import { CREATE_BOOKMARK, DELETE_BOOKMARK, GET_BOOKMARK } from '@gql/bookmark'
+import { CREATE_BOOKMARK, DELETE_BOOKMARK, GET_BOOKMARK } from '@/gql/bookmark'
 
 import { useMutation, useQuery } from '@apollo/client'
 
@@ -48,8 +48,8 @@ type Props = {
 }
 
 const MangaInfo: React.FC<Props> = ({ manga }: Props): JSX.Element => {
-  const { userProfile } = useUserProfile()
-  const isAuthenticated = userProfile !== null
+  const { auth } = useAuth()
+  const isAuthenticated = auth !== null
 
   const [isBookmarked, setIsBookmarked] = useState(false)
 

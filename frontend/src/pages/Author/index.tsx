@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import NameTag, { IAuthorThumbnail } from '@components/Author/NameTag'
-import Pagination from '@components/Author/Pagination'
-import LoliLoading from '@components/Utils/LoliLoading'
-import PageTitle from '@components/Utils/PageTitle'
+import NameTag, { IAuthorThumbnail } from '@/components/Author/NameTag'
+import Pagination from '@/components/Author/Pagination'
+import LoliLoading from '@/components/Utils/LoliLoading'
+import PageTitle from '@/components/Utils/PageTitle'
 
-import { GET_ALL_AUTHORS } from '@gql/author'
+import { GET_ALL_AUTHORS } from '@/gql/author'
 
 import { useQuery } from '@apollo/client'
 

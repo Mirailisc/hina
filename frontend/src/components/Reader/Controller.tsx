@@ -1,7 +1,7 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
-import { READER_PATH } from '@constants/routes'
+import { READER_PATH } from '@/constants/routes'
 
 type Props = {
   chapterStates: {

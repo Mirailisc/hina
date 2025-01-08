@@ -25,14 +25,7 @@
 
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@constants/*": ["src/constants/*"],
-      "@context/*": ["src/context/*"],
-      "@gql/*": ["src/gql/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@lib/*": ["src/lib/*"],
-      "@pages/*": ["src/pages/*"],
-      "@images/*": ["src/images/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"],

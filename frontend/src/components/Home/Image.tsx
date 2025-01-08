@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 
-import { FETCH_IMAGE_WITH_CACHE } from '@gql/read'
+import { FETCH_IMAGE_WITH_CACHE } from '@/gql/read'
 
 import { useQuery } from '@apollo/client'
 

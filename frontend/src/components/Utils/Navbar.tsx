@@ -7,18 +7,18 @@ import { Link } from 'react-router-dom'
 
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { useUserProfile } from '@context/profileContext'
+import { useAuth } from '@/context/authContext'
 
-import { ACCESS_TOKEN } from '@constants/cookie'
-import { AUTHORS_PATH, BASE_PATH, SIGN_IN_PATH, SIGN_UP_PATH, TAGS_PATH } from '@constants/routes'
+import { ACCESS_TOKEN } from '@/constants/cookie'
+import { AUTHORS_PATH, BASE_PATH, SIGN_IN_PATH, SIGN_UP_PATH, TAGS_PATH } from '@/constants/routes'
 
 const Navbar: React.FC = (): JSX.Element => {
   const [, , removeCookies] = useCookies([ACCESS_TOKEN])
-  const { userProfile } = useUserProfile()
+  const { auth } = useAuth()
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const isAuthenticated = userProfile !== null
+  const isAuthenticated = auth !== null
 
   const handleNavigate = (to: string) => {
     setHamburgerOpen(false)

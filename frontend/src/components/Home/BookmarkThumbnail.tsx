@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
-import { READER_PATH } from '@constants/routes'
+import { READER_PATH } from '@/constants/routes'
 
-import { GET_CHAPTERS } from '@gql/manga'
+import { GET_CHAPTERS } from '@/gql/manga'
 
 import { useQuery } from '@apollo/client'
 

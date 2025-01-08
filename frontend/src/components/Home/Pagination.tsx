@@ -1,7 +1,7 @@
 import { FaAngleDoubleLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
-import { BASE_PATH_WITH_PAGE } from '@constants/routes'
+import { BASE_PATH_WITH_PAGE } from '@/constants/routes'
 
 import { IMangaSearch } from './Thumbnail'
 

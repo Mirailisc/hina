@@ -1,4 +1,4 @@
-import Skeleton from '@components/Utils/Skeleton'
+import Skeleton from '@/components/Utils/Skeleton'
 
 import MangaList from './MangaList'
 import Pagination from './Pagination'

@@ -1,4 +1,4 @@
-import PageTitle from '@components/Utils/PageTitle'
+import PageTitle from '@/components/Utils/PageTitle'
 
 const NotFound: React.FC = (): JSX.Element => {
   return (

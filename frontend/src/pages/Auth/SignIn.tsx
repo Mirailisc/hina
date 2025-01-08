@@ -4,12 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { useFormik } from 'formik'
 
-import SignInForm from '@components/Auth/SignInForm'
+import SignInForm from '@/components/Auth/SignInForm'
 
-import { ACCESS_TOKEN } from '@constants/cookie'
-import { BASE_PATH, SIGN_UP_PATH } from '@constants/routes'
+import { ACCESS_TOKEN } from '@/constants/cookie'
+import { BASE_PATH, SIGN_UP_PATH } from '@/constants/routes'
 
-import { LOGIN } from '@gql/auth'
+import { LOGIN } from '@/gql/auth'
 
 import { useMutation } from '@apollo/client'
 

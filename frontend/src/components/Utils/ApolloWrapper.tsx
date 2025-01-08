@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
-import { ACCESS_TOKEN } from '@constants/cookie'
+import { ACCESS_TOKEN } from '@/constants/cookie'
 
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'

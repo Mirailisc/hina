@@ -3,17 +3,16 @@ import { useCookies } from 'react-cookie'
 import { Toaster } from 'react-hot-toast'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
-import AgeConsent from '@components/Utils/AgeConsent'
-import ApolloWrapper from '@components/Utils/ApolloWrapper'
-import Navbar from '@components/Utils/Navbar'
+import AgeConsent from '@/components/Utils/AgeConsent'
+import ApolloWrapper from '@/components/Utils/ApolloWrapper'
+import Navbar from '@/components/Utils/Navbar'
 
-import Loading from '@pages/Loading'
-import NotFound from '@pages/NotFound'
+import Loading from '@/pages/Loading'
+import NotFound from '@/pages/NotFound'
 
-import { UserProfileProvider } from '@context/provider/ProfileProvider'
-import { SearchProvider } from '@context/provider/SearchProvider'
+import { SearchProvider } from '@/context/provider/SearchProvider'
 
-import { ACCESS_TOKEN } from '@constants/cookie'
+import { ACCESS_TOKEN } from '@/constants/cookie'
 import {
   AUTHORS_PATH,
   AUTHOR_PATH,
@@ -25,17 +24,18 @@ import {
   SIGN_IN_PATH,
   SIGN_UP_PATH,
   TAGS_PATH,
-} from '@constants/routes'
+} from '@/constants/routes'
+import { AuthProvider } from './context/provider/AuthProvider'
 
-const Home = React.lazy(() => import('@pages/Home'))
-const Manga = React.lazy(() => import('@pages/Manga'))
-const Reader = React.lazy(() => import('@pages/Reader'))
-const Search = React.lazy(() => import('@pages/Search'))
-const Authors = React.lazy(() => import('@pages/Author'))
-const Author = React.lazy(() => import('@pages/Author/_id'))
-const Tags = React.lazy(() => import('@pages/Tag'))
-const SignUp = React.lazy(() => import('@pages/Auth/SignUp'))
-const SignIn = React.lazy(() => import('@pages/Auth/SignIn'))
+const Home = React.lazy(() => import('@/pages/Home'))
+const Manga = React.lazy(() => import('@/pages/Manga'))
+const Reader = React.lazy(() => import('@/pages/Reader'))
+const Search = React.lazy(() => import('@/pages/Search'))
+const Authors = React.lazy(() => import('@/pages/Author'))
+const Author = React.lazy(() => import('@/pages/Author/_id'))
+const Tags = React.lazy(() => import('@/pages/Tag'))
+const SignUp = React.lazy(() => import('@/pages/Auth/SignUp'))
+const SignIn = React.lazy(() => import('@/pages/Auth/SignIn'))
 
 function App() {
   const [cookies] = useCookies([ACCESS_TOKEN])
@@ -73,7 +73,7 @@ function App() {
       <Toaster position="bottom-right" />
       <AgeConsent />
       <SearchProvider>
-        <UserProfileProvider>
+        <AuthProvider>
           <div className="flex min-h-screen flex-col bg-background text-white">
             <Suspense fallback={<Loading />}>
               {navbarFilter()}
@@ -104,7 +104,7 @@ function App() {
               </div>
             </Suspense>
           </div>
-        </UserProfileProvider>
+        </AuthProvider>
       </SearchProvider>
     </ApolloWrapper>
   )

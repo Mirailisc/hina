@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
-import MangaChapters from '@components/Manga/Chapters'
-import MangaInfo, { IManga } from '@components/Manga/Info'
-import LanguageTab from '@components/Manga/LanguageTab'
-import OrderButton from '@components/Manga/OrderButton'
-import LoliLoading from '@components/Utils/LoliLoading'
-import PageTitle from '@components/Utils/PageTitle'
+import MangaChapters from '@/components/Manga/Chapters'
+import MangaInfo, { IManga } from '@/components/Manga/Info'
+import LanguageTab from '@/components/Manga/LanguageTab'
+import OrderButton from '@/components/Manga/OrderButton'
+import LoliLoading from '@/components/Utils/LoliLoading'
+import PageTitle from '@/components/Utils/PageTitle'
 
-import { GET_METADATA } from '@gql/manga'
+import { GET_METADATA } from '@/gql/manga'
 
 import { useQuery } from '@apollo/client'
 

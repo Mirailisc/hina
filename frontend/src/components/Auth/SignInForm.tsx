@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik'
 
-import { LoginInput } from '@pages/Auth/SignIn'
+import { LoginInput } from '@/pages/Auth/SignIn'
 
 type Props = {
   formik: FormikProps<LoginInput>

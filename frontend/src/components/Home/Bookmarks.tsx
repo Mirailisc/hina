@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useLocation } from 'react-router-dom'
 
-import Skeleton from '@components/Utils/Skeleton'
+import Skeleton from '@/components/Utils/Skeleton'
 
-import { useUserProfile } from '@context/profileContext'
+import { useAuth } from '@/context/authContext'
 
-import { GET_BOOKMARKS } from '@gql/bookmark'
+import { GET_BOOKMARKS } from '@/gql/bookmark'
 
 import { useQuery } from '@apollo/client'
 
@@ -26,8 +26,8 @@ export interface IBookmark {
 
 const Bookmarks: React.FC = (): JSX.Element => {
   const [bookmarks, setBookmarks] = useState<IBookmark[]>([])
-  const { userProfile } = useUserProfile()
-  const isAuthenticated = userProfile !== null
+  const { auth } = useAuth()
+  const isAuthenticated = auth !== null
   const { data, loading, error, refetch } = useQuery(GET_BOOKMARKS, {
     skip: !isAuthenticated,
   })

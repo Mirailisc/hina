@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-import { AUTHOR_PATH } from '@constants/routes'
+import { AUTHOR_PATH } from '@/constants/routes'
 
 export interface IAuthorThumbnail {
   id: string

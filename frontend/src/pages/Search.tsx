@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import MangaList from '@components/Home/MangaList'
-import { IMangaSearch } from '@components/Home/Thumbnail'
-import Pagination from '@components/Search/Pagination'
-import PageTitle from '@components/Utils/PageTitle'
-import Skeleton from '@components/Utils/Skeleton'
+import MangaList from '@/components/Home/MangaList'
+import { IMangaSearch } from '@/components/Home/Thumbnail'
+import Pagination from '@/components/Search/Pagination'
+import PageTitle from '@/components/Utils/PageTitle'
+import Skeleton from '@/components/Utils/Skeleton'
 
-import { useSearch } from '@hooks/useSearch'
+import { useSearch } from '@/hooks/useSearch'
 
-import { MANGA_NAME_SEARCH_PATH } from '@constants/routes'
+import { MANGA_NAME_SEARCH_PATH } from '@/constants/routes'
 
-import { SEARCH_MANGA } from '@gql/search'
+import { SEARCH_MANGA } from '@/gql/search'
 
 import { useQuery } from '@apollo/client'
 

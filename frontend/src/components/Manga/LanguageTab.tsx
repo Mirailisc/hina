@@ -1,4 +1,4 @@
-import { getLanguageName } from '@lib/lang-iso'
+import { getLanguageName } from '@/lib/lang-iso'
 
 type Props = {
   selectedLanguage: string

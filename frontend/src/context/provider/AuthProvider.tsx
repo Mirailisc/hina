@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import toast from 'react-hot-toast'
 
-import Loading from '@pages/Loading'
+import Loading from '@/pages/Loading'
 
-import { UserProfile, UserProfileContext } from '@context/profileContext'
+import { AuthInfo, AuthContext } from '@/context/authContext'
 
-import { ACCESS_TOKEN } from '@constants/cookie'
+import { ACCESS_TOKEN } from '@/constants/cookie'
 
-import { PROFILE } from '@gql/auth'
+import { PROFILE } from '@/gql/auth'
 
 import { useQuery } from '@apollo/client'
 
@@ -16,9 +16,9 @@ type Props = {
   children: React.ReactNode
 }
 
-export const UserProfileProvider: React.FC<Props> = ({ children }: Props) => {
+export const AuthProvider: React.FC<Props> = ({ children }: Props) => {
   const [cookies, , removeCookie] = useCookies([ACCESS_TOKEN])
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+  const [auth, setAuth] = useState<AuthInfo | null>(null)
 
   const { data, loading, error } = useQuery(PROFILE, {
     skip: !cookies[ACCESS_TOKEN],
@@ -26,7 +26,7 @@ export const UserProfileProvider: React.FC<Props> = ({ children }: Props) => {
 
   useEffect(() => {
     if (data?.profile) {
-      setUserProfile(data.profile)
+      setAuth(data.profile)
     }
   }, [data])
 
@@ -41,5 +41,5 @@ export const UserProfileProvider: React.FC<Props> = ({ children }: Props) => {
 
   if (loading) return <Loading />
 
-  return <UserProfileContext.Provider value={{ userProfile, setUserProfile }}>{children}</UserProfileContext.Provider>
+  return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>
 }

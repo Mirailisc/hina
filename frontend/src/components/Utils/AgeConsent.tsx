@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AGE_CONSENT } from '@constants/local-storage'
+import { AGE_CONSENT } from '@/constants/local-storage'
 
 const AgeConsent: React.FC = (): JSX.Element => {
   const [isVisible, setIsVisible] = useState<boolean>(false)

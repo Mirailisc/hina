@@ -5,13 +5,13 @@ import { Link, useLocation } from 'react-router-dom'
 
 import moment from 'moment'
 
-import { getLanguageName, isoCodeToFlagEmoji } from '@lib/lang-iso'
+import { getLanguageName, isoCodeToFlagEmoji } from '@/lib/lang-iso'
 
-import { useUserProfile } from '@context/profileContext'
+import { useAuth } from '@/context/authContext'
 
-import { READER_PATH } from '@constants/routes'
+import { READER_PATH } from '@/constants/routes'
 
-import { GET_BOOKMARK } from '@gql/bookmark'
+import { GET_BOOKMARK } from '@/gql/bookmark'
 
 import { useQuery } from '@apollo/client'
 
@@ -24,8 +24,8 @@ type Props = {
 }
 
 const MangaChapters: React.FC<Props> = ({ id, chapters, selectedLanguage }: Props): JSX.Element => {
-  const { userProfile } = useUserProfile()
-  const isAuthenticated = userProfile !== null
+  const { auth } = useAuth()
+  const isAuthenticated = auth !== null
 
   const { data, loading, error, refetch } = useQuery(GET_BOOKMARK, {
     variables: { mangaId: id },

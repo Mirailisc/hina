@@ -2,28 +2,28 @@ import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useParams, useSearchParams } from 'react-router-dom'
 
-import Controller from '@components/Reader/Controller'
-import ReaderImage from '@components/Reader/Image'
-import Titlebar from '@components/Reader/Titlebar'
-import LoliLoading from '@components/Utils/LoliLoading'
-import PageTitle from '@components/Utils/PageTitle'
+import Controller from '@/components/Reader/Controller'
+import ReaderImage from '@/components/Reader/Image'
+import Titlebar from '@/components/Reader/Titlebar'
+import LoliLoading from '@/components/Utils/LoliLoading'
+import PageTitle from '@/components/Utils/PageTitle'
 
-import { useUserProfile } from '@context/profileContext'
+import { useAuth } from '@/context/authContext'
 
-import { UPDATE_BOOKMARK } from '@gql/bookmark'
-import { GET_CHAPTERS } from '@gql/manga'
-import { READ_MANGA } from '@gql/read'
+import { UPDATE_BOOKMARK } from '@/gql/bookmark'
+import { GET_CHAPTERS } from '@/gql/manga'
+import { READ_MANGA } from '@/gql/read'
 
 import { useMutation, useQuery } from '@apollo/client'
 
 const Reader: React.FC = (): JSX.Element => {
-  const { userProfile } = useUserProfile()
+  const { auth } = useAuth()
   const { id, chapterId } = useParams()
   const [images, setImages] = useState<string[]>([])
   const [chapters, setChapters] = useState<{ id: string; chapter: string }[]>([])
 
   const [searchParams] = useSearchParams()
-  const isAuthenticated = userProfile !== null
+  const isAuthenticated = auth !== null
   const bookmarkId = searchParams.get('bookmark')
   const currentLanguage = searchParams.get('lang') || ''
 

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 
-import Social, { ISocial } from '@components/Author/Social'
-import MangaList from '@components/Home/MangaList'
-import { IMangaSearch } from '@components/Home/Thumbnail'
-import LoliLoading from '@components/Utils/LoliLoading'
-import PageTitle from '@components/Utils/PageTitle'
+import Social, { ISocial } from '@/components/Author/Social'
+import MangaList from '@/components/Home/MangaList'
+import { IMangaSearch } from '@/components/Home/Thumbnail'
+import LoliLoading from '@/components/Utils/LoliLoading'
+import PageTitle from '@/components/Utils/PageTitle'
 
-import { GET_AUTHOR_INFO } from '@gql/author'
+import { GET_AUTHOR_INFO } from '@/gql/author'
 
 import { useQuery } from '@apollo/client'
 

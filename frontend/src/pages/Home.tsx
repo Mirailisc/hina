@@ -4,15 +4,15 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useSearch } from 'src/hooks/useSearch'
 
-import Bookmarks from '@components/Home/Bookmarks'
-import GoToTop from '@components/Home/GoToTop'
-import { IMangaSearch } from '@components/Home/Thumbnail'
-import Updates from '@components/Home/Updates'
-import PageTitle from '@components/Utils/PageTitle'
+import Bookmarks from '@/components/Home/Bookmarks'
+import GoToTop from '@/components/Home/GoToTop'
+import { IMangaSearch } from '@/components/Home/Thumbnail'
+import Updates from '@/components/Home/Updates'
+import PageTitle from '@/components/Utils/PageTitle'
 
-import { BASE_PATH, MANGA_NAME_SEARCH_PATH } from '@constants/routes'
+import { BASE_PATH, MANGA_NAME_SEARCH_PATH } from '@/constants/routes'
 
-import { SEARCH_MANGA } from '@gql/search'
+import { SEARCH_MANGA } from '@/gql/search'
 
 import { useQuery } from '@apollo/client'
 

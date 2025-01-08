@@ -34,14 +34,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        '@components': resolve(__dirname, 'src/components'),
-        '@constants': resolve(__dirname, 'src/constants'),
-        '@gql': resolve(__dirname, 'src/gql'),
-        '@hooks': resolve(__dirname, 'src/hooks'),
-        '@context': resolve(__dirname, 'src/context'),
-        '@lib': resolve(__dirname, 'src/lib'),
-        '@pages': resolve(__dirname, 'src/pages'),
-        '@images': resolve(__dirname, 'src/images'),
+        '@': resolve(__dirname, 'src/'),
       },
     },
     server: {
