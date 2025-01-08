@@ -56,6 +56,7 @@ const AgeConsent: React.FC = (): JSX.Element => {
           <button
             onClick={onAccept}
             className="rounded bg-primary-700 px-4 py-2 text-white transition hover:bg-primary-800"
+            data-cy="accept-age-consent"
           >
             I am over 18
           </button>

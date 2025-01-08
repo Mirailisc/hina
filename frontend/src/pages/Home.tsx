@@ -81,6 +81,7 @@ const Home: React.FC = (): JSX.Element => {
             type="text"
             value={search.name}
             onChange={handleInputChange}
+            data-cy="search"
             placeholder="Search..."
             className="w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
           />
