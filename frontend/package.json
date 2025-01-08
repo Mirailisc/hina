@@ -7,8 +7,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --fix",
     "preview": "vite preview",
-    "cypress:ci": "cypress run --headless -b chromium --reporter junit",
-    "cypress:open": "cypress open"
+    "cypress:ci": "bunx cypress run --headless -b chromium --reporter junit",
+    "cypress:open": "bunx cypress open"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
@@ -31,8 +31,7 @@
     "remark-gfm": "^4.0.0",
     "vite": "^5",
     "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
-    "cypress": "^13.16.1"
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.4",

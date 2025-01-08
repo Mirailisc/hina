@@ -45,9 +45,6 @@ jobs:
           REDIS_PORT: 6379
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      - name: Install dependencies
-        run: cd frontend && bun install
-
       - name: Run Frontend
         run: cd frontend && bun run start:dev &
 
