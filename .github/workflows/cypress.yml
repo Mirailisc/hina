@@ -45,16 +45,14 @@ jobs:
           REDIS_PORT: 6379
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v5
-        with:
-          working-directory: ./frontend
-          browser: chrome
-          start: bun run dev
-          wait-on: http://localhost:3000
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: bun install
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Cypress Videos
-          path: frontend/cypress/videos
+      - name: Run Frontend
+        working-directory: ./frontend
+        run: bun run start:dev &
+
+      - name: Run Cypress
+        working-directory: ./frontend
+        run: bun run cypress:run
