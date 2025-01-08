@@ -39,20 +39,22 @@ jobs:
 
       - name: Start backend
         working-directory: ./backend
-        run: bun run start:dev
+        run: bun run start:dev &
         env:
           REDIS_HOST: "localhost"
           REDIS_PORT: 6379
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: bun install
-
-      - name: Start frontend
-        working-directory: ./frontend
-        run: bun run dev
-
       - name: Run Cypress tests
-        working-directory: ./frontend
-        run: bun run cypress:ci
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: ./frontend
+          browser: chrome
+          start: bun run dev
+          wait-on: http://localhost:3000
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cypress Videos
+          path: frontend/cypress/videos
