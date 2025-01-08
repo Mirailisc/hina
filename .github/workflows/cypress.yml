@@ -11,19 +11,6 @@ jobs:
     runs-on: ubuntu-24.04
 
     services:
-      mongodb:
-        image: mongo:6
-        env:
-          MONGO_INITDB_ROOT_USERNAME: admin
-          MONGO_INITDB_ROOT_PASSWORD: admin
-          MONGO_INITDB_DATABASE: app
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
       redis:
         image: redis:7
         ports:
@@ -58,7 +45,7 @@ jobs:
         env:
           REDIS_HOST: "localhost"
           REDIS_PORT: 6379
-          DATABASE_URL: "mongodb://admin:admin@localhost:27017/app"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Start backend
         working-directory: ./backend
@@ -66,7 +53,7 @@ jobs:
         env:
           REDIS_HOST: "localhost"
           REDIS_PORT: 6379
-          DATABASE_URL: "mongodb://admin:admin@localhost:27017/app"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Install frontend dependencies
         working-directory: ./frontend
