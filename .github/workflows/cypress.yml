@@ -46,7 +46,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run Frontend
-        run: cd frontend && bun run start:dev &
+        run: cd frontend && bun run dev &
 
       - name: Run Cypress
-        run: cd frontend && bun run cypress:run
+        run: cd frontend && bun run cypress:ci
