@@ -5,8 +5,8 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import Controller from '@components/Reader/Controller'
 import ReaderImage from '@components/Reader/Image'
 import Titlebar from '@components/Reader/Titlebar'
-import PageTitle from '@components/Utils/PageTitle'
 import LoliLoading from '@components/Utils/LoliLoading'
+import PageTitle from '@components/Utils/PageTitle'
 
 import { useUserProfile } from '@context/profileContext'
 
@@ -28,9 +28,6 @@ const Reader: React.FC = (): JSX.Element => {
   const currentLanguage = searchParams.get('lang') || ''
 
   const [updateBookmark] = useMutation(UPDATE_BOOKMARK, {
-    onCompleted: () => {
-      toast.success('Bookmark updated successfully!')
-    },
     onError: (error) => {
       toast.error(error.message)
     },
