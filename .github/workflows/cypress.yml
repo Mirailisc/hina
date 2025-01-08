@@ -46,13 +46,10 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Install dependencies
-        working-directory: ./frontend
-        run: bun install
+        run: cd frontend && bun install
 
       - name: Run Frontend
-        working-directory: ./frontend
-        run: bun run start:dev &
+        run: cd frontend && bun run start:dev &
 
       - name: Run Cypress
-        working-directory: ./frontend
-        run: bun run cypress:run
+        run: cd frontend && bun run cypress:run
