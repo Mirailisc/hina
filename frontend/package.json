@@ -7,8 +7,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --fix",
     "preview": "vite preview",
-    "cypress:ci": "bunx cypress run --headless -b chromium --reporter junit",
-    "cypress:open": "bunx cypress open"
+    "cypress:ci": "bunx install @badeball/cypress-cucumber-preprocessor @bahmutov/cypress-esbuild-preprocessor && bunx cypress run --headless -b chromium --reporter junit",
+    "cypress:open": "bunx install @badeball/cypress-cucumber-preprocessor @bahmutov/cypress-esbuild-preprocessor && bunx cypress open"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
