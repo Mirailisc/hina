@@ -13,10 +13,14 @@ jobs:
     services:
       mongodb:
         image: mongo:6
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin
+          MONGO_INITDB_DATABASE: app
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "mongo --eval 'db.runCommand({ping: 1})'"
+          --health-cmd mongo
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -54,7 +58,7 @@ jobs:
         env:
           REDIS_HOST: "localhost"
           REDIS_PORT: 6379
-          DATABASE_URL: "mongodb://localhost:27017/app"
+          DATABASE_URL: "mongodb://admin:admin@localhost:27017/app"
 
       - name: Start backend
         working-directory: ./backend
@@ -62,7 +66,7 @@ jobs:
         env:
           REDIS_HOST: "localhost"
           REDIS_PORT: 6379
-          DATABASE_URL: "mongodb://localhost:27017/app"
+          DATABASE_URL: "mongodb://admin:admin@localhost:27017/app"
 
       - name: Install frontend dependencies
         working-directory: ./frontend
