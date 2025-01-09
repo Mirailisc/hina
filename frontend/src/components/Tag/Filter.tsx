@@ -17,6 +17,7 @@ const TagFilter: React.FC<Props> = ({ tags, includedTags, toggleTag }: Props): J
           className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 font-mono text-sm text-white transition-colors duration-200 ${
             includedTags.includes(tag.id) ? 'bg-primary-700' : 'bg-secondary-950 hover:bg-secondary-800'
           }`}
+          data-cy="tag"
           key={tag.id}
           onClick={() => toggleTag(tag.id)}
         >
