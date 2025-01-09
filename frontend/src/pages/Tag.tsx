@@ -76,20 +76,18 @@ const Tags = () => {
     <div>
       <PageTitle title={`Tags | MangaArius`} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
-        <div className="my-4">
-          <div className="my-8 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Tags</h1>
-            {includedTags.length > 0 && (
-              <div className="text-right">
-                <button
-                  className="rounded-md border border-white/20 px-4 py-2 text-white transition-colors duration-200 hover:bg-secondary-900"
-                  onClick={clearAllTags}
-                >
-                  Clear All
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="mt-8 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Tags</h1>
+          {includedTags.length > 0 && (
+            <div className="text-right">
+              <button
+                className="rounded-md border border-white/20 px-4 py-2 text-white transition-colors duration-200 hover:bg-secondary-900"
+                onClick={clearAllTags}
+              >
+                Clear All
+              </button>
+            </div>
+          )}
         </div>
         <TagFilter tags={tags} includedTags={includedTags} toggleTag={toggleTag} />
         <div className="w-full">

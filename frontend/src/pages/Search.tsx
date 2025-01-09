@@ -8,16 +8,17 @@ import Pagination from '@/components/Search/Pagination'
 import PageTitle from '@/components/Utils/PageTitle'
 import Skeleton from '@/components/Utils/Skeleton'
 
-import { useSearch } from '@/hooks/useSearch'
-
-import { MANGA_NAME_SEARCH_PATH } from '@/constants/routes'
+import { SEARCH_PATH } from '@/constants/routes'
 
 import { SEARCH_MANGA } from '@/gql/search'
 
 import { useQuery } from '@apollo/client'
 
 const Search: React.FC = (): JSX.Element => {
-  const { search, setSearch } = useSearch()
+  const [search, setSearch] = useState<{ name: string; amount: number }>({
+    name: '',
+    amount: 40,
+  })
   const { name: paramName } = useParams<{ name: string }>()
   const [searchResult, setSearchResult] = useState<IMangaSearch[]>([])
   const [debouncedSearch, setDebouncedSearch] = useState<string>('')
@@ -26,13 +27,13 @@ const Search: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
 
   const { loading, error, data } = useQuery(SEARCH_MANGA, {
-    variables: { input: { name: debouncedSearch, amount: 12, page } },
+    variables: { input: { name: debouncedSearch, amount: 40, page } },
     fetchPolicy: 'cache-and-network',
     skip: !debouncedSearch,
   })
 
   useEffect(() => {
-    setSearch((prev) => ({ ...prev, name: paramName || '', amount: 12 }))
+    setSearch((prev) => ({ ...prev, name: paramName || '', amount: 40 }))
     setDebouncedSearch(paramName || '')
   }, [paramName, setSearch])
 
@@ -53,7 +54,7 @@ const Search: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (debouncedSearch && debouncedSearch !== paramName) {
-      navigate(MANGA_NAME_SEARCH_PATH.replace(':name', debouncedSearch.toLowerCase()))
+      navigate(SEARCH_PATH.replace(':name', debouncedSearch.toLowerCase()))
     }
   }, [debouncedSearch, paramName, navigate])
 

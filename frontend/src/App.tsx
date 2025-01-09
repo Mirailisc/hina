@@ -10,24 +10,24 @@ import Navbar from '@/components/Utils/Navbar'
 import Loading from '@/pages/Loading'
 import NotFound from '@/pages/NotFound'
 
-import { SearchProvider } from '@/context/provider/SearchProvider'
-
 import { ACCESS_TOKEN } from '@/constants/cookie'
 import {
   AUTHORS_PATH,
   AUTHOR_PATH,
   BASE_PATH,
-  BASE_PATH_WITH_PAGE,
-  MANGA_NAME_SEARCH_PATH,
+  BROWSE_PATH,
   MANGA_PATH,
   READER_PATH,
+  SEARCH_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
   TAGS_PATH,
 } from '@/constants/routes'
+
 import { AuthProvider } from './context/provider/AuthProvider'
 
 const Home = React.lazy(() => import('@/pages/Home'))
+const Browse = React.lazy(() => import('@/pages/Browse'))
 const Manga = React.lazy(() => import('@/pages/Manga'))
 const Reader = React.lazy(() => import('@/pages/Reader'))
 const Search = React.lazy(() => import('@/pages/Search'))
@@ -72,40 +72,38 @@ function App() {
     <ApolloWrapper>
       <Toaster position="bottom-right" />
       <AgeConsent />
-      <SearchProvider>
-        <AuthProvider>
-          <div className="flex min-h-screen flex-col bg-background text-white">
-            <Suspense fallback={<Loading />}>
-              {navbarFilter()}
-              <div className="grow">
-                <Routes>
-                  <Route path={BASE_PATH} element={<Home />} />
-                  <Route path={BASE_PATH_WITH_PAGE} element={<Home />} />
+      <AuthProvider>
+        <div className="flex min-h-screen flex-col bg-background text-white">
+          <Suspense fallback={<Loading />}>
+            {navbarFilter()}
+            <div className="grow">
+              <Routes>
+                <Route path={BASE_PATH} element={<Home />} />
+                <Route path={BROWSE_PATH} element={<Browse />} />
 
-                  <Route path={AUTHORS_PATH} element={<Authors />} />
-                  <Route path={AUTHOR_PATH} element={<Author />} />
+                <Route path={AUTHORS_PATH} element={<Authors />} />
+                <Route path={AUTHOR_PATH} element={<Author />} />
 
-                  <Route path={TAGS_PATH} element={<Tags />} />
+                <Route path={TAGS_PATH} element={<Tags />} />
 
-                  <Route path={MANGA_NAME_SEARCH_PATH} element={<Search />} />
-                  <Route path={MANGA_PATH} element={<Manga />} />
+                <Route path={SEARCH_PATH} element={<Search />} />
+                <Route path={MANGA_PATH} element={<Manga />} />
 
-                  <Route path={READER_PATH} element={<Reader />} />
+                <Route path={READER_PATH} element={<Reader />} />
 
-                  {!isAuthenticated && (
-                    <>
-                      <Route path={SIGN_UP_PATH} element={<SignUp />} />
-                      <Route path={SIGN_IN_PATH} element={<SignIn />} />
-                    </>
-                  )}
+                {!isAuthenticated && (
+                  <>
+                    <Route path={SIGN_UP_PATH} element={<SignUp />} />
+                    <Route path={SIGN_IN_PATH} element={<SignIn />} />
+                  </>
+                )}
 
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-            </Suspense>
-          </div>
-        </AuthProvider>
-      </SearchProvider>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </Suspense>
+        </div>
+      </AuthProvider>
     </ApolloWrapper>
   )
 }

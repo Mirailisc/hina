@@ -64,7 +64,7 @@ const BookmarkThumbnail: React.FC<Props> = ({ data, currentChapter, currentLangu
 
   return (
     <Link
-      className="mb-10 w-full rounded-lg transition-transform hover:scale-105"
+      className="w-full rounded-lg transition-transform hover:scale-105"
       to={{
         pathname: READER_PATH.replace(':id', data.id).replace(':chapterId', chapterId),
         search: searchParams,

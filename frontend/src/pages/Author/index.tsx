@@ -52,13 +52,13 @@ const Authors: React.FC = (): JSX.Element => {
       <PageTitle title={'Authors | MangaArius'} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">
-          <h1 className="my-8 text-2xl font-bold">Authors</h1>
+          <h1 className="mt-8 text-2xl font-bold">Authors</h1>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search authors"
             value={searchName}
             onChange={handleSearchInputChange}
-            className="mb-4 w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
+            className="my-4 w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
           />
         </div>
         {loading ? (
@@ -67,13 +67,19 @@ const Authors: React.FC = (): JSX.Element => {
           </div>
         ) : (
           <div>
-            <div className="flex-1 rounded-lg bg-secondary-950/30 p-4">
-              <div className="flex flex-wrap gap-4">
-                {authors.map((author: IAuthorThumbnail) => (
-                  <NameTag key={author.id} author={author} />
-                ))}
-              </div>
-            </div>
+            {authors.length > 0 ? (
+              <>
+                <div className="flex-1 rounded-lg bg-secondary-950/30 p-4">
+                  <div className="flex flex-wrap gap-4">
+                    {authors.map((author: IAuthorThumbnail) => (
+                      <NameTag key={author.id} author={author} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="mt-4 text-center">No authors found</div>
+            )}
             <Pagination authors={authors} page={page} setPage={setPage} />
           </div>
         )}

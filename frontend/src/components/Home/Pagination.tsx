@@ -1,9 +1,8 @@
 import { FaAngleDoubleLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
-import { BASE_PATH_WITH_PAGE } from '@/constants/routes'
-
 import { IMangaSearch } from './Thumbnail'
+import { BROWSE_PATH } from '@/constants/routes'
 
 type Props = {
   searchResult: IMangaSearch[]
@@ -21,7 +20,7 @@ const Pagination: React.FC<Props> = ({ searchResult, paginationPage }: Props): J
   const pageRangeEnd = Math.min(totalPage, paginationPage + pageNumbersToShow)
 
   const renderPageButton = (pageNum: number) => (
-    <Link key={pageNum} to={BASE_PATH_WITH_PAGE.replace(':page', pageNum.toString())}>
+    <Link key={pageNum} to={BROWSE_PATH.replace(':page', pageNum.toString())}>
       <button
         className={`flex size-10 items-center justify-center rounded-full font-mono text-sm ${
           paginationPage === pageNum
@@ -48,13 +47,13 @@ const Pagination: React.FC<Props> = ({ searchResult, paginationPage }: Props): J
   return (
     <div className="my-10 flex flex-wrap items-center justify-center gap-2">
       {renderNavigationButton(
-        BASE_PATH_WITH_PAGE.replace(':page', '1'),
+        BROWSE_PATH.replace(':page', '1'),
         <FaAngleDoubleLeft className="size-4" />,
         paginationPage === 1,
       )}
 
       {renderNavigationButton(
-        BASE_PATH_WITH_PAGE.replace(':page', (paginationPage - 1).toString()),
+        BROWSE_PATH.replace(':page', (paginationPage - 1).toString()),
         <FaChevronLeft className="size-4" />,
         paginationPage === 1,
       )}
@@ -62,7 +61,7 @@ const Pagination: React.FC<Props> = ({ searchResult, paginationPage }: Props): J
       {Array.from({ length: pageRangeEnd - pageRangeStart + 1 }, (_, i) => renderPageButton(pageRangeStart + i))}
 
       {renderNavigationButton(
-        BASE_PATH_WITH_PAGE.replace(':page', (paginationPage + 1).toString()),
+        BROWSE_PATH.replace(':page', (paginationPage + 1).toString()),
         <FaChevronRight className="size-4" />,
         paginationPage === totalPage,
       )}

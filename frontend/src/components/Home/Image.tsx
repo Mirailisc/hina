@@ -54,7 +54,7 @@ const ThumbnailImage: React.FC<Props> = ({ image }: Props) => {
   return (
     <div ref={imageRef}>
       {loading || imageSrc === null ? (
-        <div className="aspect-[11/16] w-full animate-pulse select-none rounded-t-lg bg-white/30" />
+        <div className="aspect-[11/16] w-full animate-pulse select-none rounded-lg bg-white/30" />
       ) : (
         <img
           src={imageSrc || ''}

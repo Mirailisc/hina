@@ -4,12 +4,15 @@ type Props = {
 
 const Skeleton: React.FC<Props> = ({ amount }: Props): JSX.Element => {
   return (
-    <div className="mt-4 flex flex-wrap justify-center gap-4 md:justify-start">
+    <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {Array.from({ length: amount }).map((_, index) => (
         <div
           key={index}
-          className="h-[270px] w-[170px] animate-pulse rounded-md rounded-t-lg bg-white/30 sm:w-[200px]"
-          style={{ animationDelay: `${index * 0.2}s` }}
+          className="aspect-[11/16] w-full animate-pulse select-none rounded-lg bg-white/30"
+          style={{
+            animationDelay: `${index * 0.2}s`,
+            animationDuration: '1.5s',
+          }}
         />
       ))}
     </div>

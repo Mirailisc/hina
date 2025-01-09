@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
-import Bookmarks from '@/components/Home/Bookmarks'
 import GoToTop from '@/components/Home/GoToTop'
 import MangaList from '@/components/Home/MangaList'
 import Pagination from '@/components/Home/Pagination'
@@ -10,12 +9,13 @@ import { IMangaSearch } from '@/components/Home/Thumbnail'
 import PageTitle from '@/components/Utils/PageTitle'
 import Skeleton from '@/components/Utils/Skeleton'
 
+import { BASE_PATH, SEARCH_PATH } from '@/constants/routes'
+
 import { SEARCH_MANGA } from '@/gql/search'
 
 import { useQuery } from '@apollo/client'
-import { SEARCH_PATH } from '@/constants/routes'
 
-const Home: React.FC = (): JSX.Element => {
+const Feed: React.FC = (): JSX.Element => {
   const { page } = useParams()
 
   const [search, setSearch] = useState<string>('')
@@ -69,9 +69,11 @@ const Home: React.FC = (): JSX.Element => {
     }
   }, [error])
 
+  if (page === '1') return <Navigate to={BASE_PATH} />
+
   return (
     <div>
-      <PageTitle title={`Recent Updates | MangaArius`} />
+      <PageTitle title={`Browse Page ${page} | MangaArius`} />
       <GoToTop />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">
@@ -79,13 +81,11 @@ const Home: React.FC = (): JSX.Element => {
             type="text"
             value={search}
             onChange={handleInputChange}
-            data-cy="search"
             placeholder="Search..."
             className="w-full rounded-md border border-white/20 bg-background px-4 py-2 text-sm focus:outline-none"
           />
         </div>
-        <Bookmarks />
-        <h1 className="my-8 text-2xl font-bold">Recent Updates</h1>
+        <h1 className="my-8 text-2xl font-bold">Browse</h1>
         <div className="w-full">
           {loading ? (
             <Skeleton amount={18} />
@@ -101,4 +101,4 @@ const Home: React.FC = (): JSX.Element => {
   )
 }
 
-export default Home
+export default Feed

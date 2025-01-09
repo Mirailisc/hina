@@ -19,7 +19,7 @@ type Props = {
 const Thumbnail: React.FC<Props> = ({ data }: Props): JSX.Element => {
   return (
     <Link
-      className="mb-10 w-full rounded-lg transition-transform hover:scale-105"
+      className="w-full rounded-lg transition-transform hover:scale-105"
       to={MANGA_PATH.replace(':id', data.id)}
     >
       <div>
