@@ -23,7 +23,7 @@ const Thumbnail: React.FC<Props> = ({ data }: Props): JSX.Element => {
       to={MANGA_PATH.replace(':id', data.id)}
     >
       <div>
-        <ThumbnailImage image={data.cover} />
+        {data.cover && <ThumbnailImage image={data.cover} />}
         <div className="p-2">
           <div className="sm:text-md truncate text-sm font-bold text-white">{data.title}</div>
         </div>

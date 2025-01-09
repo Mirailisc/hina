@@ -71,7 +71,7 @@ const Navbar: React.FC = (): JSX.Element => {
                 onClick={handleSignOut}
                 className="rounded-md border border-white/20 p-2 transition-colors duration-200 hover:bg-secondary-900"
               >
-                <FaSignOutAlt />
+                <FaSignOutAlt data-cy="sign-out" />
               </button>
             ) : (
               <div className="flex flex-row items-center gap-4">

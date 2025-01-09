@@ -14,7 +14,7 @@ type Props = {
 
 const NameTag: React.FC<Props> = ({ author }: Props): JSX.Element => {
   return (
-    <Link to={AUTHOR_PATH.replace(':id', author.id)}>
+    <Link to={AUTHOR_PATH.replace(':id', author.id)} data-cy="author">
       <div className="rounded-md bg-secondary-950 px-4 py-2 font-mono text-sm transition-colors duration-200 hover:bg-secondary-800">
         {author.name}
       </div>
