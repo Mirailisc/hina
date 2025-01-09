@@ -75,7 +75,7 @@ const Manga: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      <PageTitle title={`${loading ? '[LOADING]' : manga.title} | MangaArius`} />
+      <PageTitle title={`${loading ? '[LOADING]' : manga.title} | Hiwa`} />
       <div className="m-auto w-full px-4 py-10 md:px-0 xl:w-[1280px]">
         <div className="flex flex-col gap-4 md:flex-row">
           <div>

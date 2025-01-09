@@ -42,7 +42,7 @@ const Navbar: React.FC = (): JSX.Element => {
         <div className="flex items-center justify-between p-4 xl:justify-around">
           <div className="flex items-center justify-between gap-4 md:justify-start">
             <div onClick={handleGoHome} className="cursor-pointer text-lg font-bold">
-              MangaArius
+              Hiwa
             </div>
             <div className="hidden flex-row items-center gap-4 md:flex">
               <div

@@ -74,7 +74,7 @@ const Tags = () => {
 
   return (
     <div>
-      <PageTitle title={`Tags | MangaArius`} />
+      <PageTitle title={`Tags | Hiwa`} />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-8 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Tags</h1>
