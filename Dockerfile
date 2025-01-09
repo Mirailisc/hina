@@ -2,6 +2,8 @@ FROM oven/bun:latest AS frontend-build
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y unzip
+
 COPY package.json bun.lockb ./
 COPY frontend /app/frontend
 
@@ -34,22 +36,24 @@ FROM oven/bun:latest
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y unzip
+
 COPY package.json bun.lockb ./
 COPY --from=backend-build /app/backend /app/backend
-COPY --from=frontend-build /app/frontend/dist /app/backend/public 
+COPY --from=frontend-build /app/frontend/dist /app/backend/public
 COPY frontend /app/frontend
 
 RUN rm -rf /app/frontend/node_modules /app/backend/node_modules /root/.cache
-
 RUN bun install --frozen-lockfile --cwd /app/frontend
 RUN bun install --frozen-lockfile --cwd /app/backend
 
 WORKDIR /app/backend
 
+# Run Prisma generate command
 ENV DATABASE_URL=${DATABASE_URL}
-
 RUN bun run prisma:generate
 
+# Set production environment variables
 ENV NODE_ENV=production
 ENV URL=${URL}
 ENV REDIS_HOST=${REDIS_HOST}
