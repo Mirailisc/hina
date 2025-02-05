@@ -13,11 +13,11 @@ ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_FRONTEND}
 RUN bun install --frozen-lockfile --cwd /app/frontend
 RUN cd frontend && bun run build
 
-FROM node:22-alpine AS backend-build
+FROM node:22 AS backend-build
 
 WORKDIR /app
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@8 --activate
 
 COPY backend /app/backend
 COPY --from=frontend-build /app/frontend/dist /app/backend/public
