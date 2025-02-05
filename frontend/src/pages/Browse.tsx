@@ -73,7 +73,7 @@ const Feed: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      <PageTitle title={`Browse Page ${page} | Hiwa`} />
+      <PageTitle title={`Browse Page ${page} | Hina`} />
       <GoToTop />
       <div className="m-auto w-full px-4 xl:w-[1280px] xl:px-0">
         <div className="mt-4">

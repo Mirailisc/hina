@@ -3,11 +3,13 @@ import { MangaSearch } from './entities/MangaSearch.entity'
 import { axiosInstance } from 'src/lib/axios'
 import { Cache } from 'cache-manager'
 import { MetadataService } from 'src/metadata/metadata.service'
-import { contentRating, MANGADEX_API } from 'src/constants/constants'
+import {
+  contentRating,
+  EXCLUDED_TAGS,
+  MANGADEX_API,
+} from 'src/constants/constants'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { InternalServerErrorException } from '@nestjs/common'
-
-const DOUJINSHI_UUID = 'b13b2a48-c720-44a9-9c77-39c9979373fb'
 
 @Injectable()
 export class SearchService {
@@ -38,7 +40,7 @@ export class SearchService {
         title: lowercaseName,
         offset: (page - 1) * limit,
         contentRating,
-        excludedTags: [DOUJINSHI_UUID],
+        excludedTags: EXCLUDED_TAGS,
         'order[latestUploadedChapter]': 'desc',
       })
 
@@ -98,9 +100,11 @@ export class SearchService {
         limit,
         offset: (page - 1) * limit,
         includedTags,
-        excludedTags: includedTags.find((tag: string) => tag === DOUJINSHI_UUID)
+        excludedTags: includedTags.find((tag: string) =>
+          EXCLUDED_TAGS.includes(tag),
+        )
           ? []
-          : [DOUJINSHI_UUID],
+          : EXCLUDED_TAGS,
         includedTagsMode: 'AND',
         excludedTagsMode: 'OR',
         contentRating,
