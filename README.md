@@ -1,4 +1,4 @@
-# Ui Manga reader website
+# Hina
 
 [![Deploy](https://github.com/Mirailisc/ui/actions/workflows/deploy.yml/badge.svg)](https://github.com/Mirailisc/ui/actions/workflows/deploy.yml)
 ![ArgoCD](https://argocd.arius.cloud/api/badge?name=ui-arisu)
